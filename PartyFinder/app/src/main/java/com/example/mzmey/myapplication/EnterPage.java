@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.example.mzmey.volleyclient.R;
+
 public class EnterPage extends ActionBarActivity implements OnClickListener  {
     Button button_reg;
     Button button_enter;

@@ -27,13 +27,15 @@
         android:layout_alignRight="@+id/button_reg"
         android:layout_alignEnd="@+id/button_reg"
         android:layout_marginBottom="31dp"
-        android:background="#2b75d6" />
+        android:background="#2b75d6"
+        android:onClick="clickreg" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginLeft="125dp"
-        android:layout_marginTop="125dp"/>
+        android:layout_marginTop="125dp"
+        android:src="#ffffe951" />
 
 </RelativeLayout>

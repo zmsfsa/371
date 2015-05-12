@@ -26,25 +26,25 @@ public class EnterPage extends ActionBarActivity implements OnClickListener  {
         button_enter = (Button) findViewById(R.id.button_enter);
         button_reg.setOnClickListener(this);
         button_enter.setOnClickListener(this);
+
     }
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_enter:
-               // Intent intent1 = new Intent(this, enter_enter.class);
-                //startActivity(intent1);
-                // TODO Call second activity
+                Intent intent1 = new Intent(this, EnterEnter.class);
+                startActivity(intent1);
                 break;
             case R.id.button_reg:
-               // Intent intent2 = new Intent(this, enter_reg.class);
-                //startActivity(intent2);
+                Intent intent2 = new Intent(this, EnterReg.class);
+                startActivity(intent2);
                 break;
             default:
                 break;
         }
-
-        /*OnClickListener clickreg = new OnClickListener() {
+/*
+        OnClickListener clickreg = new OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(enter_page.this, enter_enter.class);
+                Intent intent = new Intent(EnterPage.this, EnterEnter.class);
                 startActivity(intent);
             }
         };*/

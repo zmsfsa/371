@@ -25,10 +25,10 @@ public class HttpRequestHandler implements HttpHandler {
 
 		URI uri = t.getRequestURI();
 		String response = createResponseFromQueryParams(uri);
-		System.out.println("Response: " + response + ", tostring= "
+		/*System.out.println("Response: " + response + ", tostring= "
 				+ uri.toString() + ", getpath= " + uri.getPath()
 				+ ", getQuery =" + uri.getQuery() + ", getAthority="
-				+ uri.getAuthority() + ", getScheme = " + uri.getScheme());
+				+ uri.getAuthority() + ", getScheme = " + uri.getScheme());*/
 		t.sendResponseHeaders(HTTP_OK_STATUS, response.getBytes().length);
 		OutputStream os = t.getResponseBody();
 		os.write(response.getBytes());
@@ -46,10 +46,10 @@ public class HttpRequestHandler implements HttpHandler {
 			System.out.println("answer = " + answer);
 			String[] queryParams = answer.split("-");
 
-			System.out.println("answer1 = "
+			/*System.out.println("answer1 = "
 					+ (queryParams.length > 0 ? queryParams[0] : null)
 					+ ", answer2 = "
-					+ (queryParams.length > 1 ? queryParams[1] : null));
+					+ (queryParams.length > 1 ? queryParams[1] : null));*/
 
 			int nameCount = 0;
 			if (queryParams.length > 0) {

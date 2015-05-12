@@ -14,14 +14,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.mzmey.volleyclient.R;
 
 
 public class MainActivity extends Activity {
 
     private TextView tvOut;
     private Button btTry;
-    private static final String uri = "http://192.168.0.105:8080/app/maxim-zmeev";
+    private static final String uri = "http://10.55.120.199:8080/app/maxim-zmeev";
 
     RequestQueue queue;
     StringRequest stringRequest;

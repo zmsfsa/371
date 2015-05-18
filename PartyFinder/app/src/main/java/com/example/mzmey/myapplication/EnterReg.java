@@ -7,27 +7,69 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 
 public class EnterReg extends ActionBarActivity {
+    EditText edLog;
+    TextView tvOut;
+    EditText edPwd;
+    EditText edFName;
+    EditText edLName;
+    Button btReg;
+    private String uri = "http://192.168.0.107:8080/reg/";
+    RequestQueue queue;
+    StringRequest stringRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.enter_reg);
+        tvOut = (TextView)findViewById(R.id.tvOut);
+        edLog = (EditText )findViewById(R.id.edLog);
+        edPwd = (EditText)findViewById(R.id.edPwd);
+        edFName = (EditText)findViewById(R.id.edFName);
+        edLName = (EditText)findViewById(R.id.edLName);
+        btReg = (Button)findViewById(R.id.btReg);
+        queue = Volley.newRequestQueue(this);
     }
 
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_enter_page, menu);
-        return true;
+    public void ClickReg(View v){
+
+        String req = uri + edLog.getText().toString() + "-" +edPwd.getText().toString() + "-" +
+                edFName.getText().toString() + "-" + edLName.getText().toString();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, req,
+                new Response.Listener(){
+                    @Override
+                    public void onResponse(Object response) {
+                        String a = (String)response;
+                        if(a.equals("OK")){
+                            tvOut.setText("You are registrated, to server said " + edLog.getText().toString() + "-" +edPwd.getText().toString() + "-" + edFName.getText().toString() + "-" + edLName.getText().toString());
+                        }
+                        else{
+                            tvOut.setText("mistake, server said " + a + ", " + edLog.getText().toString() + "-" +edPwd.getText().toString() + "-" +
+                                    edFName.getText().toString() + "-" + edLName.getText().toString());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                tvOut.setText("That didn't work!");
+            }
+        });
+        queue.add(stringRequest);
     }
-*/
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

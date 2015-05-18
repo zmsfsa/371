@@ -1,4 +1,4 @@
-package fff;
+package main.java.server;
 
 public class HttpServerTest {
 

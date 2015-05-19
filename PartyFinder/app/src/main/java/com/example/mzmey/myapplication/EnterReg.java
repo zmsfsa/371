@@ -27,7 +27,7 @@ public class EnterReg extends ActionBarActivity {
     EditText edFName;
     EditText edLName;
     Button btReg;
-    private String uri = "http://192.168.0.107:8080/reg/";
+    private String uri = "http://10.55.121.7:8080/reg/";
     RequestQueue queue;
     StringRequest stringRequest;
 
@@ -54,7 +54,7 @@ public class EnterReg extends ActionBarActivity {
                     public void onResponse(Object response) {
                         String a = (String)response;
                         if(a.equals("OK")){
-                            tvOut.setText("You are registrated, to server said " + edLog.getText().toString() + "-" +edPwd.getText().toString() + "-" + edFName.getText().toString() + "-" + edLName.getText().toString());
+                            tvOut.setText("You are registrated, " + edLog.getText().toString());
                         }
                         else{
                             tvOut.setText("mistake, server said " + a + ", " + edLog.getText().toString() + "-" +edPwd.getText().toString() + "-" +

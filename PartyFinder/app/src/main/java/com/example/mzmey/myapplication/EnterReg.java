@@ -3,6 +3,7 @@ package com.example.mzmey.myapplication;
 /**
  * Created by MZmey on 05.05.2015.
  */
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,7 +28,7 @@ public class EnterReg extends ActionBarActivity {
     EditText edFName;
     EditText edLName;
     Button btReg;
-    private String uri = "http://10.55.121.7:8080/reg/";
+    private String uri = "http://93.175.7.110:8080/reg/";
     RequestQueue queue;
     StringRequest stringRequest;
 
@@ -41,7 +42,7 @@ public class EnterReg extends ActionBarActivity {
         edFName = (EditText)findViewById(R.id.edFName);
         edLName = (EditText)findViewById(R.id.edLName);
         btReg = (Button)findViewById(R.id.btReg);
-        queue = Volley.newRequestQueue(this);
+        queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
     }
 
     public void ClickReg(View v){
@@ -55,19 +56,24 @@ public class EnterReg extends ActionBarActivity {
                         String a = (String)response;
                         if(a.equals("OK")){
                             tvOut.setText("You are registrated, " + edLog.getText().toString());
+                            goNext();
                         }
                         else{
-                            tvOut.setText("mistake, server said " + a + ", " + edLog.getText().toString() + "-" +edPwd.getText().toString() + "-" +
-                                    edFName.getText().toString() + "-" + edLName.getText().toString());
+                            tvOut.setText("mistake: " + a);
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                tvOut.setText("That didn't work!");
+                tvOut.setText("Connecction problem, check your network");
             }
         });
         queue.add(stringRequest);
+    }
+
+    public void goNext(){
+        Intent intent1 = new Intent(this, EnterEnter.class);
+        startActivity(intent1);
     }
 
     @Override

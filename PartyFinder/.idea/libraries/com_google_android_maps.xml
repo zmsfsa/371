@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="com.google.android.maps">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/com.google.android.maps.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

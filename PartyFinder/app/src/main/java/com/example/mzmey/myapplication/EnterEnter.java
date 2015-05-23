@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,14 +21,15 @@ import com.android.volley.toolbox.StringRequest;
 
 import java.io.OutputStream;
 import java.sql.Blob;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class EnterEnter extends ActionBarActivity {
     private EditText edLog;
     private EditText edPwd;
     private TextView tvOut;
-    private int id;
-    private final String uri = "http://93.175.7.110:8080/log?";
+    private final String uri = "http://93.175.7.110:8080/log";
     RequestQueue queue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,47 +43,48 @@ public class EnterEnter extends ActionBarActivity {
     }
 
     public void onClick(View v){
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, uri + edLog.getText().toString() + "=" + edPwd.getText().toString(),
-                new Response.Listener(){
-                    @Override
-                    public void onResponse(Object response) {
-                        String resp = (String)response;
-                        String check[] = resp.split("=");
-                        if(check[0].equals("continue")){
-                            if(check.length == 2)
-                                goNext(Integer.parseInt(check[1]));
-                            else
-                                tvOut.setText("not good response");
-                        }
-                        else{
-                            tvOut.setText("mistake: " + resp);
-                        }
+
+        if ((edLog.getText().toString().length() == 0) || (edPwd.getText().toString().length() == 0))
+            tvOut.setText("wrong parametrs");
+        else{
+            StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if(response.equals("continue")){
+                        goNext();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                tvOut.setText("That didn't work!");
-            }
-        });
-        queue.add(stringRequest);
-    }
+                    else{
+                        tvOut.setText(response);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    tvOut.setText("Connecction problem, check your network");
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
 
-    public void goNext(int id){
-           tvOut.setText("mooving next with id = " + id);
-    }
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("login", edLog.getText().toString());
+                    params.put("pwd", edPwd.getText().toString());
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+                    return params;
+                }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    return params;
+                }
+            };
+            queue.add(sr);
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
+    public void goNext(){
+        tvOut.setText("move " + edLog.getText().toString());
+    }
+
 }

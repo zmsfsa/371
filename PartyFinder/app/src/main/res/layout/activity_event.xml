@@ -6,13 +6,15 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/edEvent" />
+        android:id="@+id/edEvent"
+        android:hint="enter name of event" />
 
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edDate"
-        android:inputType="date" />
+        android:inputType="date"
+        android:hint="date: DD-MM-YYYY" />
 
     <Button
         android:layout_width="wrap_content"
@@ -35,4 +37,18 @@
         android:id="@+id/btGoOn"
         android:layout_gravity="center_horizontal"
         android:onClick="onGoOn" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edSend"
+        android:hint="message" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        android:id="@+id/button"
+        android:onClick="onSend" />
+
 </LinearLayout>

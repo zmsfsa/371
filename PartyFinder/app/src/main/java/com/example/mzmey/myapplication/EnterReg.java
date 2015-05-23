@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,17 +21,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class EnterReg extends ActionBarActivity {
-    EditText edLog;
-    TextView tvOut;
-    EditText edPwd;
-    EditText edFName;
-    EditText edLName;
-    Button btReg;
-    private String uri = "http://93.175.7.110:8080/reg/";
-    RequestQueue queue;
-    StringRequest stringRequest;
+    private EditText edLog;
+    private TextView tvOut;
+    private EditText edPwd;
+    private EditText edFName;
+    private EditText edLName;
+    private String uri = "http://93.175.7.110:8080/reg";
+    private  RequestQueue queue;
+    private StringRequest stringRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,38 +44,56 @@ public class EnterReg extends ActionBarActivity {
         edPwd = (EditText)findViewById(R.id.edPwd);
         edFName = (EditText)findViewById(R.id.edFName);
         edLName = (EditText)findViewById(R.id.edLName);
-        btReg = (Button)findViewById(R.id.btReg);
         queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
     }
 
-    public void ClickReg(View v){
+    public void ClickReg(View v) {
 
-        String req = uri + edLog.getText().toString() + "-" +edPwd.getText().toString() + "-" +
-                edFName.getText().toString() + "-" + edLName.getText().toString();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, req,
-                new Response.Listener(){
-                    @Override
-                    public void onResponse(Object response) {
-                        String a = (String)response;
-                        if(a.equals("OK")){
-                            tvOut.setText("You are registrated, " + edLog.getText().toString());
-                            goNext();
-                        }
-                        else{
-                            tvOut.setText("mistake: " + a);
-                        }
+        if ((edLog.getText().toString().length() == 0) || (edPwd.getText().toString().length() == 0) ||
+                (edFName.getText().toString().length() == 0) || (edLName.getText().toString().length() == 0))
+            tvOut.setText("wrong parametrs");
+        else {
+            StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if (response.equals("OK")) {
+                        tvOut.setText("You are registrated, " + edLog.getText().toString());
+                        goNext();
+                    } else {
+                        tvOut.setText(response);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                tvOut.setText("Connecction problem, check your network");
-            }
-        });
-        queue.add(stringRequest);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    tvOut.setText("Connecction problem, check your network");
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("login", edLog.getText().toString());
+                    params.put("pwd", edPwd.getText().toString());
+                    params.put("FName", edFName.getText().toString());
+                    params.put("LName", edLName.getText().toString());
+
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    return params;
+                }
+            };
+            queue.add(sr);
+        }
     }
 
     public void goNext(){
         Intent intent1 = new Intent(this, EnterEnter.class);
+        intent1.putExtra("login", edLog.getText().toString());
         startActivity(intent1);
     }
 

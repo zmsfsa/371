@@ -1,6 +1,7 @@
 package com.example.mzmey.myapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +21,9 @@ public class MainActivity extends Activity {
 
     private TextView tvOut;
     private Button btTry;
-    private static final String uri = "http://192.168.0.109:8080/app/maxim-zmeev";
+    private static final String uri = "http://93.175.7.110:8080/app?hi";
+    private String check;
+
 
     RequestQueue queue;
     StringRequest stringRequest;
@@ -31,18 +34,19 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_volley);
         tvOut = (TextView)findViewById(R.id.tvOut);
         btTry = (Button)findViewById(R.id.btTry);
-        queue = Volley.newRequestQueue(this);
+        queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
     }
 
     public void onTry(View v){
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, uri,
                 new Response.Listener(){
                     @Override
                     public void onResponse(Object response) {
                         //byte[] b = (byte[])response;
                         //String out = new String(response);
-                        String a = (String)response;
-                        tvOut.setText(a);
+                        check = (String)response;
+                        goOrNot();
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -51,6 +55,15 @@ public class MainActivity extends Activity {
                     }
          });
         queue.add(stringRequest);
+    }
+
+    private void goOrNot(){
+        if(check.equals("continue")){
+            Intent intent1 = new Intent(this, EnterReg.class);
+            startActivity(intent1);
+        }
+        else
+            tvOut.setText("no no no no no no");
     }
 
 

@@ -78,6 +78,9 @@
 
             </intent-filter>
         </activity>
+
+        <activity android:name=".MyPage"></activity>
+
     </application>
 
 </manifest>

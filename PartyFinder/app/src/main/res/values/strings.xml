@@ -9,5 +9,13 @@
     <string name="provider_gps">GPS</string>
     <string name="provider_network">Network</string>
     <string name="saveLocation">Save location</string>
-
+    <string name="title_section1">Мои друзья</string>
+    <string name="title_section2">Мои встречи</string>
+    <string name="title_section3">Мои альбомы</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="title_activity_main_activity2_party1">MainActivity2Party1Activity</string>
+    <string name="title_activity_main_activity2">MainActivity2Activity</string>
+    <string name="title_section4">Мои альбомы</string>
 </resources>

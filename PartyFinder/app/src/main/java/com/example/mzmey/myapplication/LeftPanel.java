@@ -3,6 +3,7 @@ package com.example.mzmey.myapplication;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -12,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class LeftPanel extends Activity
+public class LeftPanel extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
@@ -42,11 +43,11 @@ public class LeftPanel extends Activity
 
             switch(position){
                 case 0:
-                    objFragment = new Menu_00();
+                    objFragment = new Friends();
                     break;
 
                 case 1:
-                    objFragment = new Menu_0();
+                    objFragment = new EventList();
                     break;
 
                 case 2:
@@ -76,7 +77,7 @@ public class LeftPanel extends Activity
                 break;
         }
     }
-
+/*
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -97,7 +98,7 @@ public class LeftPanel extends Activity
         }
         return super.onCreateOptionsMenu(menu);
     }
-
+*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

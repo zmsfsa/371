@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edEvent"
+        android:hint="enter name of event" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edDate"
+        android:inputType="date"
+        android:hint="date: DD-MM-YYYY" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create"
+        android:id="@+id/btCreate"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClick" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/tvOut"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="go on"
+        android:id="@+id/btGoOn"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onGoOn" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edSend"
+        android:hint="message" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        android:id="@+id/button"
+        android:onClick="onSend" />
+
+</LinearLayout><!-- From: file:/C:/Users/MZmey/Desktop/ZMEY/learn/Proging/git/AndroidPartyFinder/PartyFinder/app/src/main/res/layout/activity_event.xml -->

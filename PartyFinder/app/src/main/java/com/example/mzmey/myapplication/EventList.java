@@ -13,7 +13,7 @@ public class EventList extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootview = inflater.inflate(R.layout.menu0_layout,container,false);
+        rootview = inflater.inflate(R.layout.event_list,container,false);
         return rootview;  
     }
 }

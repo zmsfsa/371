@@ -38,6 +38,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".Album"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".EnterEnter"
             android:label="@string/app_name" >
             <intent-filter>
@@ -58,7 +66,7 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
         <activity
@@ -78,9 +86,14 @@
 
             </intent-filter>
         </activity>
-
-        <activity android:name=".MyPage"></activity>
-
+        <activity
+            android:name=".LeftPanel"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

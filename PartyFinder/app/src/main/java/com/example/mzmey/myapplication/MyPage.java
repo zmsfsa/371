@@ -25,7 +25,7 @@ public class MyPage extends Fragment {
             @Override
             public void onClick(View v) {
                 //переходим с первой на вторую активность
-                Intent intent = new Intent(getActivity(), MyPage3.class);
+                Intent intent = new Intent(getActivity(), Album.class);
                 startActivity(intent);
             }
         });

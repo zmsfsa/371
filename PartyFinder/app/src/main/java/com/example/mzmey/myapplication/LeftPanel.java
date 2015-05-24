@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class LeftPanel extends FragmentActivity
+public class LeftPanel extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     private NavigationDrawerFragment mNavigationDrawerFragment;

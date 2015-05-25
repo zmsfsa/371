@@ -1,0 +1,9 @@
+PartyFinder/.gradle
+PartyFinder/.idea
+PartyFinder/gradlew*
+PartyFinder/lo*
+PartyFinder/build
+PartyFinder/app/build
+PartyFinder/volley/build
+*.iml
+PartyFinder/gradle

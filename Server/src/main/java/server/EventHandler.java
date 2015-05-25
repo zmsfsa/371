@@ -3,7 +3,6 @@ package main.java.server;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -19,11 +18,9 @@ import com.sun.net.httpserver.HttpHandler;
 
 public class EventHandler implements HttpHandler {
 
-	private static final String HANDLER_NAME = "EventHandler";
 	private static final int HTTP_OK_STATUS = 200;
 	private static final String EVENT_IS_BAD = "No such event";
 	private static final String DATE_DELIMETR = "-";
-	private static final String DATA_CONFLICT = "wrong data came";
 	private static final String DELIMETR = "=";
 	private static final String DATE = "date";
 	private static final String IN = "in";

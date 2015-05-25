@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/linl">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
-        android:id="@+id/name_word"
+        android:hint="login"
+        android:id="@+id/edLog"
         android:layout_gravity="center_horizontal" />
 
     <EditText
@@ -17,7 +18,8 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/pass_word"
+        android:hint="password"
+        android:id="@+id/edPwd"
         android:layout_gravity="center_horizontal" />
 
     <Button
@@ -25,5 +27,13 @@
         android:layout_height="wrap_content"
         android:text="Войти"
         android:id="@+id/enter_enter"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClick" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/tvOut"
+        android:background="#fff4ff6c"
+        android:gravity="center" />
 </LinearLayout><!-- From: file:/C:/Users/Федор/Desktop/Github/Project/371/PartyFinder/app/src/main/res/layout/enter_enter.xml -->

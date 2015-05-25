@@ -8,10 +8,7 @@
     <string name="location_settings">Location settings</string>
     <string name="provider_gps">GPS</string>
     <string name="provider_network">Network</string>
-<<<<<<< HEAD
-    <string name="check-in">Check-in</string>
-=======
+    <string name="check_in">Check-in</string>
     <string name="saveLocation">Save location</string>
->>>>>>> c07b592a365f012a50bf42b974177bcf338f70a3
 
 </resources>

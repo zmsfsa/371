@@ -24,6 +24,7 @@ public class MyQueue{
         if (mInstance == null){
             mInstance = new MyQueue(context);
         }
+
         return mInstance;
     }
 

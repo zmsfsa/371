@@ -13,6 +13,7 @@ public class SimpleHttpServer {
 	private static final String EVENT_CREATE = "/event/create";
 	private static final String EVENT_CONTEXT = "/event";
 	private static final String EVENT_LIST = "/event_list";
+	private static final String MY_FRIENDS = "/friends";
 	private HttpServer httpServer;
 
 	public SimpleHttpServer(int port, HttpHandler handler) {
@@ -20,8 +21,8 @@ public class SimpleHttpServer {
 			httpServer = HttpServer.create(new InetSocketAddress(port), 0);
 			httpServer.createContext(REG_CONTEXT, new RegHandler());
 			httpServer.createContext(LOG_CONTEXT, new LogHandler());
-			httpServer.createContext("/app", new HttpRequestHandler());
 			httpServer.createContext(EVENT_CREATE, new CreateEventHandler());
+			httpServer.createContext(MY_FRIENDS, new MyFriendsHandler());
 			/*httpServer.createContext(HELLO_CONTEXT, new HelloHandler());
 			httpServer.createContext(MY_PAGE_CONTEXT, new MyPageHandler());*/
 			httpServer.createContext("/post", new MapHandler());

@@ -1,7 +1,6 @@
 package main.java;
 
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Hibernate;
@@ -91,6 +90,8 @@ public class WorkSql {
 
 	@SuppressWarnings("unchecked")
 	public int deleteUser(List<User> user) {
+		for (User a : user) 
+			deleteFriendsOf(a.getIdUser());
 		Session session = InitHibernate.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		try {
@@ -98,7 +99,7 @@ public class WorkSql {
 				System.out.println("EMPTY");
 			else {
 				for (User a : user) {
-					List<Include> result =  new LinkedList(Arrays.asList());
+					ArrayList<Include> result = new ArrayList<Include>();
 					List<Include> in = session.createQuery("from Include")
 							.list();
 					for (Include include : in) {
@@ -107,7 +108,7 @@ public class WorkSql {
 							result.add(include);
 						}
 					}
-					for (Include i : result){
+					for (Include i : result) {
 						session.delete(i);
 					}
 					session.delete(a);
@@ -187,12 +188,27 @@ public class WorkSql {
 		return event;
 	}
 
+	public Event getEvent(int idEvent) {
+		Event event;
+		Session session = InitHibernate.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			event = (Event) session.load(Event.class, idEvent);
+			Hibernate.initialize(event.getNameEvent());
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			return null;
+		}
+		session.getTransaction().commit();
+		return event;
+	}
+
 	public int deleteEvent(List<Event> list) {
 		Session session = InitHibernate.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		try {
 			for (Event a : list) {
-				List<Include> result = new LinkedList(Arrays.asList());
+				ArrayList<Include> result = new ArrayList<Include>();
 				@SuppressWarnings("unchecked")
 				List<Include> in = session.createQuery("from Include").list();
 				for (Include include : in) {
@@ -224,8 +240,7 @@ public class WorkSql {
 					.getCurrentSession();
 			session.beginTransaction();
 			try {
-				session.save(new Include(event.getIdEvent(),
-						user.getIdUser()));
+				session.save(new Include(event.getIdEvent(), user.getIdUser()));
 			} catch (Exception e) {
 				session.getTransaction().rollback();
 				return -1;
@@ -262,7 +277,7 @@ public class WorkSql {
 			return null;
 		else {
 			List<Include> in;
-			List<Include> result = Arrays.asList();
+			ArrayList<Include> result = new ArrayList<Include>();
 			Session session = InitHibernate.getSessionFactory()
 					.getCurrentSession();
 			session.beginTransaction();
@@ -291,7 +306,7 @@ public class WorkSql {
 			return null;
 		else {
 			List<Include> in;
-			List<Include> result = Arrays.asList();
+			ArrayList<Include> result = new ArrayList<Include>();
 			Session session = InitHibernate.getSessionFactory()
 					.getCurrentSession();
 			session.beginTransaction();
@@ -319,6 +334,92 @@ public class WorkSql {
 		try {
 			for (Include a : list) {
 				session.delete(a);
+			}
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			return -1;
+		}
+		session.getTransaction().commit();
+		return 0;
+	}
+
+	public int addFriend(Friend friends) {
+		Session session = InitHibernate.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			session.save(friends);
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			System.out.println("HELLO I AM A PROBLEM FROM FRIENDS");
+			return -1;
+		}
+		session.getTransaction().commit();
+		return 0;
+	}
+
+	public int updateFriend(Friend friends) {
+		Session session = InitHibernate.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			session.saveOrUpdate(friends);
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			return -1;
+		}
+		session.getTransaction().commit();
+		return 0;
+	}
+
+	public List<User> getFriendsOf(int id) {
+		User user = getUser(id);
+		if (user == null)
+			return null;
+		else {
+			List<Friend> in;
+			ArrayList<User> result = new ArrayList<User>();
+			Session session = InitHibernate.getSessionFactory()
+					.getCurrentSession();
+			session.beginTransaction();
+			try {
+				in = session.createQuery("from Friend").list();
+				for (Friend fr : in) {
+					Hibernate.initialize(fr.getIdFirst());
+					
+					if (fr.getIdFirst() == user.getIdUser()) {
+						User u = (User) session.load(User.class,
+								fr.getIdSecond());
+						Hibernate.initialize(u.getLogin());
+						result.add(u);
+					}
+
+					if (fr.getIdSecond() == user.getIdUser()) {
+						User u = (User) session.load(User.class,
+								fr.getIdFirst());
+						Hibernate.initialize(u.getLogin());
+						result.add(u);
+					}
+				}
+			} catch (Exception e) {
+				session.getTransaction().rollback();
+				return null;
+			}
+			session.getTransaction().commit();
+			return result;
+
+		}
+	}
+	
+	public int deleteFriendsOf(int id){
+		Session session = InitHibernate.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			List<Friend> in = session.createQuery("from Friend").list();
+			for (Friend fr : in) {
+				Hibernate.initialize(fr.getIdFirst());
+				
+				if((fr.getIdFirst() == id) || (fr.getIdSecond() == id)){
+					session.delete(fr);
+				}
 			}
 		} catch (Exception e) {
 			session.getTransaction().rollback();

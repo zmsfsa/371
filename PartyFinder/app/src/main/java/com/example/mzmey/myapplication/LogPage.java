@@ -6,10 +6,7 @@ package com.example.mzmey.myapplication;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,47 +16,41 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class EnterReg extends ActionBarActivity {
+public class LogPage extends ActionBarActivity {
     private EditText edLog;
-    private TextView tvOut;
+    private static final String LOGIN = "login";
     private EditText edPwd;
-    private EditText edFName;
-    private EditText edLName;
-    private String uri = "http://93.175.7.110:8080/reg";
-    private  RequestQueue queue;
-    private StringRequest stringRequest;
-
+    private TextView tvOut;
+    private final String uri = "http://93.175.7.110:8080/log";
+    RequestQueue queue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.enter_reg);
+        setContentView(R.layout.log_page);
         tvOut = (TextView)findViewById(R.id.tvOut);
-        edLog = (EditText )findViewById(R.id.edLog);
+        edLog = (EditText)findViewById(R.id.edLog);
         edPwd = (EditText)findViewById(R.id.edPwd);
-        edFName = (EditText)findViewById(R.id.edFName);
-        edLName = (EditText)findViewById(R.id.edLName);
         queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
+
     }
 
-    public void ClickReg(View v) {
+    public void onClick(View v){
 
-        if ((edLog.getText().toString().length() == 0) || (edPwd.getText().toString().length() == 0) ||
-                (edFName.getText().toString().length() == 0) || (edLName.getText().toString().length() == 0))
+        if ((edLog.getText().toString().length() == 0) || (edPwd.getText().toString().length() == 0))
             tvOut.setText("wrong parametrs");
-        else {
+        else{
             StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    if (response.equals("OK")) {
-                        tvOut.setText("You are registrated, " + edLog.getText().toString());
+                    if(response.equals("continue")){
                         goNext();
-                    } else {
+                    }
+                    else{
                         tvOut.setText(response);
                     }
                 }
@@ -75,8 +66,6 @@ public class EnterReg extends ActionBarActivity {
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("login", edLog.getText().toString());
                     params.put("pwd", edPwd.getText().toString());
-                    params.put("FName", edFName.getText().toString());
-                    params.put("LName", edLName.getText().toString());
 
                     return params;
                 }
@@ -92,23 +81,9 @@ public class EnterReg extends ActionBarActivity {
     }
 
     public void goNext(){
-        Intent intent1 = new Intent(this, EnterEnter.class);
-        intent1.putExtra("login", edLog.getText().toString());
-        startActivity(intent1);
+        Intent intent = new Intent(this, LeftPanel.class);
+        intent.putExtra(LOGIN, edLog.getText().toString());
+        startActivity(intent);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

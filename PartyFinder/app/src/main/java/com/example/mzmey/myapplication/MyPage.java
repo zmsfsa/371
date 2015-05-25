@@ -9,26 +9,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-public class MyPage extends Fragment {
-    View rootview;
+public class MyPage extends Fragment implements View.OnClickListener{
+    private static final String LOGIN = "login";
+    private View rootview;
+    private String login;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootview = inflater.inflate(R.layout.menu2_layout, container, false);
+        rootview = inflater.inflate(R.layout.my_page, container, false);
 
         super.onCreate(savedInstanceState);
-        //присвоили кнопку к кнопке на леяуте
         ImageButton btn = (ImageButton) rootview.findViewById(R.id.imageButton);
-        //повесили на него листенера
-        btn.setOnClickListener(new View.OnClickListener() {
+        btn.setOnClickListener(this);
+        login = getActivity().getIntent().getStringExtra(LOGIN);
 
-            @Override
-            public void onClick(View v) {
-                //переходим с первой на вторую активность
-                Intent intent = new Intent(getActivity(), Album.class);
-                startActivity(intent);
-            }
-        });
         return rootview;
+    }
+
+    public void onClick(View v){
+
     }
 }

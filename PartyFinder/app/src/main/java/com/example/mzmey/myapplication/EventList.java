@@ -1,12 +1,11 @@
 package com.example.mzmey.myapplication;
 
-import android.app.Activity;
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,13 +18,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class MainActivity extends Activity {
+public class EventList extends Fragment implements View.OnClickListener {
 
     private static final String DEL = "/";
     private static final String NAME = "name";
@@ -36,15 +33,19 @@ public class MainActivity extends Activity {
     int param = LinearLayout.LayoutParams.MATCH_PARENT;
     LinearLayout leftL;
     LinearLayout rightL;
+    private StringRequest sr;
+    View rootview;
+    Button btUpd;
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.event_list);
-        leftL = (LinearLayout)findViewById(R.id.leftL);
-        rightL = (LinearLayout)findViewById(R.id.rightL);
-        queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
-
-        StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        rootview = inflater.inflate(R.layout.event_list,container,false);
+        leftL = (LinearLayout)rootview.findViewById(R.id.leftL);
+        rightL = (LinearLayout)rootview.findViewById(R.id.rightL);
+        queue = MyQueue.getInstance(rootview.getContext()).getQueue();
+        btUpd = (Button)rootview.findViewById(R.id.btUpd);
+        btUpd.setOnClickListener(this);
+        sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 String[] pair = response.split(DEL);
@@ -76,10 +77,12 @@ public class MainActivity extends Activity {
         };
 
         queue.add(sr);
+
+        return rootview;
     }
     private void cookView(String name, String date){
-        TextView tvName = new TextView(this);
-        TextView tvDate = new TextView(this);
+        TextView tvName = new TextView(this.getActivity());
+        TextView tvDate = new TextView(this.getActivity());
         LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(
                 param, 250);
         tvName.setText(name);
@@ -87,4 +90,11 @@ public class MainActivity extends Activity {
         leftL.addView(tvName, lParams);
         rightL.addView(tvDate, lParams);
     }
+
+    public void onClick(View v){
+        leftL.removeAllViews();
+        rightL.removeAllViews();
+        queue.add(sr);
+    }
+
 }

@@ -26,6 +26,7 @@ public class LogHandler implements HttpHandler {
 		InputStream is = t.getRequestBody();
 		byte[] b = new byte[is.available()];
 		is.read(b);
+		System.out.println("______" + new String(b));
 		Map<String,String> params = new HashMap<String, String>();
 		params = Mapper.queryToMap(new String(b));
 		

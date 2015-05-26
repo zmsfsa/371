@@ -3,40 +3,43 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:gravity="center_horizontal">
 
-    <ImageButton
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:id="@+id/friend1"
-        android:focusableInTouchMode="true"
-        android:background="@mipmap/ic_friend1"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="200dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Максимка"
-        android:ems="10"
-        android:id="@+id/editText"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="90dp" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update"
+            android:id="@+id/btUpd"
+            android:layout_gravity="right" />
 
-    <ImageButton
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:id="@+id/friend2"
-        android:background="@mipmap/ic_friend2"
-        android:layout_marginTop="90dp" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scrollView" >
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Федя"
-        android:ems="10"
-        android:id="@+id/editText2"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="90dp" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/leftL"></LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/rightL"></LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
 </RelativeLayout>

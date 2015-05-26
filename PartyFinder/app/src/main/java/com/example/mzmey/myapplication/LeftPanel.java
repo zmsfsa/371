@@ -31,6 +31,7 @@ public class LeftPanel extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
+
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -53,6 +54,10 @@ public class LeftPanel extends ActionBarActivity
 
                 case 2:
                     objFragment = new MyPage();
+                    break;
+
+                case 3:
+                    objFragment = new SearchPage();
                     break;
             }
         // update the main content by replacing fragments

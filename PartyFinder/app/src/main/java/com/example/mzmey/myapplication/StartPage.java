@@ -5,15 +5,13 @@ package com.example.mzmey.myapplication;
  */
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 
-public class EnterPage extends ActionBarActivity implements OnClickListener  {
+public class StartPage extends ActionBarActivity implements OnClickListener  {
     Button button_reg;
     Button button_enter;
 
@@ -21,7 +19,7 @@ public class EnterPage extends ActionBarActivity implements OnClickListener  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.enter_page);
+        setContentView(R.layout.start_page);
         button_reg = (Button) findViewById(R.id.button_reg);
         button_enter = (Button) findViewById(R.id.button_enter);
         button_reg.setOnClickListener(this);
@@ -31,11 +29,11 @@ public class EnterPage extends ActionBarActivity implements OnClickListener  {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_enter:
-                Intent intent1 = new Intent(this, EnterEnter.class);
+                Intent intent1 = new Intent(this, LogPage.class);
                 startActivity(intent1);
                 break;
             case R.id.button_reg:
-                Intent intent2 = new Intent(this, EnterReg.class);
+                Intent intent2 = new Intent(this, RegPage.class);
                 startActivity(intent2);
                 break;
             default:

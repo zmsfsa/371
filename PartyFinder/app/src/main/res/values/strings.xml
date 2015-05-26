@@ -18,5 +18,5 @@
     <string name="action_example">Example action</string>
     <string name="title_activity_main_activity2_party1">MainActivity2Party1Activity</string>
     <string name="title_activity_main_activity2">MainActivity2Activity</string>
-    <string name="title_section4">Мои альбомы</string>
+    <string name="title_section4">Поиск</string>
 </resources>

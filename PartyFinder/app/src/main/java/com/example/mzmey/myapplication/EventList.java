@@ -27,15 +27,15 @@ public class EventList extends Fragment implements View.OnClickListener {
     private static final String DEL = "/";
     private static final String NAME = "name";
     private static final String DATE = "date";
-    RequestQueue queue;
+    private RequestQueue queue;
     private static String uri = "http://93.175.7.110:8080/event_list";
     private String login = "mzmey37";
-    int param = LinearLayout.LayoutParams.MATCH_PARENT;
-    LinearLayout leftL;
-    LinearLayout rightL;
+    private int param = LinearLayout.LayoutParams.MATCH_PARENT;
+    private LinearLayout leftL;
+    private LinearLayout rightL;
     private StringRequest sr;
-    View rootview;
-    Button btUpd;
+    private View rootview;
+    private Button btUpd;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

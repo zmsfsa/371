@@ -1,8 +1,4 @@
-package com.example.mzmey.myapplication;
-
-/**
- * Created by Федор on 23.05.2015.
- */
+package ru.startandroid.develop.p1391googlemaps;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -32,35 +28,35 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class ManyClientsMapsActivity extends FragmentActivity {
 
-    LatLng clients_latlng;
-    SupportMapFragment mapFragment;
-    GoogleMap map;
-    double latitude;
-    double longtitude;
+	SupportMapFragment mapFragment;
+	GoogleMap map;
+	double[] latitude;
+	double[] longtitude;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.many_clients_activity);
+		mapFragment = (SupportMapFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.map);
+		map = mapFragment.getMap();
+		if (map == null) {
+			finish();
+			return;
+		}
+		latitude = new double[10];
+		longtitude = new double[10];
+		latitude[0] = 55.45;
+		longtitude[0] = 37.36;
+		init();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.many_clients_activity);
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        map = mapFragment.getMap();
-        if (map == null) {
-            finish();
-            return;
-        }
-        latitude = 55.45;
-        longtitude = 37.36;
-        init();
+	}
 
-    }
-
-    public void init() {
-        // for (int i = 0; i < clients_latlng.length; i++) {
-
-        map.addMarker(new MarkerOptions().position(
-                new LatLng(latitude, longtitude)).icon(
-                BitmapDescriptorFactory
-                        .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-    }
-}
+	public void init() {
+		for (int i = 0; i < latitude.length; i++) {
+		map.addMarker(new MarkerOptions().position(
+				new LatLng(latitude[i], longtitude[i])).icon(
+				BitmapDescriptorFactory
+						.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+		}
+	}
+}	

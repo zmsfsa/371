@@ -23,14 +23,20 @@ import java.util.Map;
 
 
 public class RegPage extends ActionBarActivity {
+
+    private static final String LOGIN = "login";
+    private static final String FNAME = "fName";
+    private static final String LNAME = "lName";
+    private static final String PHONE = "phone";
+    private static final String PWD = "pwd";
     private EditText edLog;
     private TextView tvOut;
     private EditText edPwd;
     private EditText edFName;
     private EditText edLName;
+    private EditText edPhone;
     private String uri = "http://93.175.7.110:8080/reg";
     private  RequestQueue queue;
-    private StringRequest stringRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,7 @@ public class RegPage extends ActionBarActivity {
         edPwd = (EditText)findViewById(R.id.edPwd);
         edFName = (EditText)findViewById(R.id.edFName);
         edLName = (EditText)findViewById(R.id.edLName);
+        edPhone = (EditText)findViewById(R.id.edPhone);
         queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
     }
 
@@ -70,10 +77,11 @@ public class RegPage extends ActionBarActivity {
                 protected Map<String, String> getParams() {
 
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("login", edLog.getText().toString());
-                    params.put("pwd", edPwd.getText().toString());
-                    params.put("FName", edFName.getText().toString());
-                    params.put("LName", edLName.getText().toString());
+                    params.put(LOGIN, edLog.getText().toString());
+                    params.put(PWD, edPwd.getText().toString());
+                    params.put(FNAME, edFName.getText().toString());
+                    params.put(LNAME, edLName.getText().toString());
+                    params.put(PHONE, edPhone.getText().toString());
 
                     return params;
                 }

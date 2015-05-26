@@ -14,7 +14,7 @@ public class User {
 	private String login;
 	
 	@Column(name = "phone",unique = true)
-	private long phone;
+	private String phone;
 	
 	@Column(name = "password")
 	private String password;
@@ -29,7 +29,7 @@ public class User {
 
 	}
 	
-	public User(String login, String password, String fName, String lName, long phone) {
+	public User(String login, String password, String fName, String lName, String phone) {
 		this.login = login;
 		this.password = password;
 		this.fName = fName;
@@ -37,7 +37,7 @@ public class User {
 		this.phone = phone;
 	}
 
-	public long getPhone(){
+	public String getPhone(){
 		return this.phone;
 	}
 	
@@ -77,7 +77,7 @@ public class User {
 		this.lName = lname;
 	}
 	
-	public void setPhone(long phone){
+	public void setPhone(String phone){
 		this.phone = phone;
 	}
 

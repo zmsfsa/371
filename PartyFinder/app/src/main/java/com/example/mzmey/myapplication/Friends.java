@@ -4,6 +4,7 @@ package com.example.mzmey.myapplication;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ public class Friends extends Fragment implements View.OnClickListener{
     private static final String LOGIN = "login";
     private static final String FNAME = "fName";
     private static final String LNAME = "lName";
-    private static String uri = "http://93.175.7.110:8080/friends";
+    private static String uri = "http://10.55.121.57:8080/friends";
     private int param = LinearLayout.LayoutParams.MATCH_PARENT;
     private LinearLayout leftL;
     private LinearLayout rightL;

@@ -49,21 +49,26 @@ public class WorkSql {
 		return user;
 	}
 
+	@SuppressWarnings("unchecked")
 	public User getUserByLogin(String login) {
 		User result = null;
 		Session session = InitHibernate.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
+		System.out.println("before try");
 		try {
-			@SuppressWarnings("unchecked")
-			List<User> list = session.createQuery("from User order by idUser")
+			List<User> list = session.createQuery("from User")
 					.list();
+			System.out.println("after try");
 			for (User a : list) {
 				Hibernate.initialize(a.getLogin());
-				if (a.getLogin().equals(login))
+				System.out.println("logins " + a.getLogin());
+				if (a.getLogin().equals(login)){
 					result = a;
+				}
 			}
 		} catch (Exception e) {
 			session.getTransaction().rollback();
+			e.printStackTrace();
 			return null;
 		}
 		session.getTransaction().commit();

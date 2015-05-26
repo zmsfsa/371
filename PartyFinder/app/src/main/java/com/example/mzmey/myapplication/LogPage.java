@@ -26,7 +26,7 @@ public class LogPage extends ActionBarActivity {
     private static final String LOGIN = "login";
     private EditText edPwd;
     private TextView tvOut;
-    private final String uri = "http://93.175.7.110:8080/log";
+    private final String uri = "http://10.55.121.57:8080/log";
     RequestQueue queue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

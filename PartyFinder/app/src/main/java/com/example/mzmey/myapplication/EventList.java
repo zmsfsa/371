@@ -28,7 +28,7 @@ public class EventList extends Fragment implements View.OnClickListener {
     private static final String NAME = "name";
     private static final String DATE = "date";
     private RequestQueue queue;
-    private static String uri = "http://93.175.7.110:8080/event_list";
+    private static String uri = "http://10.55.121.57:8080/event_list";
     private String login = "mzmey37";
     private int param = LinearLayout.LayoutParams.MATCH_PARENT;
     private LinearLayout leftL;

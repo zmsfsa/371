@@ -370,6 +370,7 @@ public class WorkSql {
 		return 0;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<User> getFriendsOf(int id) {
 		User user = getUser(id);
 		if (user == null)
@@ -409,6 +410,7 @@ public class WorkSql {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public int deleteFriendsOf(int id){
 		Session session = InitHibernate.getSessionFactory().getCurrentSession();
 		session.beginTransaction();

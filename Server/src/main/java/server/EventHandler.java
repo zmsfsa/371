@@ -29,6 +29,8 @@ public class EventHandler implements HttpHandler {
 	@Override
 	public void handle(HttpExchange t) throws IOException {
 
+		
+		System.out.println("EventHandler");
 		InputStream is = t.getRequestBody();
 		byte[] b = new byte[is.available()];
 		is.read(b);

@@ -13,6 +13,9 @@ public class User {
 	@Column(name = "login",unique = true)
 	private String login;
 	
+	@Column(name = "photoId")
+	private int photoId;
+	
 	@Column(name = "phone",unique = true)
 	private String phone;
 	
@@ -29,7 +32,7 @@ public class User {
 
 	}
 	
-	public User(String login, String password, String fName, String lName, String phone) {
+	public User(String login, String password, String fName, String lName, String phone, int photoId) {
 		this.login = login;
 		this.password = password;
 		this.fName = fName;
@@ -39,6 +42,10 @@ public class User {
 
 	public String getPhone(){
 		return this.phone;
+	}
+	
+	public int getPhotoId(){
+		return this.photoId;
 	}
 	
 	public int getIdUser() {
@@ -71,6 +78,10 @@ public class User {
 
 	public void setFName(String fname) {
 		this.fName = fname;
+	}
+	
+	public void setPhotoId(int id){
+		this.photoId = id;
 	}
 
 	public void setLName(String lname) {

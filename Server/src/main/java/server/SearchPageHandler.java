@@ -14,6 +14,7 @@ public class SearchPageHandler implements HttpHandler{
 	@Override
 	public void handle(HttpExchange t) throws IOException {
 
+		System.out.println("SearchPageHandler");
 		InputStream is = t.getRequestBody();
 		byte[] b = new byte[is.available()];
 		is.read(b);

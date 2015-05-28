@@ -54,15 +54,11 @@ public class WorkSql {
 		User result = null;
 		Session session = InitHibernate.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		System.out.println("before try");
 		try {
-			List<User> list = session.createQuery("from User")
-					.list();
-			System.out.println("after try");
+			List<User> list = session.createQuery("from User").list();
 			for (User a : list) {
 				Hibernate.initialize(a.getLogin());
-				System.out.println("logins " + a.getLogin());
-				if (a.getLogin().equals(login)){
+				if (a.getLogin().equals(login)) {
 					result = a;
 				}
 			}
@@ -95,7 +91,7 @@ public class WorkSql {
 
 	@SuppressWarnings("unchecked")
 	public int deleteUser(List<User> user) {
-		for (User a : user) 
+		for (User a : user)
 			deleteFriendsOf(a.getIdUser());
 		Session session = InitHibernate.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -390,7 +386,7 @@ public class WorkSql {
 				in = session.createQuery("from Friend").list();
 				for (Friend fr : in) {
 					Hibernate.initialize(fr.getIdFirst());
-					
+
 					if (fr.getIdFirst() == user.getIdUser()) {
 						User u = (User) session.load(User.class,
 								fr.getIdSecond());
@@ -414,19 +410,99 @@ public class WorkSql {
 
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public int deleteFriendsOf(int id){
+	public int deleteFriendsOf(int id) {
 		Session session = InitHibernate.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		try {
 			List<Friend> in = session.createQuery("from Friend").list();
 			for (Friend fr : in) {
 				Hibernate.initialize(fr.getIdFirst());
-				
-				if((fr.getIdFirst() == id) || (fr.getIdSecond() == id)){
+
+				if ((fr.getIdFirst() == id) || (fr.getIdSecond() == id)) {
 					session.delete(fr);
 				}
+			}
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			return -1;
+		}
+		session.getTransaction().commit();
+		return 0;
+	}
+
+	public int addPhoto(Photo photo, String login) {
+		int result;
+		Session session = InitHibernate.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			result = (int) session.save(photo);
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			System.out.println("HELLO I AM A PROBLEM FROM PHOTOS");
+			e.printStackTrace();
+			return -1;
+		}
+		session.getTransaction().commit();
+		if (photo.getIdEvent() == 0) {
+			User user = getUserByLogin(login);
+			if(user.getPhotoId() != 0){
+				ArrayList<Photo> l = new ArrayList<Photo>();
+				l.add(getPhoto(user.getPhotoId()));
+				deletePhoto(l);
+			}
+			user.setPhotoId(result);
+			updateUser(user);
+		}
+		return result;
+	}
+
+	public Photo getPhoto(int id) {
+		Photo photo;
+		Session session = InitHibernate.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			photo = (Photo) session.load(Photo.class, id);
+			Hibernate.initialize(photo.getIdEvent());
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			return null;
+		}
+		session.getTransaction().commit();
+		return photo;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Photo> getPhotoByEvent(int id) {
+		List<Photo> result = new ArrayList<Photo>();
+		Session session = InitHibernate.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			List<Photo> list = session.createQuery("from Photo").list();
+			for (Photo a : list) {
+				Hibernate.initialize(a.getIdEvent());
+				if (a.getIdEvent() == id) {
+					result.add(a);
+				}
+			}
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		}
+		session.getTransaction().commit();
+
+		return result;
+	}
+
+	public int deletePhoto(List<Photo> list) {
+
+		Session session = InitHibernate.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			for (Photo a : list) {
+				session.delete(a);
 			}
 		} catch (Exception e) {
 			session.getTransaction().rollback();

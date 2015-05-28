@@ -26,11 +26,11 @@ public class MyFriendsHandler implements HttpHandler {
 	@Override
 	public void handle(HttpExchange t) throws IOException {
 
+		System.out.println("MyFriendsHandler");
 		InputStream is = t.getRequestBody();
 		byte[] b = new byte[is.available()];
 		is.read(b);
 		Map<String, String> params = new HashMap<String, String>();
-		System.out.println("b = " + new String(b));
 		params = Mapper.queryToMap(new String(b));
 
 		WorkSql work = new WorkSql();

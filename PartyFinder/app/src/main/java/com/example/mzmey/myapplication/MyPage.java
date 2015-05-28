@@ -3,6 +3,7 @@ package com.example.mzmey.myapplication;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -142,11 +144,11 @@ public class MyPage extends Fragment implements View.OnClickListener {
     }
 
     public void onClick(View v) {
-        /*Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);*/
+        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);/*
         final Bitmap myB = BitmapFactory.decodeResource(getResources(), R.drawable.abc_ic_search);
-        continueSending(myB);
+        continueSending(myB);*/
 
     }
 
@@ -334,14 +336,14 @@ public class MyPage extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(byte[] result) {
             super.onPostExecute(result);
-
-           // Log.d("my c", "LENGTH = " + bit.getByteCount());
-            ivFace.setImageBitmap(getBitmapfromByteArray(result));
+            ByteArrayInputStream bis = new ByteArrayInputStream(result);
+            Bitmap bm = BitmapFactory.decodeStream(bis);
+            Log.d("my c", "LENGTH");
             Log.d("my c", "length in on post = " + result.length);
+            ivFace.setImageBitmap(bm);
+
 
         }
     }
 
-    public void makeLogs(Bitmap bitmap) {
-    }
 }

@@ -42,14 +42,14 @@ android:gravity="center_horizontal">
                     android:layout_gravity="right"
                     android:text="Телефон:"
                     android:textSize="15dp"
-                    android:id="@+id/tvPhoneNumber" />
+                    android:id="@+id/tvPhoned" />
 
                 <EditText
                     android:layout_width="119dp"
                     android:layout_height="wrap_content"
                     android:inputType="phone"
                     android:ems="10"
-                    android:id="@+id/editText"
+                    android:id="@+id/tvPhone"
                     android:layout_marginLeft="50dp" />
 
             </LinearLayout>
@@ -64,14 +64,14 @@ android:gravity="center_horizontal">
                     android:layout_height="match_parent"
                     android:text="День рождения:"
                     android:textSize="15dp"
-                    android:id="@+id/tvBirth" />
+                    android:id="@+id/tvBirth1" />
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="date"
                     android:ems="10"
-                    android:id="@+id/editText2" />
+                    android:id="@+id/tvBirth" />
 
             </LinearLayout>
 

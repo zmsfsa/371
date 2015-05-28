@@ -30,7 +30,7 @@ public class RegHandler implements HttpHandler {
 		params = Mapper.queryToMap(new String(b));
 		
 		WorkSql work = new WorkSql();
-		User newUser = new User(params.get("login"), params.get("pwd"), params.get("fName"), params.get("lName"), params.get("phone"));
+		User newUser = new User(params.get("login"), params.get("pwd"), params.get("fName"), params.get("lName"), params.get("phone"), 0);
 		if (work.addUser(newUser) != 0) {
 			t.sendResponseHeaders(HTTP_OK_STATUS,
 					REG_IS_BAD.getBytes().length);

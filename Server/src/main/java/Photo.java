@@ -18,7 +18,7 @@ public class Photo {
 	private int idPhoto;
 	
 	@Column(name = "photoFile")
-	Blob photoFile;
+	byte[] photoFile;
 	
 	@Column(name = "idEvent")
 	private int idEvent;
@@ -27,12 +27,12 @@ public class Photo {
 		
 	}
 	
-	public Photo(Blob photo, int idEvent){
+	public Photo(byte[] photo, int idEvent){
 		this.photoFile = photo;
 		this.idEvent = idEvent;
 	}
 	
-	public Blob getPhotoFile(){
+	public byte[] getPhotoFile(){
 		return this.photoFile;
 	}
 	
@@ -40,7 +40,7 @@ public class Photo {
 		return this.idEvent;
 	}
 	
-	public void setPhotoFile(Blob photo){
+	public void setPhotoFile(byte[] photo){
 		this.photoFile = photo;
 	}
 	

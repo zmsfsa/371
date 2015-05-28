@@ -1,11 +1,9 @@
 package com.example.mzmey.myapplication;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -15,16 +13,18 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
 
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by MZmey on 22.05.2015.
  */
-public class EventCreate extends Activity{
+public class EventCreate extends FragmentActivity {
 
+    private static final String LOGIN = "login";
     private static final char PLUS = '+';
     private static final String DATE_DELIMETR = "-";
     private final String QUESTION_MARK = "?";
@@ -36,16 +36,25 @@ public class EventCreate extends Activity{
     private EditText edEvent;
     private String login = "mzmey37";
     private EditText edDate;
+    private SupportMapFragment mapFragment;
+    GoogleMap map;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event);
+        setContentView(R.layout.event_create);
 
         tvOut = (TextView)findViewById(R.id.tvOut);
         edEvent = (EditText)findViewById(R.id.edEvent);
         edDate = (EditText)findViewById(R.id.edDate);
-        edSend = (EditText)findViewById(R.id.edSend);
         queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.eventMap);
+        map = mapFragment.getMap();
+        if (map == null) {
+            finish();
+            return;
+        }
     }
 
     public void onClick(View v){
@@ -60,11 +69,13 @@ public class EventCreate extends Activity{
 
         } else {
 
+
+
             StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if (response.equals("OK")) {
-                        tvOut.setText("Event created. Click 'come to event' to visit event's page");
+                        tvOut.setText("Event created. Click 'go on' to visit event's page");
                     } else {
                         tvOut.setText(response);
                     }

@@ -22,12 +22,13 @@ import java.util.Map;
  */
 public class EventPage extends Activity {
 
+    private static final String URI = "uri";
     private final String DELIMETR = "=";
     private static final String DATE = "date";
     private static final String IN = "in";
     private static final String OUT = "out";
     private final String QUESTION_MARK = "?";
-    private static String uri = "http://93.175.7.110:8080/event";
+    private static String URI_ADD = "/event";
     private RequestQueue queue;
     private TextView tvName;
     private TextView tvOut;
@@ -49,6 +50,7 @@ public class EventPage extends Activity {
         scUsers = (ScrollView)findViewById(R.id.scUsers);
         queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
 
+        String uri = getIntent().getStringExtra(URI) + getIntent().getStringExtra(URI_ADD) + login;
         StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

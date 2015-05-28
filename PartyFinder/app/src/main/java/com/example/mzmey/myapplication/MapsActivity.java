@@ -1,4 +1,4 @@
-package ru.startandroid.develop.p1391googlemaps;
+package com.example.mzmey.myapplication;
 
 import android.app.AlertDialog;
 import android.content.Context;

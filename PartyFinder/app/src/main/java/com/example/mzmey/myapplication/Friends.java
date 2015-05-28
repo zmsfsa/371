@@ -1,6 +1,7 @@
 package com.example.mzmey.myapplication;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,7 +30,8 @@ public class Friends extends Fragment implements View.OnClickListener{
     private static final String LOGIN = "login";
     private static final String FNAME = "fName";
     private static final String LNAME = "lName";
-    private static String uri = "http://10.55.121.57:8080/friends";
+    private static final String URI_ADD = "/friends";
+    private static final String URI = "uri";
     private int param = LinearLayout.LayoutParams.MATCH_PARENT;
     private LinearLayout leftL;
     private LinearLayout rightL;
@@ -47,8 +49,10 @@ public class Friends extends Fragment implements View.OnClickListener{
         btUpd = (Button)rootview.findViewById(R.id.btUpd);
         btUpd.setOnClickListener(this);
         queue = MyQueue.getInstance(rootview.getContext()).getQueue();
+        Intent intent = getActivity().getIntent();
         login = getActivity().getIntent().getStringExtra(LOGIN);
 
+        String uri = intent.getStringExtra(URI) + URI_ADD + login;
         sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

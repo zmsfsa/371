@@ -35,7 +35,7 @@ public class RegPage extends ActionBarActivity {
     private EditText edFName;
     private EditText edLName;
     private EditText edPhone;
-    private String uri = "http://10.55.121.57:8080/reg";
+    private String uri = "http://192.168.0.106:8080/reg";
     private  RequestQueue queue;
 
     @Override
@@ -97,9 +97,8 @@ public class RegPage extends ActionBarActivity {
     }
 
     public void goNext(){
-        Intent intent1 = new Intent(this, LogPage.class);
-        intent1.putExtra("login", edLog.getText().toString());
-        startActivity(intent1);
+        Intent intent = new Intent(this, LogPage.class);
+        startActivity(intent);
     }
 
     @Override

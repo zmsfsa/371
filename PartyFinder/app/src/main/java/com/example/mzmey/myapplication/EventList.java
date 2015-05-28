@@ -1,6 +1,7 @@
 package com.example.mzmey.myapplication;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,18 +25,21 @@ import java.util.Map;
 
 public class EventList extends Fragment implements View.OnClickListener {
 
+    private static final String LOGIN = "login";
     private static final String DEL = "/";
     private static final String NAME = "name";
     private static final String DATE = "date";
+    private static final String URI = "uri";
     private RequestQueue queue;
-    private static String uri = "http://10.55.121.57:8080/event_list";
-    private String login = "mzmey37";
+    private static final String URI_ADD = "/event_list";
     private int param = LinearLayout.LayoutParams.MATCH_PARENT;
     private LinearLayout leftL;
     private LinearLayout rightL;
     private StringRequest sr;
     private View rootview;
     private Button btUpd;
+    private String login;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +49,10 @@ public class EventList extends Fragment implements View.OnClickListener {
         queue = MyQueue.getInstance(rootview.getContext()).getQueue();
         btUpd = (Button)rootview.findViewById(R.id.btUpd);
         btUpd.setOnClickListener(this);
+        Intent intent = getActivity().getIntent();
+        login = intent.getStringExtra(LOGIN);
+
+        String uri = intent.getStringExtra(URI) + URI_ADD + login;
         sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

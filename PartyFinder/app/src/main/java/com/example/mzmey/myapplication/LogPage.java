@@ -22,12 +22,18 @@ import java.util.Map;
 
 
 public class LogPage extends ActionBarActivity {
-    private EditText edLog;
+
     private static final String LOGIN = "login";
+    private static final String SESSION_ID = "id";
+    private static final String URI = "uri";
+    private static final String uri = "http://192.168.0.106:8080";
+    private static final String URI_ADD = "/log";
     private EditText edPwd;
     private TextView tvOut;
-    private final String uri = "http://10.55.121.57:8080/log";
+    private String sessionId;
+    private EditText edLog;
     RequestQueue queue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +50,9 @@ public class LogPage extends ActionBarActivity {
         if ((edLog.getText().toString().length() == 0) || (edPwd.getText().toString().length() == 0))
             tvOut.setText("wrong parametrs");
         else{
-            StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
+
+
+            StringRequest sr = new StringRequest(Request.Method.POST, uri + URI_ADD, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if(response.equals("continue")){
@@ -83,6 +91,8 @@ public class LogPage extends ActionBarActivity {
     public void goNext(){
         Intent intent = new Intent(this, LeftPanel.class);
         intent.putExtra(LOGIN, edLog.getText().toString());
+        intent.putExtra(URI, uri);
+        intent.putExtra(SESSION_ID, sessionId);
         startActivity(intent);
     }
 

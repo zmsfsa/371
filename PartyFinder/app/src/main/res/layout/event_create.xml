@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView4" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/textViewMain"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:text="Создайте новое событие" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edAddress"
+                android:hint="Введите адрес события" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edDate"
+                android:inputType="date"
+                android:hint="Дата: ДД-ММ-ГГГГ" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edEvent"
+                android:hint="Введите название события" />
+
+            <fragment
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:id="@+id/eventMap"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="3.05" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:text="Выберите на карте примерное место события"
+                android:id="@+id/textView5"
+                android:layout_marginTop="20dp" />
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Создать"
+                android:id="@+id/btCreate"
+                android:layout_gravity="center_horizontal"
+                android:onClick="onClick" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:id="@+id/tvOut"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

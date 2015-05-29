@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/xz.jpeg">
+    android:background="@mipmap/partytime">
 
     <LinearLayout
         android:orientation="vertical"
@@ -19,15 +19,16 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imageButton2"
                 android:layout_gravity="right"
-                android:background="@mipmap/add_user" />
+                android:background="@mipmap/add_user"
+                android:onClick="onGoOn" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Добавляя, друзей вы можете найти для себя прятное окружение, которое не заставит вас скучать!"
                 android:id="@+id/textView6"
-                android:textColor="#ffffffff"
-                android:layout_marginTop="40dp" />
+                android:textColor="#ff000000"
+                android:layout_marginTop="30dp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -42,16 +43,15 @@
             android:layout_height="115dp"
             android:id="@+id/imageButton"
             android:background="@mipmap/group58"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="60dp" />
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Добавли друзей? Теперь самое время найти прекрасное место и эмоции.Have fun!"
             android:id="@+id/textView7"
-            android:layout_marginTop="90dp"
-            android:textColor="#ff313131" />
+            android:layout_marginTop="40dp"
+            android:textColor="#ff000000" />
 
     </LinearLayout>
 </LinearLayout>

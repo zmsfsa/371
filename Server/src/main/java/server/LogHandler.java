@@ -26,6 +26,7 @@ public class LogHandler implements HttpHandler {
 	private static final String EVENT_LIST = "/event_list";
 	private static final String MY_FRIENDS = "/friends";
 	private static final String MY_PAGE = "/myPage";
+	private static final String PHOTO = "/photo";
 	
 	private static final int HTTP_OK_STATUS = 200;
 	private static final String LOG_IS_OK = "continue";
@@ -56,13 +57,15 @@ public class LogHandler implements HttpHandler {
 			OutputStream os = t.getResponseBody();
 			os.write(LOG_IS_OK.getBytes());
 			os.close();
-		} else {
 			String login = params.get("login");
+			myServ.httpServer.createContext(PHOTO, new ImageSender());
 			myServ.httpServer.createContext(EVENT_CREATE + login, new CreateEventHandler());
 			myServ.httpServer.createContext(MY_FRIENDS + login, new MyFriendsHandler());
 			myServ.httpServer.createContext(MY_PAGE + login, new MyPageHandler());
 			myServ.httpServer.createContext(EVENT_CONTEXT + login, new EventHandler());
 			myServ.httpServer.createContext(EVENT_LIST + login, new EventListHandler());
+		} else {
+			
 			t.sendResponseHeaders(HTTP_OK_STATUS, WRONG_PWD.getBytes().length);
 			OutputStream os = t.getResponseBody();
 			os.write(WRONG_PWD.getBytes());

@@ -3,6 +3,7 @@ package com.example.mzmey.myapplication;
 /**
  * Created by MZmey on 05.05.2015.
  */
+
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ public class RegPage extends ActionBarActivity {
     private static final String LOGIN = "login";
     private static final String FNAME = "fName";
     private static final String LNAME = "lName";
+    private static final String BIRTH = "birth";
+    private static final String DATE_DELIMETR = "-";
     private static final String PHONE = "phone";
     private static final String PWD = "pwd";
     private EditText edLog;
@@ -35,25 +38,34 @@ public class RegPage extends ActionBarActivity {
     private EditText edFName;
     private EditText edLName;
     private EditText edPhone;
-    private String uri = "http://192.168.0.106:8080/reg";
-    private  RequestQueue queue;
+    private EditText edDate;
+    private String uri = "http://10.55.121.84:8080/reg";
+    private RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reg_page);
-        tvOut = (TextView)findViewById(R.id.tvOut);
-        edLog = (EditText )findViewById(R.id.edLog);
-        edPwd = (EditText)findViewById(R.id.edPwd);
-        edFName = (EditText)findViewById(R.id.edFName);
-        edLName = (EditText)findViewById(R.id.edLName);
-        edPhone = (EditText)findViewById(R.id.edPhone);
+        tvOut = (TextView) findViewById(R.id.tvOut);
+        edLog = (EditText) findViewById(R.id.edLog);
+        edPwd = (EditText) findViewById(R.id.edPwd);
+        edFName = (EditText) findViewById(R.id.edFName);
+        edLName = (EditText) findViewById(R.id.edLName);
+        edPhone = (EditText) findViewById(R.id.edPhone);
+        edDate = (EditText) findViewById(R.id.edDate);
         queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
     }
 
     public void ClickReg(View v) {
 
-        if ((edLog.getText().toString().length() == 0) || (edPwd.getText().toString().length() == 0) ||
+        String[] dates = edDate.getText().toString().split(DATE_DELIMETR);
+
+        if ((dates.length != 3) || (Integer.parseInt(dates[0]) < 1) ||
+                (Integer.parseInt(dates[0]) > 31) || (Integer.parseInt(dates[1]) < 0)
+                || ((Integer.parseInt(dates[1]) > 12))) {
+
+            tvOut.setText("wrong format of date");
+        } else if ((edLog.getText().toString().length() == 0) || (edPwd.getText().toString().length() == 0) ||
                 (edFName.getText().toString().length() == 0) || (edLName.getText().toString().length() == 0))
             tvOut.setText("wrong parametrs");
         else {
@@ -82,6 +94,7 @@ public class RegPage extends ActionBarActivity {
                     params.put(FNAME, edFName.getText().toString());
                     params.put(LNAME, edLName.getText().toString());
                     params.put(PHONE, edPhone.getText().toString());
+                    params.put(BIRTH, edDate.getText().toString());
 
                     return params;
                 }
@@ -96,7 +109,7 @@ public class RegPage extends ActionBarActivity {
         }
     }
 
-    public void goNext(){
+    public void goNext() {
         Intent intent = new Intent(this, LogPage.class);
         startActivity(intent);
     }

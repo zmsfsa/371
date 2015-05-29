@@ -241,7 +241,31 @@ public class WorkSql {
 					.getCurrentSession();
 			session.beginTransaction();
 			try {
-				session.save(new Include(event.getIdEvent(), user.getIdUser()));
+				session.save(new Include(event.getIdEvent(), user.getIdUser(),
+						"0", "0"));
+			} catch (Exception e) {
+				session.getTransaction().rollback();
+				return -1;
+			}
+			session.getTransaction().commit();
+			return 0;
+		}
+	}
+
+	public int checkIn(String login, String eventName, String width,
+			String height) {
+		User user = getUserByLogin(login);
+		Event event = getEventByName(eventName);
+		if ((user == null) || (event == null))
+			return -1;
+		else {
+
+			Session session = InitHibernate.getSessionFactory()
+					.getCurrentSession();
+			session.beginTransaction();
+			try {
+				session.saveOrUpdate(new Include(event.getIdEvent(), user
+						.getIdUser(), height, width));
 			} catch (Exception e) {
 				session.getTransaction().rollback();
 				return -1;
@@ -252,23 +276,38 @@ public class WorkSql {
 	}
 
 	public int deleteInclude(String login, String eventName) {
+		Include del = getInclude(login, eventName);
+		if(del == null)
+			return -1;
+		
+		Session session = InitHibernate.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			session.delete(del);
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			return -1;
+		}
+		session.getTransaction().commit();
+		return 0;
+	}
+	
+	public Include getInclude(String login, String eventName){
 		User user = getUserByLogin(login);
 		Event event = getEventByName(eventName);
 		if ((user == null) || (event == null))
-			return -1;
-		else {
-			Session session = InitHibernate.getSessionFactory()
-					.getCurrentSession();
-			session.beginTransaction();
-			try {
-				session.delete(new Include(event.getIdEvent(), user.getIdUser()));
-			} catch (Exception e) {
-				session.getTransaction().rollback();
-				return -1;
+			return null;
+		
+		List<Include> inL = getIncludeByLogin(login);
+		List<Include> inE = getIncludeByEvent(eventName);
+		Include del = null;
+		for (Include iL : inL) {
+			for (Include iE : inE) {
+				if (iL.getIdUser() == iE.getIdUser())
+					del = iL;
 			}
-			session.getTransaction().commit();
-			return 0;
 		}
+		return del;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -447,7 +486,7 @@ public class WorkSql {
 		session.getTransaction().commit();
 		if (photo.getIdEvent() == 0) {
 			User user = getUserByLogin(login);
-			if(user.getPhotoId() != 0){
+			if (user.getPhotoId() != 0) {
 				ArrayList<Photo> l = new ArrayList<Photo>();
 				l.add(getPhoto(user.getPhotoId()));
 				deletePhoto(l);

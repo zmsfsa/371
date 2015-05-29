@@ -24,13 +24,11 @@ import java.util.Map;
 public class LogPage extends ActionBarActivity {
 
     private static final String LOGIN = "login";
-    private static final String SESSION_ID = "id";
     private static final String URI = "uri";
-    private static final String uri = "http://192.168.0.106:8080";
+    private static final String uri = "http://10.55.121.84:8080";
     private static final String URI_ADD = "/log";
     private EditText edPwd;
     private TextView tvOut;
-    private String sessionId;
     private EditText edLog;
     RequestQueue queue;
 
@@ -92,7 +90,6 @@ public class LogPage extends ActionBarActivity {
         Intent intent = new Intent(this, LeftPanel.class);
         intent.putExtra(LOGIN, edLog.getText().toString());
         intent.putExtra(URI, uri);
-        intent.putExtra(SESSION_ID, sessionId);
         startActivity(intent);
     }
 

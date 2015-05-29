@@ -19,9 +19,12 @@ public class Event {
 
 	}
 
-	public Event(String name, Calendar date) {
+	public Event(String name, Calendar date, String addres, String width, String height) {
 		this.nameEvent = name;
 		this.dateEvent = date;
+		this.apHeight = height;
+		this.apWidth = width;
+		this.addres = addres;
 	}
 
 	@Id
@@ -36,11 +39,32 @@ public class Event {
 	@Column(name = "dateEvent")
 	private Calendar dateEvent;
 	
+	@Column(name = "apWidth")
+	private String apWidth;
+
+	@Column(name = "apHeight")
+	private String apHeight;
+	
+	@Column(name = "addres")
+	private String addres;
+	
 	@Column(name = "photoId")
 	private int photoId;
 
 	public int getIdEvent() {
 		return this.idEvent;
+	}
+	
+	public String getAddres(){
+		return this.addres;
+	}
+	
+	public String getHeight() {
+		return this.apHeight;
+	}
+
+	public String getWidth() {
+		return this.apWidth;
 	}
 	
 	public int getPhotoId() {
@@ -53,6 +77,18 @@ public class Event {
 
 	public Calendar getDateEvent() {
 		return this.dateEvent;
+	}
+	
+	public void setHeight(String height) {
+		this.apHeight = height;
+	}
+	
+	public void setAddres(String addres){
+		this.addres = addres;
+	}
+
+	public void setWidth(String width) {
+		this.apWidth = width;
 	}
 
 	public void setDateEvent(Calendar date) {

@@ -3,6 +3,7 @@ package main.java.server;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +22,11 @@ public class MyPageHandler implements HttpHandler {
 	private static final String DELIMETR = "=";
 	private static final String FNAME = "fName";
 	private static final String LNAME = "lName";
+	private static final String DATE_DELIMETR = "-";
 	private static final String PHONE = "phone";
 	private static final String AND = "&";
 	private static final String ADD_PHOTO = "addPhoto";
+	private static final String BIRTH = "birth";
 	private static final String DEL = "/";
 	private static final String LOGIN = "login";
 	private static final String EVENTS = "events";
@@ -64,6 +67,14 @@ public class MyPageHandler implements HttpHandler {
 			StringBuilder sendBuild = new StringBuilder("");
 
 			photoId = user.getPhotoId();
+			Calendar calendar = user.getBirth();
+			System.out.println("before calendar = " + calendar);
+			if (calendar != null) {
+				int month = calendar.get(Calendar.MONTH) + 1;
+				sendBuild.append(BIRTH + DELIMETR + calendar.get(Calendar.DATE)
+						+ DATE_DELIMETR + month + DATE_DELIMETR
+						+ calendar.get(Calendar.YEAR) + AND);
+			}
 			if (photoId != 0)
 				sendBuild.append(PHOTO + DELIMETR + user.getPhotoId() + AND
 						+ FNAME + DELIMETR + user.getFName() + AND + LNAME
@@ -73,12 +84,15 @@ public class MyPageHandler implements HttpHandler {
 				sendBuild.append(PHOTO + DELIMETR + 0 + AND + FNAME + DELIMETR
 						+ user.getFName() + AND + LNAME + DELIMETR
 						+ user.getLName() + AND + PHONE + DELIMETR
-						+ user.getPhone() + AND);
+						+ user.getPhone() + AND + EVENTS + DELIMETR);
+
 			List<Include> inList = work.getIncludeByLogin(params.get(LOGIN));
 			for (Include i : inList) {
-				Event event = work.getEvent(i.getIdEvent());
-				sendBuild.append(event.getNameEvent() + "-"
-						+ event.getPhotoId() + ",");
+				if (!i.getHeight().equals("0") || !i.getWidth().equals("0")) {
+					Event event = work.getEvent(i.getIdEvent());
+					sendBuild.append(event.getNameEvent() + "-"
+							+ event.getPhotoId() + ",");
+				}
 			}
 			String send = new String(sendBuild);
 			System.out.println("sent " + send);

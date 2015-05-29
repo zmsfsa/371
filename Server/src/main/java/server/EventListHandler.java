@@ -20,6 +20,7 @@ import com.sun.net.httpserver.HttpHandler;
 public class EventListHandler implements HttpHandler {
 
 	private static final String DEL = "/";
+	private static final String PHOTO = "photo";
 	private static final String NAME = "name";
 	private static final String DATE = "date";
 	private static final String DATE_DELIMETR = "-";
@@ -53,13 +54,17 @@ public class EventListHandler implements HttpHandler {
 			for (Include inc : list) {
 				Event event = work.getEvent(inc.getIdEvent());
 				if (event != null) {
-					Calendar calendar = event.getDateEvent();
-					int month = calendar.get(Calendar.MONTH) + 1;
-					sendBuild.append(NAME + DELIMETR + event.getNameEvent()
-							+ AND + DATE + DELIMETR
-							+ +calendar.get(Calendar.DATE) + DATE_DELIMETR
-							+ month + DATE_DELIMETR
-							+ calendar.get(Calendar.YEAR) + DEL);
+					if (inc.getHeight().equals("0")
+							&& inc.getWidth().equals("0")) {
+						Calendar calendar = event.getDateEvent();
+						int month = calendar.get(Calendar.MONTH) + 1;
+						sendBuild.append(NAME + DELIMETR + event.getNameEvent()
+								+ AND + DATE + DELIMETR
+								+ calendar.get(Calendar.DATE) + DATE_DELIMETR
+								+ month + DATE_DELIMETR
+								+ calendar.get(Calendar.YEAR) + AND + PHOTO
+								+ DELIMETR + event.getPhotoId() + DEL);
+					}
 				} else {
 					ArrayList<Include> l = new ArrayList<Include>();
 					l.add(inc);

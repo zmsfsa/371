@@ -24,18 +24,22 @@ import java.util.Map;
  */
 public class EventCreate extends FragmentActivity {
 
+    private static final String URI = "uri";
+    private String uri;
     private static final String LOGIN = "login";
+    private static final String URI_ADD = "/event/create";
     private static final char PLUS = '+';
     private static final String DATE_DELIMETR = "-";
     private final String QUESTION_MARK = "?";
     private EditText edSend;
     private final String DELIMETR = "=";
-    private static String uri = "http://93.175.7.110:8080/event/create";
     private RequestQueue queue;
     private TextView tvOut;
     private EditText edEvent;
-    private String login = "mzmey37";
+    private String login;
+    private String stPath;
     private EditText edDate;
+    private EditText edAddress;
     private SupportMapFragment mapFragment;
     GoogleMap map;
 
@@ -44,6 +48,12 @@ public class EventCreate extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_create);
 
+        Intent intent = getIntent();
+        stPath = intent.getStringExtra(URI);
+        login = intent.getStringExtra(LOGIN);
+        uri = stPath + URI_ADD + login;
+
+        edAddress = (EditText)findViewById(R.id.edAddress);
         tvOut = (TextView)findViewById(R.id.tvOut);
         edEvent = (EditText)findViewById(R.id.edEvent);
         edDate = (EditText)findViewById(R.id.edDate);
@@ -75,7 +85,7 @@ public class EventCreate extends FragmentActivity {
                 @Override
                 public void onResponse(String response) {
                     if (response.equals("OK")) {
-                        tvOut.setText("Event created. Click 'go on' to visit event's page");
+                        onGoOn();
                     } else {
                         tvOut.setText(response);
                     }
@@ -92,6 +102,7 @@ public class EventCreate extends FragmentActivity {
                     params.put("login", login);
                     params.put("eventName", edEvent.getText().toString());
                     params.put("eventDate", edDate.getText().toString());
+                    params.put("addres", edAddress.getText().toString());
 
                     return params;
                 }
@@ -106,11 +117,12 @@ public class EventCreate extends FragmentActivity {
         }
     }
 
-    public void onGoOn(View v){
+    public void onGoOn(){
 
         Intent intent = new Intent(this, EventPage.class);
-        intent.putExtra("login", login);
-        intent.putExtra("name", edEvent.getText().toString());
+        intent.putExtra(LOGIN, login);
+        intent.putExtra("eventName", edEvent.getText().toString());
+        intent.putExtra(URI, stPath);
         startActivity(intent);
     }
 

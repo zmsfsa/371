@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:textSize="20dp"
             android:hint="название события"
-            android:id="@+id/tvEventName2" />
+            android:id="@+id/tvName" />
 
     </LinearLayout>
 
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:textSize="20dp"
             android:hint="адрес"
-            android:id="@+id/tvAddress2" />
+            android:id="@+id/tvAddr" />
     </LinearLayout>
 
     <LinearLayout
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:textSize="20dp"
             android:hint="дата"
-            android:id="@+id/tvDate2" />
+            android:id="@+id/tvDate" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,13 +78,6 @@
             android:onClick="onClickCheckIn"
             android:text="@string/check_in" />
 
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="230dp"
-            android:layout_height="230dp"
-            android:layout_marginLeft="40dp">
-        </fragment>
     </LinearLayout>
 
     <ScrollView
@@ -95,22 +88,44 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="30dp">
+            android:layout_height="fill_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:textSize="20dp"
-                android:text="Участники:"
-                android:id="@+id/tvParticip1" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/leftL"
+                android:layout_weight="1">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:hint="участники"
-                android:id="@+id/tvParticip2" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:textSize="20dp"
+                        android:text="Участники:"
+                        android:id="@+id/tvParticip1" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:focusableInTouchMode="false"
+                android:id="@+id/rightL">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:id="@+id/textView8" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

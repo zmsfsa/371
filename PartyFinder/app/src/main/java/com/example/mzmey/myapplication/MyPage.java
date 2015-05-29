@@ -43,8 +43,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class MyPage extends Fragment implements View.OnClickListener {
-    public class PushParams{
-        public PushParams(int p, byte[] b, String uri){
+    public class PushParams {
+        public PushParams(int p, byte[] b, String uri) {
             this.port = p;
             this.img = b;
             this.path = uri;
@@ -58,15 +58,14 @@ public class MyPage extends Fragment implements View.OnClickListener {
     private static final String PHOTO = "photo";
     private static final String EVENTS = "events";
     private static final String LOGIN = "login";
-    private static final int BUFF_L = 1000;
     private static final int GALLERY_REQUEST = 1;
     private static final String FNAME = "fName";
     private static final String LNAME = "lName";
+    private static final String BIRTH = "birth";
     private static final String PHONE = "phone";
     private static final String ALBUM = "album";
     private static final String URI_ADD = "/myPage";
     private static final String ADD_PHOTO = "addPhoto";
-    private static final String DEL = "/";
     private int param = LinearLayout.LayoutParams.MATCH_PARENT;
     private static final String URI = "uri";
     private String uri;
@@ -75,6 +74,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
     private RequestQueue queue;
     private View rootview;
     private String login;
+    private String LOG = "my con";
     private TextView tvName;
     private ImageView ivFace;
     private TextView tvPhone;
@@ -99,9 +99,8 @@ public class MyPage extends Fragment implements View.OnClickListener {
         btAdd.setOnClickListener(this);
         login = intent.getStringExtra(LOGIN);
         stPath = intent.getStringExtra(URI);
-        uri = intent.getStringExtra(URI) + URI_ADD + login;
+        uri = stPath + URI_ADD + login;
         queue = MyQueue.getInstance(rootview.getContext().getApplicationContext()).getQueue();
-
 
 
         StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
@@ -110,12 +109,18 @@ public class MyPage extends Fragment implements View.OnClickListener {
                 Map<String, String> params = Mapper.queryToMap(response);
                 tvName.setText(params.get(LNAME) + " " + params.get(FNAME));
                 tvPhone.setText(params.get(PHONE));
-                String[] events = params.get(EVENTS).split(",");
-                for (String event : events){
-                    String[] pair = event.split("-");
-                    cookView(pair[0], Integer.parseInt(pair[1]));
-                    Log.d("my con", "name = " + pair[0] + ", int = " + Integer.parseInt(pair[1]));
-                }
+                Log.d("my con", "events = " + params.get(EVENTS));
+                if (params.get(EVENTS) != null)
+                    if (!params.get(EVENTS).equals("")) {
+                        Log.d(LOG, "params(EVENTS) is '" + params.get(EVENTS) + "'");
+                        String[] events = params.get(EVENTS).split(",");
+                        for (String event : events) {
+                            String[] pair = event.split("-");
+                            cookView(pair[0], Integer.parseInt(pair[1]));
+                            Log.d("my con", "name = " + pair[0] + ", int = " + Integer.parseInt(pair[1]));
+                        }
+                    }
+
                 if (!params.get(PHOTO).equals("0")) {
                     continueLoading(Integer.parseInt(params.get(PHOTO)), ivFace);
                     Log.d("my connection", "id of photo is " + params.get(PHOTO));
@@ -170,9 +175,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);/*
-        final Bitmap myB = BitmapFactory.decodeResource(getResources(), R.drawable.abc_ic_search);
-        continueSending(myB);*/
+        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
 
     }
 

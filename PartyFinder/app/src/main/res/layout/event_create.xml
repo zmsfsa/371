@@ -18,7 +18,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:id="@+id/textViewMain"
+                android:id="@+id/tvOut"
                 android:gravity="center"
                 android:textSize="20dp"
                 android:text="Создайте новое событие" />
@@ -71,7 +71,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:id="@+id/tvOut"
+                android:id="@+id/her"
                 android:gravity="center"
                 android:textSize="20dp"
                 android:layout_gravity="center_horizontal" />

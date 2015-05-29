@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class Friends extends Fragment implements View.OnClickListener{
     private static final String LOGIN = "login";
     private static final String FNAME = "fName";
     private static final String LNAME = "lName";
+    private static final String LOG = "my logs";
     private static final String URI_ADD = "/friends";
     private static final String URI = "uri";
     private int param = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -39,6 +41,7 @@ public class Friends extends Fragment implements View.OnClickListener{
     private StringRequest sr;
     private String login;
     private Button btUpd;
+    private String stPath;
 
     @Nullable
     @Override
@@ -51,8 +54,10 @@ public class Friends extends Fragment implements View.OnClickListener{
         queue = MyQueue.getInstance(rootview.getContext()).getQueue();
         Intent intent = getActivity().getIntent();
         login = getActivity().getIntent().getStringExtra(LOGIN);
+        stPath = getActivity().getIntent().getStringExtra(URI);
 
-        String uri = intent.getStringExtra(URI) + URI_ADD + login;
+        String uri = stPath + URI_ADD + login;
+        Log.d(LOG, "uri = " + uri);
         sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

@@ -24,6 +24,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import java.io.ByteArrayInputStream;
@@ -200,8 +201,21 @@ public class MyPage extends Fragment implements View.OnClickListener {
     }
 
     private void continueLoading(int id) {
-        MyPull mp = new MyPull();
-        mp.execute(id);
+        //MyPull mp = new MyPull();
+        //mp.execute(id);
+        ImageRequest request = new ImageRequest(getActivity().getIntent().getStringExtra(URI) + "/photo?" + id,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        ivFace.setImageBitmap(bitmap);
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        tvName.setText("fuck your photo");
+                    }
+                });
+        queue.add(request);
 
     }
 

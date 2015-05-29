@@ -63,7 +63,7 @@ public class MyPageHandler implements HttpHandler {
 
 			photoId = user.getPhotoId();
 			if(photoId != 0)
-				sendBuild.append(PHOTO + DELIMETR + 8081 + AND + FNAME + DELIMETR
+				sendBuild.append(PHOTO + DELIMETR + user.getPhotoId() + AND + FNAME + DELIMETR
 					+ user.getFName() + AND + LNAME + DELIMETR
 					+ user.getLName() + AND + PHONE + DELIMETR
 					+ user.getPhone() + AND);
@@ -78,8 +78,8 @@ public class MyPageHandler implements HttpHandler {
 			OutputStream os = t.getResponseBody();
 			os.write(send.getBytes());
 			os.close();
-			if(photoId != 0)
-				new Thread(new SendPhoto(8081, photoId)).start();
+			//if(photoId != 0)
+				//new Thread(new SendPhoto(8081, photoId)).start();
 			System.out.println("MyPage is over");
 
 		}

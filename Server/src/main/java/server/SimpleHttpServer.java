@@ -29,6 +29,7 @@ public class SimpleHttpServer {
 			httpServer.createContext(LOG_CONTEXT, new LogHandler(this));
 			httpServer.createContext(EVENT_CREATE, new CreateEventHandler());
 			httpServer.createContext(MY_FRIENDS, new MyFriendsHandler());
+			httpServer.createContext("/photo", new ImageSender());
 			/*httpServer.createContext(HELLO_CONTEXT, new HelloHandler());*/
 			httpServer.createContext(MY_PAGE, new MyPageHandler());
 			httpServer.createContext("/post", new MapHandler());

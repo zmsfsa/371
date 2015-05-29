@@ -43,7 +43,20 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class MyPage extends Fragment implements View.OnClickListener {
+    public class PushParams{
+        public PushParams(int p, byte[] b, String uri){
+            this.port = p;
+            this.img = b;
+            this.path = uri;
+        }
+
+        public int port;
+        public byte[] img;
+        public String path;
+    }
+
     private static final String PHOTO = "photo";
+    private static final String EVENTS = "events";
     private static final String LOGIN = "login";
     private static final int BUFF_L = 1000;
     private static final int GALLERY_REQUEST = 1;
@@ -67,6 +80,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
     private TextView tvPhone;
     private boolean left = true;
     private Button btAdd;
+    private String stPath;
 
 
     @Nullable
@@ -84,8 +98,11 @@ public class MyPage extends Fragment implements View.OnClickListener {
         btAdd = (Button) rootview.findViewById(R.id.btAdd);
         btAdd.setOnClickListener(this);
         login = intent.getStringExtra(LOGIN);
+        stPath = intent.getStringExtra(URI);
         uri = intent.getStringExtra(URI) + URI_ADD + login;
         queue = MyQueue.getInstance(rootview.getContext().getApplicationContext()).getQueue();
+
+
 
         StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
@@ -93,8 +110,14 @@ public class MyPage extends Fragment implements View.OnClickListener {
                 Map<String, String> params = Mapper.queryToMap(response);
                 tvName.setText(params.get(LNAME) + " " + params.get(FNAME));
                 tvPhone.setText(params.get(PHONE));
+                String[] events = params.get(EVENTS).split(",");
+                for (String event : events){
+                    String[] pair = event.split("-");
+                    cookView(pair[0], Integer.parseInt(pair[1]));
+                    Log.d("my con", "name = " + pair[0] + ", int = " + Integer.parseInt(pair[1]));
+                }
                 if (!params.get(PHOTO).equals("0")) {
-                    continueLoading(Integer.parseInt(params.get(PHOTO)));
+                    continueLoading(Integer.parseInt(params.get(PHOTO)), ivFace);
                     Log.d("my connection", "id of photo is " + params.get(PHOTO));
                 } else
                     Log.d("my connection", "param is 0");
@@ -116,30 +139,30 @@ public class MyPage extends Fragment implements View.OnClickListener {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+                return new HashMap<String, String>();
             }
         };
 
         queue.add(sr);
 
+
         return rootview;
     }
 
-    private void cookView(Bitmap picture) {
-        ImageView tvFace = new ImageView(this.getActivity());
+    private void cookView(String AName, int id) {
+        ImageView ivEvent = new ImageView(this.getActivity());
         TextView tvAName = new TextView(this.getActivity());
-        LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(
-                param, 400);
-        tvFace.setImageBitmap(picture);
-        // tvAName.setText(aName);
+        LinearLayout.LayoutParams lParamsI = new LinearLayout.LayoutParams(param, 400);
+        LinearLayout.LayoutParams lParamsT = new LinearLayout.LayoutParams(param, 70);
+        continueLoading(id, ivEvent);
+        tvAName.setText(AName);
         if (left) {
-            leftL.addView(tvFace, lParams);
-            //leftL.addView(tvAName, lParams);
+            leftL.addView(tvAName, lParamsT);
+            leftL.addView(ivEvent, lParamsI);
             left = false;
         } else {
-            rightL.addView(tvFace, lParams);
-            // rightL.addView(tvAName, lParams);
+            rightL.addView(tvAName, lParamsT);
+            rightL.addView(ivEvent, lParamsI);
             left = true;
         }
     }
@@ -195,24 +218,21 @@ public class MyPage extends Fragment implements View.OnClickListener {
                             sendB.getWidth(), sendB.getHeight(),
                             (int) (sendB.getByteCount() / 1024)));
                     continueSending(sendB);
-                    cookView(sendB);
                 }
         }
     }
 
-    private void continueLoading(int id) {
-        //MyPull mp = new MyPull();
-        //mp.execute(id);
+    private void continueLoading(int id, final ImageView iv) {
         ImageRequest request = new ImageRequest(getActivity().getIntent().getStringExtra(URI) + "/photo?" + id,
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
-                        ivFace.setImageBitmap(bitmap);
+                        iv.setImageBitmap(bitmap);
                     }
                 }, 0, 0, null,
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
-                        tvName.setText("fuck your photo");
+                        //tvName.setText("photo problem");
                     }
                 });
         queue.add(request);
@@ -226,7 +246,8 @@ public class MyPage extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(String response) {
                 MyPush myt = new MyPush();
-                myt.execute(getByteArrayfromBitmap(myB));
+                PushParams par = new PushParams(Integer.parseInt(response), getByteArrayfromBitmap(myB), "192.168.0.106");
+                myt.execute(par);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -254,7 +275,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
         queue.add(sr);
     }
 
-    class MyPush extends AsyncTask<byte[], Void, Void> {
+    class MyPush extends AsyncTask<PushParams, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -262,15 +283,17 @@ public class MyPage extends Fragment implements View.OnClickListener {
         }
 
         @Override
-        protected Void doInBackground(byte[]... params) {
+        protected Void doInBackground(PushParams... params) {
             Socket soc = null;
-            byte[] img = params[0];
+            PushParams par = params[0];
+            byte[] img = par.img;
+            int port = par.port;
+            String path = par.path;
             try {
-                soc = new Socket("192.168.0.106", 8081);
+                soc = new Socket(path, port);
 
                 OutputStream out = soc.getOutputStream();
                 DataOutputStream dos = new DataOutputStream(out);
-
 
                 dos.writeInt(img.length);
                 dos.write(img, 0, img.length);
@@ -296,68 +319,6 @@ public class MyPage extends Fragment implements View.OnClickListener {
         }
 
 
-    }
-
-    class MyPull extends AsyncTask<Integer, Void, byte[]> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected byte[] doInBackground(Integer... params) {
-            byte[] b = new byte[1];
-
-            try {
-
-                Log.d("my connecction", "param is " + params[0]);
-
-                Socket socket = new Socket("192.168.0.106", params[0]);
-                Log.d("my connection", "created socket");
-
-                InputStream inputStream = socket.getInputStream();
-                DataInputStream dis = new DataInputStream(inputStream);
-                Log.d("my connection", "opened stream");
-                int len = dis.readInt();
-                Log.d("my connection", "read int = " + len);
-
-                b = new byte[len];
-                dis.read(b);
-                Log.d("my connection", "read from dis b = " + b.length);
-
-                OutputStream os = socket.getOutputStream();
-                DataOutputStream dos = new DataOutputStream(os);
-
-                Log.d("my connection", "seconds");
-                dos.writeInt(1);
-                dos.close();
-                os.close();
-                dis.close();
-                inputStream.close();
-
-                Log.d("my connection", "closed streams");
-
-            } catch (Exception e) {
-                Log.d("my connection", "exception exception");
-            }
-
-            Log.d("my connection", "length = " + b.length);
-
-            return b;
-        }
-
-        @Override
-        protected void onPostExecute(byte[] result) {
-            super.onPostExecute(result);
-            ByteArrayInputStream bis = new ByteArrayInputStream(result);
-            Bitmap bm = BitmapFactory.decodeStream(bis);
-            Log.d("my c", "LENGTH");
-            Log.d("my c", "length in on post = " + result.length);
-            ivFace.setImageBitmap(bm);
-
-
-        }
     }
 
 }

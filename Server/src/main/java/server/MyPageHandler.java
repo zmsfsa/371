@@ -1,16 +1,14 @@
 package main.java.server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import main.java.Photo;
+import main.java.Event;
+import main.java.Include;
 import main.java.User;
 import main.java.WorkSql;
 
@@ -28,6 +26,7 @@ public class MyPageHandler implements HttpHandler {
 	private static final String ADD_PHOTO = "addPhoto";
 	private static final String DEL = "/";
 	private static final String LOGIN = "login";
+	private static final String EVENTS = "events";
 	private static final int HTTP_OK_STATUS = 200;
 	private static final String PHOTO_ID = "photo_id";
 
@@ -51,35 +50,42 @@ public class MyPageHandler implements HttpHandler {
 
 		if (params.get(ADD_PHOTO).equals("YES")) {
 
-			t.sendResponseHeaders(HTTP_OK_STATUS, "".getBytes().length);
+			int port = 8080 - user.getIdUser();
+			String res = "" + port;
+
+			t.sendResponseHeaders(HTTP_OK_STATUS, res.getBytes().length);
 			OutputStream os = t.getResponseBody();
-			os.write("".getBytes());
+			os.write(res.getBytes());
 			os.close();
-			new Thread(new LoadPhoto(8081, params.get(LOGIN))).start();
+			new Thread(new LoadPhoto(port, params.get(LOGIN))).start();
 
 		} else {
 			int photoId;
 			StringBuilder sendBuild = new StringBuilder("");
 
 			photoId = user.getPhotoId();
-			if(photoId != 0)
-				sendBuild.append(PHOTO + DELIMETR + user.getPhotoId() + AND + FNAME + DELIMETR
-					+ user.getFName() + AND + LNAME + DELIMETR
-					+ user.getLName() + AND + PHONE + DELIMETR
-					+ user.getPhone() + AND);
+			if (photoId != 0)
+				sendBuild.append(PHOTO + DELIMETR + user.getPhotoId() + AND
+						+ FNAME + DELIMETR + user.getFName() + AND + LNAME
+						+ DELIMETR + user.getLName() + AND + PHONE + DELIMETR
+						+ user.getPhone() + AND + EVENTS + DELIMETR);
 			else
 				sendBuild.append(PHOTO + DELIMETR + 0 + AND + FNAME + DELIMETR
 						+ user.getFName() + AND + LNAME + DELIMETR
 						+ user.getLName() + AND + PHONE + DELIMETR
 						+ user.getPhone() + AND);
+			List<Include> inList = work.getIncludeByLogin(params.get(LOGIN));
+			for (Include i : inList) {
+				Event event = work.getEvent(i.getIdEvent());
+				sendBuild.append(event.getNameEvent() + "-"
+						+ event.getPhotoId() + ",");
+			}
 			String send = new String(sendBuild);
 			System.out.println("sent " + send);
 			t.sendResponseHeaders(HTTP_OK_STATUS, send.getBytes().length);
 			OutputStream os = t.getResponseBody();
 			os.write(send.getBytes());
 			os.close();
-			//if(photoId != 0)
-				//new Thread(new SendPhoto(8081, photoId)).start();
 			System.out.println("MyPage is over");
 
 		}

@@ -35,9 +35,16 @@ public class Event {
 	@Temporal(value=TemporalType.DATE)
 	@Column(name = "dateEvent")
 	private Calendar dateEvent;
+	
+	@Column(name = "photoId")
+	private int photoId;
 
 	public int getIdEvent() {
 		return this.idEvent;
+	}
+	
+	public int getPhotoId() {
+		return this.photoId;
 	}
 
 	public String getNameEvent() {
@@ -50,6 +57,10 @@ public class Event {
 
 	public void setDateEvent(Calendar date) {
 		this.dateEvent = date;
+	}
+	
+	public void setPhotoId(int id){
+		this.photoId = id;
 	}
 
 	public void setNameEvent(String name) {

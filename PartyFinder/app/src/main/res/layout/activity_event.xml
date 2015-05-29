@@ -78,6 +78,14 @@
             android:onClick="onClickCheckIn"
             android:text="@string/check_in" />
 
+        <fragment
+            android:id="@+id/map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp">
+        </fragment>
+
     </LinearLayout>
 
     <ScrollView

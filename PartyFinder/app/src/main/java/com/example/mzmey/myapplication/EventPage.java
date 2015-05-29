@@ -3,6 +3,7 @@ package com.example.mzmey.myapplication;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,7 +26,7 @@ import java.util.Map;
 /**
  * Created by MZmey on 22.05.2015.
  */
-public class EventPage extends Activity {
+public class EventPage extends FragmentActivity {
 
     private static final String URI = "uri";
     private final String LOGIN = "login";

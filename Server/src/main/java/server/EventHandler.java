@@ -31,6 +31,7 @@ public class EventHandler implements HttpHandler {
 	private static final String HEIGHT = "height";
 	private static final String ADDR = "addr";
 	private static final String EVENT_NAME = "eventName";
+	private static final String CHECKS = "checks";
 	private static final String FNAME = "fName";
 	private static final String LNAME = "lName";
 	private static final String DELIMETR = "=";
@@ -48,7 +49,6 @@ public class EventHandler implements HttpHandler {
 		is.read(b);
 		Map<String, String> params = new HashMap<String, String>();
 		params = Mapper.queryToMap(new String(b));
-
 		WorkSql work = new WorkSql();
 		Event event = work.getEventByName(params.get(EVENT_NAME));
 		if (event == null) {
@@ -59,22 +59,26 @@ public class EventHandler implements HttpHandler {
 			os.close();
 		} else {
 			// to join
-			if (params.get(MAKE_JOIN).equals("YES")) {
+			if (params.get(MAKE_JOIN) != null) {
 				work.makeInclude(params.get(LOGIN), params.get(EVENT_NAME));
 				t.sendResponseHeaders(HTTP_OK_STATUS, OK.getBytes().length);
 				OutputStream os = t.getResponseBody();
 				os.write(OK.getBytes());
 				os.close();
+				System.out.println("EventHandler in join sent " + OK);
 				return;
 			}
 			// to checkIn
-			if (params.get(CHECK_IN).equals("YES")) {
+			if (params.get(CHECK_IN) != null) {
+								System.out.println("in check in " + params.get("width") + " " + params.get("height") + "+++++++++++++++");
+
 				work.checkIn(params.get(LOGIN), params.get(EVENT_NAME),
 						params.get("width"), params.get("height"));
 				t.sendResponseHeaders(HTTP_OK_STATUS, OK.getBytes().length);
 				OutputStream os = t.getResponseBody();
 				os.write(OK.getBytes());
 				os.close();
+				System.out.println("EventHandler in check in sent " + OK);
 				return;
 			}
 			// to show page
@@ -102,24 +106,25 @@ public class EventHandler implements HttpHandler {
 						+ DELIMETR + 1 + AND + DATE + DELIMETR
 						+ calendar.get(Calendar.DATE) + DATE_DELIMETR + month
 						+ DATE_DELIMETR + calendar.get(Calendar.YEAR) + AND
-						+ "coodrinates" + DELIMETR);
+						+ CHECKS + DELIMETR);
 				for (Include a : checkList) {
 					if (idUser != a.getIdUser())
-							sendBuilder.append(a.getWidth() + "-" + a.getHeight()  + " ");
+						if (!a.getHeight().equals("0"))
+							sendBuilder.append(a.getWidth() + "-"
+									+ a.getHeight() + " ");
+
 				}
 			} else {
 				sendBuilder.append(EVENT_NAME + DELIMETR + event.getNameEvent()
-						+ AND + FNAME + DELIMETR + user.getFName() + AND
-						+ LNAME + DELIMETR + user.getLName() + AND + IN
-						+ DELIMETR + 0 + AND + DATE + DELIMETR
+						+ AND + IN + DELIMETR + 0 + AND + DATE + DELIMETR
 						+ calendar.get(Calendar.DATE) + DATE_DELIMETR + month
-						+ DATE_DELIMETR + calendar.get(Calendar.YEAR) + DEL);
+						+ DATE_DELIMETR + calendar.get(Calendar.YEAR) + AND
+						+ ADDR + DELIMETR + event.getAddres());
 			}
 
+			System.out.println("EventHandler in showing sent " + sendBuilder);
+
 			String send = new String(sendBuilder);
-
-			System.out.println("\n" + send + "\n");
-
 			t.sendResponseHeaders(HTTP_OK_STATUS, send.getBytes().length);
 			OutputStream os = t.getResponseBody();
 			os.write(send.getBytes());

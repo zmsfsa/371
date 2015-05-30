@@ -35,7 +35,7 @@ import java.util.Map;
 /**
  * Created by MZmey on 22.05.2015.
  */
-public class EventPage extends FragmentActivity {
+public class EventPage extends FragmentActivity implements View.OnClickListener {
 
     private static final String URI = "uri";
     private final String LOGIN = "login";
@@ -64,16 +64,6 @@ public class EventPage extends FragmentActivity {
     private String stPath;
     private String login;
     private String name;
-    private boolean left = true;
-    private String height = null;
-    private String width = null;
-    private LinearLayout leftL;
-    private SupportMapFragment mapFragment;
-    private GoogleMap map;
-
-    private LinearLayout rightL;
-
-    private ScrollView scUsers;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +77,6 @@ public class EventPage extends FragmentActivity {
         stPath = getIntent().getStringExtra(URI);
         checkOrJoin = (Button) findViewById(R.id.checkOrJoin);
         tvDate = (TextView) findViewById(R.id.tvDate);
-        scUsers = (ScrollView) findViewById(R.id.scUsers);
         queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
 
         uri = stPath + URI_ADD + login;
@@ -102,14 +91,22 @@ public class EventPage extends FragmentActivity {
                         checkInt.putExtra(URI, stPath);
                         checkInt.putExtra(EVENT_NAME, name);
                         startActivity(checkInt);
+                        Log.d(LOG, "myWidth, myHeight = " + params.get("myWidth") + ", " + params.get("myHeight"));
                     }
                 } else {
                     checkOrJoin.setText("Вступить");
                     invited = false;
                 }
-                tvDate.setText(params.get(DATE));
-                tvName.setText(params.get(noPros(EVENT_NAME)));
-                tvAddr.setText(params.get(ADDR));
+                String date = params.get(DATE);
+                String eventName = params.get(EVENT_NAME);
+                String addr = params.get(ADDR);
+                if (date != null)
+                    tvDate.setText(params.get(DATE));
+                if (eventName != null)
+                    tvName.setText(params.get(noPros(EVENT_NAME)));
+                if (addr != null)
+                    tvAddr.setText(params.get(ADDR));
+                Log.d(LOG, "name, date, addr = " + eventName + ", " + date + ", " + addr);
 
             }
         }, new Response.ErrorListener() {
@@ -137,31 +134,21 @@ public class EventPage extends FragmentActivity {
         queue.add(sr);
     }
 
-    private void continueLoading(int id, final ImageView iv) {
-        ImageRequest request = new ImageRequest(stPath + "/photo?" + id,
-                new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap bitmap) {
-                        iv.setImageBitmap(bitmap);
-                    }
-                }, 0, 0, null,
-                new Response.ErrorListener() {
-                    public void onErrorResponse(VolleyError error) {
-                        //tvName.setText("photo problem");
-                    }
-                });
-        queue.add(request);
 
-    }
+    @Override
+    public void onClick(View v) {
+        Log.d(LOG, "on click");
+        if (invited == false) {
 
-    public void onCheckOrJoin(View v) {
-        if (checkOrJoin.getText().toString().equals("Вступить")) {
+            Log.d(LOG, "вступление");
 
             StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    if (response.equals("OK"))
+                    if (response.equals("OK")) {
                         checkOrJoin.setText("Чек ин");
+                        invited = true;
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -188,6 +175,7 @@ public class EventPage extends FragmentActivity {
             };
             queue.add(sr);
         } else {
+            Log.d(LOG, "going on the other intent");
             Intent checkIntMake = new Intent(getApplicationContext(), MapsActivity.class);
             checkIntMake.putExtra(LOGIN, login);
             checkIntMake.putExtra(URI, stPath);

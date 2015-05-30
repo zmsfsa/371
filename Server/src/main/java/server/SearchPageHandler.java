@@ -41,24 +41,26 @@ public class SearchPageHandler implements HttpHandler {
 		if (params.get(FNAME) != null) {
 			StringBuilder sendBuild = new StringBuilder("");
 			List<User> usL = work.findUser();
-			String fname = params.get(FNAME);
-			String lname = params.get(LNAME);
+			String fname = params.get(FNAME).toLowerCase();
+			String lname = params.get(LNAME).toLowerCase();
+			
 			System.out.println("fname = " + fname + ", lname = " + lname);
 			for (User u : usL) {
 				if (!fname.equals("") && !lname.equals("")) {
-					if ((u.getFName().contains(fname))
-							|| (u.getLName().contains(lname)))
+					if ((u.getFName().toLowerCase().contains(fname))
+							|| (u.getLName().toLowerCase().contains(lname)))
 						sendBuild.append(LOGIN + DELIMETR + u.getLogin() + AND
 								+ FNAME + DELIMETR + u.getFName() + AND + LNAME
 								+ DELIMETR + u.getLName() + AND + PHOTO
 								+ DELIMETR + u.getPhotoId() + DEL);
-				} else if (!fname.equals("")) {
-					if (u.getFName().contains(fname))
+				} else if (!fname.toLowerCase().equals("")) {
+					if (u.getFName().toLowerCase().contains(fname))
 						sendBuild.append(LOGIN + DELIMETR + u.getLogin() + AND
 								+ FNAME + DELIMETR + u.getFName() + AND + LNAME
 								+ DELIMETR + u.getLName() + AND + PHOTO
 								+ DELIMETR + u.getPhotoId() + DEL);
-				} else if (u.getLName().contains(lname))
+					
+				} else if (u.getLName().toLowerCase().contains(lname))
 					sendBuild.append(LOGIN + DELIMETR + u.getLogin() + AND
 							+ FNAME + DELIMETR + u.getFName() + AND + LNAME
 							+ DELIMETR + u.getLName() + AND + PHOTO + DELIMETR
@@ -74,9 +76,9 @@ public class SearchPageHandler implements HttpHandler {
 		} else {
 			StringBuilder sendBuild = new StringBuilder("");
 			List<Event> evL = work.findEvent();
-			String eName = params.get(EVENT_NAME);
+			String eName = params.get(EVENT_NAME).toLowerCase();
 			for (Event e : evL) {
-				if (e.getNameEvent().contains(eName))
+				if (e.getNameEvent().toLowerCase().contains(eName))
 					sendBuild.append(EVENT_NAME + DELIMETR + e.getNameEvent()
 							+ AND + PHOTO + DELIMETR + e.getPhotoId() + DEL);
 			}

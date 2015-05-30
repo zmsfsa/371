@@ -130,13 +130,22 @@
             android:id="@+id/checkOrJoin"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:onClick="onCheckOrJoin"
             android:text="@string/check_in"
             android:textSize="25dp"
             android:gravity="center_vertical|center_horizontal"
             android:background="@drawable/roundedbutton"
             android:textColor="#fff"
-            android:clickable="false" />
+            android:clickable="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="onClick"
+            android:id="@+id/button3"
+            android:layout_gravity="center_horizontal"
+            android:enabled="true"
+            android:focusable="true"
+            android:onClick="onClick" />
     </LinearLayout>
 
 </LinearLayout>

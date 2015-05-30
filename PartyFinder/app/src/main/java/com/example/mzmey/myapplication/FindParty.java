@@ -103,7 +103,7 @@ public class FindParty extends Activity {
         }
     }
 
-    private void cookView(String eName, int id) {
+    private void cookView(final String eName, int id) {
         ImageView ivEvent = new ImageView(this);
         TextView tvEName = new TextView(this);
         LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(param, 400);
@@ -112,10 +112,24 @@ public class FindParty extends Activity {
         if (id != 0)
             continueLoading(id, ivEvent);
         tvEName.setText(noPros(eName));
+        tvEName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intEvent = new Intent(getApplicationContext(), EventPage.class);
+                intEvent.putExtra(LOGIN, login);
+                intEvent.putExtra(EVENT_NAME, eName);
+                intEvent.putExtra(URI, stPath);
+                startActivity(intEvent);
+            }
+        });
         ivEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent otherIntent = new Intent(v.getContext(), OtherPage.class);
+                Intent intEvent = new Intent(getApplicationContext(), EventPage.class);
+                intEvent.putExtra(LOGIN, login);
+                intEvent.putExtra(EVENT_NAME, eName);
+                intEvent.putExtra(URI, stPath);
+                startActivity(intEvent);
             }
         });
         tvEName.setGravity(Gravity.CENTER_VERTICAL);

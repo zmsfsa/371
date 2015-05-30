@@ -22,7 +22,7 @@ public class EventListHandler implements HttpHandler {
 	private static final String DEL = "/";
 	private static final String LOGIN = "login";
 	private static final String PHOTO = "photo";
-	private static final String NAME = "name";
+	private static final String EVENT_NAME = "eventName";
 	private static final String DATE = "date";
 	private static final String DATE_DELIMETR = "-";
 	private static final String DELIMETR = "=";
@@ -59,7 +59,7 @@ public class EventListHandler implements HttpHandler {
 							&& inc.getWidth().equals("0")) {
 						Calendar calendar = event.getDateEvent();
 						int month = calendar.get(Calendar.MONTH) + 1;
-						sendBuild.append(NAME + DELIMETR + event.getNameEvent()
+						sendBuild.append(EVENT_NAME + DELIMETR + event.getNameEvent()
 								+ AND + DATE + DELIMETR
 								+ calendar.get(Calendar.DATE) + DATE_DELIMETR
 								+ month + DATE_DELIMETR
@@ -72,6 +72,7 @@ public class EventListHandler implements HttpHandler {
 					work.deleteInclude(l);
 				}
 			}
+			System.out.println("EventListHandler sent " + sendBuild);
 			String send = new String(sendBuild);
 			t.sendResponseHeaders(HTTP_OK_STATUS, send.getBytes().length);
 			OutputStream os = t.getResponseBody();

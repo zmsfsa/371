@@ -205,6 +205,7 @@ public class MapsActivity extends FragmentActivity {
                     params.put(CHECK_IN, "YES");
                     params.put("width", latitude + "");
                     params.put("height", longitude + "");
+                    Log.d(TAG, "params sending are " + latitude + ", " + longitude);
                     return params;
                 }
 

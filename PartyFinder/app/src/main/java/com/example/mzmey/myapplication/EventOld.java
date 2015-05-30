@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -34,6 +35,7 @@ public class EventOld extends FragmentActivity {
     private static final String MAKE_JOIN = "makeJoin";
     private static final String CHECK_IN = "checkIn";
     private static final String DEL = "/";
+    private static final String CHECKS = "checks";
     private static final String PHOTO = "photo";
     private static final String ADDR = "addr";
     private static final String EVENT_NAME = "eventName";
@@ -78,7 +80,7 @@ public class EventOld extends FragmentActivity {
         tvDate = (TextView) findViewById(R.id.tvDate);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         map = mapFragment.getMap();
-        if (map == null){
+        if (map == null) {
             finish();
             return;
         }
@@ -93,20 +95,25 @@ public class EventOld extends FragmentActivity {
                 tvName.setText(params.get(noPros(EVENT_NAME)));
                 tvAddr.setText(params.get(ADDR));
 
-                String[] coordinates = params.get("coordinates").split(" ");
-                for (String coord : coordinates) {
-                    String[] c = coord.split("-");
-                    if (!c.equals("")) {
-                        double latitude = Double.parseDouble(c[0]);
-                        double longitude = Double.parseDouble(c[1]);
-                        makeOtherPoint(latitude, longitude);
-                    }
-                }
-                double longitude = Double.parseDouble(params.get("myHeight"));
-                double latitude = Double.parseDouble(params.get("myWidth"));
+                double longitude = Double.parseDouble(params.get("myWidth"));
+                double latitude = Double.parseDouble(params.get("myHeight"));
                 makeMyPoint(latitude, longitude);
 
 
+                Log.d(LOG, params.get(CHECKS) + "is param CHECKS");
+                if (params.get(CHECKS) != null) {
+                    Log.d(LOG, "coordrinates = " + params.get(CHECKS));
+                    String[] coords = params.get(CHECKS).split(" ");
+                    for (String coord : coords) {
+                        String[] c = coord.split("-");
+                        if (!c[0].equals("")) {
+                            Log.d(LOG, "making blue marker");
+                            longitude = Double.parseDouble(c[0]);
+                            latitude = Double.parseDouble(c[1]);
+                            makeOtherPoint(latitude, longitude);
+                        }
+                    }
+                }
             }
         }, new Response.ErrorListener() {
             @Override

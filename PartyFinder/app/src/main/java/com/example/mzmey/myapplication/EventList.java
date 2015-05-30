@@ -52,14 +52,14 @@ public class EventList extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootview = inflater.inflate(R.layout.event_list,container,false);
-        leftL = (LinearLayout)rootview.findViewById(R.id.leftL);
-        rightL = (LinearLayout)rootview.findViewById(R.id.rightL);
+        rootview = inflater.inflate(R.layout.event_list, container, false);
+        leftL = (LinearLayout) rootview.findViewById(R.id.leftL);
+        rightL = (LinearLayout) rootview.findViewById(R.id.rightL);
         queue = MyQueue.getInstance(rootview.getContext()).getQueue();
-        btUpd = (Button)rootview.findViewById(R.id.btUpd);
+        btUpd = (Button) rootview.findViewById(R.id.btUpd);
         btUpd.setOnClickListener(this);
-        btAdd = (Button)rootview.findViewById(R.id.btAdd);
-        middleL = (LinearLayout)rootview.findViewById(R.id.middleL);
+        btAdd = (Button) rootview.findViewById(R.id.btAdd);
+        middleL = (LinearLayout) rootview.findViewById(R.id.middleL);
         btAdd.setOnClickListener(this);
         Intent intent = getActivity().getIntent();
         login = intent.getStringExtra(LOGIN);
@@ -71,10 +71,10 @@ public class EventList extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(String response) {
                 String[] pair = response.split(DEL);
-                for(String a : pair) {
+                for (String a : pair) {
                     Map<String, String> params = Mapper.queryToMap(a);
-                    cookView(params.get(EVENT_NAME), params.get(DATE), Integer.parseInt(params.get(PHOTO)));
-
+                    if (params.get(EVENT_NAME) != null)
+                        cookView(params.get(EVENT_NAME), params.get(DATE), Integer.parseInt(params.get(PHOTO)));;
                 }
             }
         }, new Response.ErrorListener() {
@@ -105,13 +105,13 @@ public class EventList extends Fragment implements View.OnClickListener {
         return rootview;
     }
 
-    private void cookView(final String name, String date, int id){
+    private void cookView(final String name, String date, int id) {
         final ImageView ivEvent = new ImageView(this.getActivity());
         TextView tvName = new TextView(this.getActivity());
         TextView tvDate = new TextView(this.getActivity());
         LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(
                 param, 250);
-        if(id != 0) {
+        if (id != 0) {
             ImageRequest request = new ImageRequest(getActivity().getIntent().getStringExtra(URI) + "/photo?" + id,
                     new Response.Listener<Bitmap>() {
                         @Override
@@ -143,19 +143,19 @@ public class EventList extends Fragment implements View.OnClickListener {
         rightL.addView(tvDate, lParams);
     }
 
-    public void onClick(View v){
+    public void onClick(View v) {
 
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.btAdd:
                 Intent intent1 = new Intent(getActivity(), EventCreate.class);
                 intent1.putExtra(LOGIN, login);
                 intent1.putExtra(URI, stPath);
                 getActivity().startActivity(intent1);
-
                 break;
             case R.id.btUpd:
                 leftL.removeAllViews();
                 rightL.removeAllViews();
+                middleL.removeAllViews();
                 queue.add(sr);
                 break;
             default:

@@ -237,6 +237,9 @@ public class WorkSql {
 			return -1;
 		else {
 
+			Include check = getInclude(login, eventName);
+			if(check != null)
+				return -1;
 			Session session = InitHibernate.getSessionFactory()
 					.getCurrentSession();
 			session.beginTransaction();
@@ -260,14 +263,28 @@ public class WorkSql {
 			return -1;
 		else {
 
+			if(deleteInclude(login, eventName) < 0)
+				return -1;/*
 			Session session = InitHibernate.getSessionFactory()
 					.getCurrentSession();
 			session.beginTransaction();
 			try {
-				session.saveOrUpdate(new Include(event.getIdEvent(), user
-						.getIdUser(), height, width));
+				session.update(new Include(login, eventName, height, width));
 			} catch (Exception e) {
 				session.getTransaction().rollback();
+				System.out.println("HELLO I AM PROBLEM FROM CHECK IN");
+				return -1;
+			}
+			session.getTransaction().commit();*/
+			Include in = new Include(event.getIdEvent(), user.getIdUser(), height, width);
+			Session session = InitHibernate.getSessionFactory()
+					.getCurrentSession();
+			session.beginTransaction();
+			try {
+				session.save(in);
+			} catch (Exception e) {
+				session.getTransaction().rollback();
+				System.out.println("HELLO I AM PROBLEM FROM CHECK IN");
 				return -1;
 			}
 			session.getTransaction().commit();

@@ -23,9 +23,12 @@ public class EventHandler implements HttpHandler {
 	private static final String DATE_DELIMETR = "-";
 	private static final String DEL = "/";
 	private static final String OK = "OK";
+
 	private static final String PHOTO = "photo";
 	private static final String MAKE_JOIN = "makeJoin";
 	private static final String CHECK_IN = "checkIn";
+	private static final String WIDTH = "width";
+	private static final String HEIGHT = "height";
 	private static final String ADDR = "addr";
 	private static final String EVENT_NAME = "eventName";
 	private static final String FNAME = "fName";
@@ -55,7 +58,7 @@ public class EventHandler implements HttpHandler {
 			os.write(EVENT_IS_BAD.getBytes());
 			os.close();
 		} else {
-			//to join
+			// to join
 			if (params.get(MAKE_JOIN).equals("YES")) {
 				work.makeInclude(params.get(LOGIN), params.get(EVENT_NAME));
 				t.sendResponseHeaders(HTTP_OK_STATUS, OK.getBytes().length);
@@ -64,16 +67,17 @@ public class EventHandler implements HttpHandler {
 				os.close();
 				return;
 			}
-			//to checkIn
-			if(params.get(CHECK_IN).equals("YES")){
-				work.checkIn(params.get(LOGIN), params.get(EVENT_NAME), params.get("width"), params.get("height"));
+			// to checkIn
+			if (params.get(CHECK_IN).equals("YES")) {
+				work.checkIn(params.get(LOGIN), params.get(EVENT_NAME),
+						params.get("width"), params.get("height"));
 				t.sendResponseHeaders(HTTP_OK_STATUS, OK.getBytes().length);
 				OutputStream os = t.getResponseBody();
 				os.write(OK.getBytes());
 				os.close();
 				return;
 			}
-			//to show page
+			// to show page
 			Calendar calendar = event.getDateEvent();
 			int month = calendar.get(Calendar.MONTH) + 1;
 			StringBuilder sendBuilder = new StringBuilder("");
@@ -81,20 +85,25 @@ public class EventHandler implements HttpHandler {
 					.getNameEvent());
 			int k = 0;
 			int idUser = work.getUserByLogin(params.get("login")).getIdUser();
+
 			for (Include a : checkList)
 				if (a.getIdUser() == idUser)
 					k = 1;
 			User user = work.getUserByLogin(params.get(LOGIN));
 			if (k == 1) {
 				int photoId = user.getPhotoId();
-				sendBuilder.append(EVENT_NAME + DELIMETR + event.getNameEvent()
-						+ AND + ADDR + DELIMETR + event.getAddres() + AND
-						+ FNAME + DELIMETR + user.getFName() + AND + LNAME
-						+ DELIMETR + user.getLName() + AND + IN + DELIMETR + 1
-						+ AND + PHOTO + DELIMETR + photoId + AND + DATE
-						+ DELIMETR + calendar.get(Calendar.DATE)
-						+ DATE_DELIMETR + month + DATE_DELIMETR
-						+ calendar.get(Calendar.YEAR) + DEL);
+				Include checkIn = work.getInclude(params.get(LOGIN),
+						params.get(EVENT_NAME));
+
+				sendBuilder.append(WIDTH + DELIMETR + checkIn.getWidth() + AND
+						+ HEIGHT + DELIMETR + checkIn.getHeight() + AND
+						+ EVENT_NAME + DELIMETR + event.getNameEvent() + AND
+						+ ADDR + DELIMETR + event.getAddres() + AND + FNAME
+						+ DELIMETR + user.getFName() + AND + LNAME + DELIMETR
+						+ user.getLName() + AND + IN + DELIMETR + 1 + AND
+						+ PHOTO + DELIMETR + photoId + AND + DATE + DELIMETR
+						+ calendar.get(Calendar.DATE) + DATE_DELIMETR + month
+						+ DATE_DELIMETR + calendar.get(Calendar.YEAR) + DEL);
 			} else {
 				sendBuilder.append(EVENT_NAME + DELIMETR + event.getNameEvent()
 						+ AND + FNAME + DELIMETR + user.getFName() + AND

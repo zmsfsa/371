@@ -20,6 +20,7 @@ import com.sun.net.httpserver.HttpHandler;
 public class EventListHandler implements HttpHandler {
 
 	private static final String DEL = "/";
+	private static final String LOGIN = "login";
 	private static final String PHOTO = "photo";
 	private static final String NAME = "name";
 	private static final String DATE = "date";
@@ -40,7 +41,7 @@ public class EventListHandler implements HttpHandler {
 		params = Mapper.queryToMap(new String(b));
 
 		WorkSql work = new WorkSql();
-		User user = work.getUserByLogin(params.get("login"));
+		User user = work.getUserByLogin(params.get(LOGIN));
 
 		if (user == null) {
 			t.sendResponseHeaders(HTTP_OK_STATUS,
@@ -50,7 +51,7 @@ public class EventListHandler implements HttpHandler {
 			os.close();
 		} else {
 			StringBuilder sendBuild = new StringBuilder("");
-			List<Include> list = work.getIncludeByLogin(params.get("login"));
+			List<Include> list = work.getIncludeByLogin(params.get(LOGIN));
 			for (Include inc : list) {
 				Event event = work.getEvent(inc.getIdEvent());
 				if (event != null) {

@@ -32,7 +32,7 @@ public class EventList extends Fragment implements View.OnClickListener {
     private static final String LOGIN = "login";
     private static final String PHOTO = "photo";
     private static final String DEL = "/";
-    private static final String NAME = "name";
+    private static final String EVENT_NAME = "eventName";
     private static final String DATE = "date";
     private static final String URI = "uri";
     private RequestQueue queue;
@@ -73,7 +73,7 @@ public class EventList extends Fragment implements View.OnClickListener {
                 String[] pair = response.split(DEL);
                 for(String a : pair) {
                     Map<String, String> params = Mapper.queryToMap(a);
-                    cookView(params.get(NAME), params.get(DATE), Integer.parseInt(params.get(PHOTO)));
+                    cookView(params.get(EVENT_NAME), params.get(DATE), Integer.parseInt(params.get(PHOTO)));
 
                 }
             }
@@ -132,7 +132,7 @@ public class EventList extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
                 Intent intEvent = new Intent(getActivity(), EventPage.class);
                 intEvent.putExtra(LOGIN, login);
-                intEvent.putExtra(NAME, name);
+                intEvent.putExtra(EVENT_NAME, name);
                 intEvent.putExtra(URI, stPath);
                 getActivity().startActivity(intEvent);
             }

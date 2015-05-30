@@ -21,7 +21,7 @@ public class LogHandler implements HttpHandler {
 
 	private static final String REG_CONTEXT = "/reg";
 	private static final String LOG_CONTEXT = "/log";
-	private static final String EVENT_CREATE = "/eventCreate";
+	private static final String EVENT_CREATE = "/event/create";
 	private static final String EVENT_CONTEXT = "/event";
 	private static final String EVENT_LIST = "/event_list";
 	private static final String MY_FRIENDS = "/friends";

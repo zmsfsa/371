@@ -30,7 +30,7 @@ public class EventCreate extends FragmentActivity {
     private String uri;
     private static final String LOGIN = "login";
     private static final String EVENT_DATE = "eventDate";
-    private static final String URI_ADD = "/eventCreate";
+    private static final String URI_ADD = "/event/create";
     private static final String ADDRES = "addres";
     private static final String EVENT_NAME = "eventName";
     private static final char PLUS = '+';
@@ -61,14 +61,14 @@ public class EventCreate extends FragmentActivity {
         tvOut = (TextView) findViewById(R.id.tvOut);
         edEvent = (EditText) findViewById(R.id.edEvent);
         edDate = (EditText) findViewById(R.id.edDate);
-        queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();/*
+        queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.eventMap);
         map = mapFragment.getMap();
         if (map == null) {
             finish();
             return;
-        }*/
+        }
     }
 
     public void onClick(View v) {
@@ -106,8 +106,13 @@ public class EventCreate extends FragmentActivity {
                     params.put(EVENT_NAME, edEvent.getText().toString());
                     params.put(EVENT_DATE, edDate.getText().toString());
                     params.put(ADDRES, edAddress.getText().toString());
-                    params.put("height", height);
-                    params.put("width", width);
+                    if ((height != null) && (width != null)) {
+                        params.put("height", height);
+                        params.put("width", width);
+                    } else {
+                        params.put("height", "0");
+                        params.put("width", "0");
+                    }
 
                     return params;
                 }

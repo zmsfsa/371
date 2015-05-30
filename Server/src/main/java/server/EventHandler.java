@@ -22,7 +22,10 @@ public class EventHandler implements HttpHandler {
 	private static final String EVENT_IS_BAD = "No such event";
 	private static final String DATE_DELIMETR = "-";
 	private static final String DEL = "/";
+	private static final String OK = "OK";
 	private static final String PHOTO = "photo";
+	private static final String MAKE_JOIN = "makeJoin";
+	private static final String CHECK_IN = "checkIn";
 	private static final String ADDR = "addr";
 	private static final String EVENT_NAME = "eventName";
 	private static final String FNAME = "fName";
@@ -44,7 +47,7 @@ public class EventHandler implements HttpHandler {
 		params = Mapper.queryToMap(new String(b));
 
 		WorkSql work = new WorkSql();
-		Event event = work.getEventByName(params.get("eventName"));
+		Event event = work.getEventByName(params.get(EVENT_NAME));
 		if (event == null) {
 			t.sendResponseHeaders(HTTP_OK_STATUS,
 					EVENT_IS_BAD.getBytes().length);
@@ -52,6 +55,25 @@ public class EventHandler implements HttpHandler {
 			os.write(EVENT_IS_BAD.getBytes());
 			os.close();
 		} else {
+			//to join
+			if (params.get(MAKE_JOIN).equals("YES")) {
+				work.makeInclude(params.get(LOGIN), params.get(EVENT_NAME));
+				t.sendResponseHeaders(HTTP_OK_STATUS, OK.getBytes().length);
+				OutputStream os = t.getResponseBody();
+				os.write(OK.getBytes());
+				os.close();
+				return;
+			}
+			//to checkIn
+			if(params.get(CHECK_IN).equals("YES")){
+				work.checkIn(params.get(LOGIN), params.get(EVENT_NAME), params.get("width"), params.get("height"));
+				t.sendResponseHeaders(HTTP_OK_STATUS, OK.getBytes().length);
+				OutputStream os = t.getResponseBody();
+				os.write(OK.getBytes());
+				os.close();
+				return;
+			}
+			//to show page
 			Calendar calendar = event.getDateEvent();
 			int month = calendar.get(Calendar.MONTH) + 1;
 			StringBuilder sendBuilder = new StringBuilder("");
@@ -66,12 +88,13 @@ public class EventHandler implements HttpHandler {
 			if (k == 1) {
 				int photoId = user.getPhotoId();
 				sendBuilder.append(EVENT_NAME + DELIMETR + event.getNameEvent()
-						+ AND + ADDR + DELIMETR + event.getAddres() + AND + FNAME
-						+ DELIMETR + user.getFName() + AND + LNAME + DELIMETR
-						+ user.getLName() + AND + IN + DELIMETR + 1 + AND
-						+ PHOTO + DELIMETR + photoId + AND + DATE + DELIMETR
-						+ calendar.get(Calendar.DATE) + DATE_DELIMETR + month
-						+ DATE_DELIMETR + calendar.get(Calendar.YEAR) + DEL);
+						+ AND + ADDR + DELIMETR + event.getAddres() + AND
+						+ FNAME + DELIMETR + user.getFName() + AND + LNAME
+						+ DELIMETR + user.getLName() + AND + IN + DELIMETR + 1
+						+ AND + PHOTO + DELIMETR + photoId + AND + DATE
+						+ DELIMETR + calendar.get(Calendar.DATE)
+						+ DATE_DELIMETR + month + DATE_DELIMETR
+						+ calendar.get(Calendar.YEAR) + DEL);
 			} else {
 				sendBuilder.append(EVENT_NAME + DELIMETR + event.getNameEvent()
 						+ AND + FNAME + DELIMETR + user.getFName() + AND

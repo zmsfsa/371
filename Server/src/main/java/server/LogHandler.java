@@ -15,19 +15,19 @@ import com.sun.net.httpserver.HttpHandler;
 public class LogHandler implements HttpHandler {
 	private SimpleHttpServer myServ;
 
-	public LogHandler(SimpleHttpServer myServ){
+	public LogHandler(SimpleHttpServer myServ) {
 		this.myServ = myServ;
 	}
-	
+
 	private static final String REG_CONTEXT = "/reg";
 	private static final String LOG_CONTEXT = "/log";
-	private static final String EVENT_CREATE = "/event/create";
+	private static final String EVENT_CREATE = "/eventCreate";
 	private static final String EVENT_CONTEXT = "/event";
 	private static final String EVENT_LIST = "/event_list";
 	private static final String MY_FRIENDS = "/friends";
 	private static final String MY_PAGE = "/myPage";
 	private static final String PHOTO = "/photo";
-	
+
 	private static final int HTTP_OK_STATUS = 200;
 	private static final String LOG_IS_OK = "continue";
 	private static final String WRONG_PWD = "wrong password";
@@ -35,7 +35,7 @@ public class LogHandler implements HttpHandler {
 
 	@Override
 	public void handle(HttpExchange t) throws IOException {
-		
+
 		System.out.println("someone logging");
 		InputStream is = t.getRequestBody();
 		byte[] b = new byte[is.available()];
@@ -59,18 +59,24 @@ public class LogHandler implements HttpHandler {
 			os.close();
 			String login = params.get("login");
 			myServ.httpServer.createContext(PHOTO, new ImageSender());
-			myServ.httpServer.createContext(EVENT_CREATE + login, new CreateEventHandler());
-			myServ.httpServer.createContext(MY_FRIENDS + login, new MyFriendsHandler());
-			myServ.httpServer.createContext(MY_PAGE + login, new MyPageHandler());
-			myServ.httpServer.createContext(EVENT_CONTEXT + login, new EventHandler());
-			myServ.httpServer.createContext(EVENT_LIST + login, new EventListHandler());
+			myServ.httpServer.createContext(EVENT_CREATE + login,
+					new CreateEventHandler());
+			System.out.println("created context " + EVENT_CREATE + login);
+			myServ.httpServer.createContext(MY_FRIENDS + login,
+					new MyFriendsHandler());
+			myServ.httpServer.createContext(MY_PAGE + login,
+					new MyPageHandler());
+			myServ.httpServer.createContext(EVENT_CONTEXT + login,
+					new EventHandler());
+			myServ.httpServer.createContext(EVENT_LIST + login,
+					new EventListHandler());
 		} else {
-			
+
 			t.sendResponseHeaders(HTTP_OK_STATUS, WRONG_PWD.getBytes().length);
 			OutputStream os = t.getResponseBody();
 			os.write(WRONG_PWD.getBytes());
 			os.close();
-			
+
 		}
 	}
 

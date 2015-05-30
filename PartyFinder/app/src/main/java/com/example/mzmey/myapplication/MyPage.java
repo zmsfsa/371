@@ -147,7 +147,14 @@ public class MyPage extends Fragment implements View.OnClickListener {
                 return new HashMap<String, String>();
             }
         };
+        String f = null;
 
+        try {
+            f = new String(sr.getBody());
+        } catch (AuthFailureError authFailureError) {
+            authFailureError.printStackTrace();
+        }
+        Log.d(LOG, f);
         queue.add(sr);
 
 
@@ -249,7 +256,13 @@ public class MyPage extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(String response) {
                 MyPush myt = new MyPush();
-                PushParams par = new PushParams(Integer.parseInt(response), getByteArrayfromBitmap(myB), "192.168.0.106");
+
+                String numerals = stPath;
+                String numerals1 = numerals.substring("http://".length());
+                String[] ur = numerals1.split(":");
+                Log.d(LOG, "ip is " + ur[0]);
+
+                PushParams par = new PushParams(Integer.parseInt(response), getByteArrayfromBitmap(myB), ur[0]);
                 myt.execute(par);
             }
         }, new Response.ErrorListener() {
@@ -274,6 +287,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
                 return params;
             }
         };
+
 
         queue.add(sr);
     }

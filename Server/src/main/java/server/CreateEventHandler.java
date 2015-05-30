@@ -16,11 +16,15 @@ import com.sun.net.httpserver.HttpHandler;
 public class CreateEventHandler implements HttpHandler {
 	private static final int HTTP_OK_STATUS = 200;
 	private static final String EVENT_IS_OK = "OK";
+	private static final String EVENT_DATE = "eventDate";
+	private static final String LOGIN = "login";
 	private static final String EVENT_IS_BAD = "This name is already used";
 	private static final String ADDRES = "addres";
+	private static final String EVENT_NAME = "eventName";
 
 	public void handle(HttpExchange t) throws IOException {
 
+		System.out.println("\n\n\nCreateEventHandler\n\n");
 		InputStream is = t.getRequestBody();
 		byte[] b = new byte[is.available()];
 		is.read(b);
@@ -29,19 +33,24 @@ public class CreateEventHandler implements HttpHandler {
 
 		WorkSql work = new WorkSql();
 		Calendar date = Calendar.getInstance();
-		String[] dates = params.get("eventDate").split("-");
+		String[] dates = params.get(EVENT_DATE).split("-");
 		String width = params.get("width");
 		String height = params.get("height");
 		date.set(Integer.parseInt(dates[2]), Integer.parseInt(dates[1]) - 1,
 				Integer.parseInt(dates[0]));
 		Event event;
 		if ((width == null) || (height == null))
-			event = new Event(params.get("eventName"),date, params.get(ADDRES),  "0", "0");
+			event = new Event(params.get(EVENT_NAME), date, params.get(ADDRES),
+					"0", "0");
 		else
-			event = new Event(params.get("eventName"),date, params.get(ADDRES),  width, height);
+			event = new Event(params.get(EVENT_NAME), date, params.get(ADDRES),
+					width, height);
 
+		System.out.println("event with " + params.get(EVENT_NAME) + ",date "
+				+ date + ", address " + params.get(ADDRES) + ", width " + width
+				+ " " + height);
 		if (work.addEvent(event) == 0) {
-			work.makeInclude(params.get("login"), event.getNameEvent());
+			work.makeInclude(params.get(LOGIN), event.getNameEvent());
 			t.sendResponseHeaders(HTTP_OK_STATUS, EVENT_IS_OK.getBytes().length);
 			OutputStream os = t.getResponseBody();
 			os.write(EVENT_IS_OK.getBytes());

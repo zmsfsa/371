@@ -35,6 +35,7 @@ public class EventPage extends FragmentActivity {
     private static final String ADDR = "addr";
     private static final String EVENT_NAME = "eventName";
     private static final String FNAME = "fName";
+    private static final char PLUS = '+';
     private static final String LNAME = "lName";
     private static final String DATE = "date";
     private static final String IN = "in";
@@ -54,7 +55,7 @@ public class EventPage extends FragmentActivity {
     private String login;
     private String name;
     private ScrollView scUsers;
-    private ArrayList<String> userList = new ArrayList<String>();
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +66,8 @@ public class EventPage extends FragmentActivity {
         name = getIntent().getStringExtra(NAME);
         login = getIntent().getStringExtra(LOGIN);
         stPath = getIntent().getStringExtra(URI);
-        leftL = (LinearLayout)findViewById(R.id.leftL);
-        rightL = (LinearLayout)findViewById(R.id.rightL);
+        leftL = (LinearLayout) findViewById(R.id.leftL);
+        rightL = (LinearLayout) findViewById(R.id.rightL);
         tvDate = (TextView) findViewById(R.id.tvDate);
         scUsers = (ScrollView) findViewById(R.id.scUsers);
         queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
@@ -84,7 +85,7 @@ public class EventPage extends FragmentActivity {
                         else
                             ;
                     tvDate.setText(params.get(DATE));
-                    tvName.setText(params.get(EVENT_NAME));
+                    tvName.setText(params.get(noPros(EVENT_NAME)));
                     tvAddr.setText(params.get(ADDR));
                 }
 
@@ -106,7 +107,7 @@ public class EventPage extends FragmentActivity {
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("eventName", name);
+                params.put(EVENT_NAME, name);
                 params.put(LOGIN, login);
 
                 return params;
@@ -126,7 +127,7 @@ public class EventPage extends FragmentActivity {
         TextView tvAName = new TextView(this);
         LinearLayout.LayoutParams lParamsI = new LinearLayout.LayoutParams(param, 400);
         LinearLayout.LayoutParams lParamsT = new LinearLayout.LayoutParams(param, 70);
-        if(id != 0)
+        if (id != 0)
             continueLoading(id, ivEvent);
         tvAName.setText(uName);
         if (left) {
@@ -155,5 +156,13 @@ public class EventPage extends FragmentActivity {
                 });
         queue.add(request);
 
+    }
+
+    private String noPros(String in){
+        char[] c = in.toCharArray();
+        for(int i = 0; i < c.length; i++)
+            if (c[i] == PLUS)
+                c[i] = ' ';
+        return new String(c);
     }
 }

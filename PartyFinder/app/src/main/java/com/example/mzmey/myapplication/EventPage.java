@@ -1,6 +1,7 @@
 package com.example.mzmey.myapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -19,6 +21,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +40,6 @@ public class EventPage extends FragmentActivity {
     private static final String URI = "uri";
     private final String LOGIN = "login";
     private static final String MAKE_JOIN = "makeJoin";
-    private static final String CHECK_IN = "checkIn";
     private static final String DEL = "/";
     private static final String PHOTO = "photo";
     private static final String ADDR = "addr";
@@ -52,13 +58,21 @@ public class EventPage extends FragmentActivity {
     private String LOG = "my con";
     private TextView tvOut;
     private TextView tvAddr;
+    private Marker marker;
     private TextView tvDate;
+    private boolean invited = true;
     private String stPath;
-    private boolean left = true;
     private String login;
-    private LinearLayout leftL;
-    private LinearLayout rightL;
     private String name;
+    private boolean left = true;
+    private String height = null;
+    private String width = null;
+    private LinearLayout leftL;
+    private SupportMapFragment mapFragment;
+    private GoogleMap map;
+
+    private LinearLayout rightL;
+
     private ScrollView scUsers;
 
 
@@ -71,9 +85,7 @@ public class EventPage extends FragmentActivity {
         name = getIntent().getStringExtra(EVENT_NAME);
         login = getIntent().getStringExtra(LOGIN);
         stPath = getIntent().getStringExtra(URI);
-        checkOrJoin = (Button)findViewById(R.id.checkOrJoin);
-        leftL = (LinearLayout) findViewById(R.id.leftL);
-        rightL = (LinearLayout) findViewById(R.id.rightL);
+        checkOrJoin = (Button) findViewById(R.id.checkOrJoin);
         tvDate = (TextView) findViewById(R.id.tvDate);
         scUsers = (ScrollView) findViewById(R.id.scUsers);
         queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
@@ -82,25 +94,22 @@ public class EventPage extends FragmentActivity {
         StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                String[] letters = response.split(DEL);
-                for (String letter : letters) {
-                    Map<String, String> params = Mapper.queryToMap(letter);
-                    if (params.get(IN) != null)
-                        if (params.get(IN).equals("1"))
-                            cookView(params.get(LNAME) + " " + params.get(FNAME), Integer.parseInt(params.get(PHOTO)));
-                        else
-                            checkOrJoin.setText("Вступить");
-                    tvDate.setText(params.get(DATE));
-                    tvName.setText(params.get(noPros(EVENT_NAME)));
-                    tvAddr.setText(params.get(ADDR));
+                Map<String, String> params = Mapper.queryToMap(response);
+                if (params.get(IN).equals("1")) {
+                    if (!params.get("myWidth").equals("0") && !params.get("myHeight").equals("0")) {
+                        Intent checkInt = new Intent(getApplicationContext(), EventOld.class);
+                        checkInt.putExtra(LOGIN, login);
+                        checkInt.putExtra(URI, stPath);
+                        checkInt.putExtra(EVENT_NAME, name);
+                        startActivity(checkInt);
+                    }
+                } else {
+                    checkOrJoin.setText("Вступить");
+                    invited = false;
                 }
-
-                for (String letter : letters) {
-                    Map<String, String> params = Mapper.queryToMap(letter);
-                    if (params.get(IN) == null)
-                        cookView(params.get(LNAME) + " " + params.get(FNAME), Integer.parseInt(params.get(PHOTO)));
-                }
-                Log.d(LOG, "ready with onResponse");
+                tvDate.setText(params.get(DATE));
+                tvName.setText(params.get(noPros(EVENT_NAME)));
+                tvAddr.setText(params.get(ADDR));
 
             }
         }, new Response.ErrorListener() {
@@ -128,25 +137,6 @@ public class EventPage extends FragmentActivity {
         queue.add(sr);
     }
 
-    private void cookView(String uName, int id) {
-        ImageView ivEvent = new ImageView(this);
-        TextView tvAName = new TextView(this);
-        LinearLayout.LayoutParams lParamsI = new LinearLayout.LayoutParams(param, 400);
-        LinearLayout.LayoutParams lParamsT = new LinearLayout.LayoutParams(param, 70);
-        if (id != 0)
-            continueLoading(id, ivEvent);
-        tvAName.setText(uName);
-        if (left) {
-            leftL.addView(tvAName, lParamsT);
-            leftL.addView(ivEvent, lParamsI);
-            left = false;
-        } else {
-            rightL.addView(tvAName, lParamsT);
-            rightL.addView(ivEvent, lParamsI);
-            left = true;
-        }
-    }
-
     private void continueLoading(int id, final ImageView iv) {
         ImageRequest request = new ImageRequest(stPath + "/photo?" + id,
                 new Response.Listener<Bitmap>() {
@@ -164,52 +154,52 @@ public class EventPage extends FragmentActivity {
 
     }
 
-    public void onCheckOrJoin(View v){
-        if(checkOrJoin.getText().toString().equals("Вступить")){
-            checkOrJoin.setOnClickListener(new View.OnClickListener() {
+    public void onCheckOrJoin(View v) {
+        if (checkOrJoin.getText().toString().equals("Вступить")) {
+
+            StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
                 @Override
-                public void onClick(View v) {
-                    StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            if(response.equals("OK"))
-                                checkOrJoin.setText("Чек ин");
-                            }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            tvName.setText("Connecction problem, check your network");
-                        }
-                    }) {
-                        @Override
-                        protected Map<String, String> getParams() {
-
-                            Map<String, String> params = new HashMap<String, String>();
-                            params.put(EVENT_NAME, name);
-                            params.put(LOGIN, login);
-                            params.put(MAKE_JOIN, "YES");
-
-                            return params;
-                        }
-
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-                            Map<String, String> params = new HashMap<String, String>();
-                            return params;
-                        }
-                    };
-                    queue.add(sr);
+                public void onResponse(String response) {
+                    if (response.equals("OK"))
+                        checkOrJoin.setText("Чек ин");
                 }
-            });
-        }
-        else{
-            //TODO: code for Fedot
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    tvName.setText("Connecction problem, check your network");
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put(EVENT_NAME, name);
+                    params.put(LOGIN, login);
+                    params.put(MAKE_JOIN, "YES");
+
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    return params;
+                }
+            };
+            queue.add(sr);
+        } else {
+            Intent checkIntMake = new Intent(getApplicationContext(), MapsActivity.class);
+            checkIntMake.putExtra(LOGIN, login);
+            checkIntMake.putExtra(URI, stPath);
+            checkIntMake.putExtra(EVENT_NAME, name);
+            startActivity(checkIntMake);
         }
     }
 
-    private String noPros(String in){
+
+    private String noPros(String in) {
         char[] c = in.toCharArray();
-        for(int i = 0; i < c.length; i++)
+        for (int i = 0; i < c.length; i++)
             if (c[i] == PLUS)
                 c[i] = ' ';
         return new String(c);

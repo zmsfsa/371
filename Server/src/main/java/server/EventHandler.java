@@ -95,15 +95,18 @@ public class EventHandler implements HttpHandler {
 				Include checkIn = work.getInclude(params.get(LOGIN),
 						params.get(EVENT_NAME));
 
-				sendBuilder.append(WIDTH + DELIMETR + checkIn.getWidth() + AND
-						+ HEIGHT + DELIMETR + checkIn.getHeight() + AND
-						+ EVENT_NAME + DELIMETR + event.getNameEvent() + AND
-						+ ADDR + DELIMETR + event.getAddres() + AND + FNAME
-						+ DELIMETR + user.getFName() + AND + LNAME + DELIMETR
-						+ user.getLName() + AND + IN + DELIMETR + 1 + AND
-						+ PHOTO + DELIMETR + photoId + AND + DATE + DELIMETR
+				sendBuilder.append("myWidth" + DELIMETR + checkIn.getWidth()
+						+ AND + "myHeight" + DELIMETR + checkIn.getHeight()
+						+ AND + EVENT_NAME + DELIMETR + event.getNameEvent()
+						+ AND + ADDR + DELIMETR + event.getAddres() + AND + IN
+						+ DELIMETR + 1 + AND + DATE + DELIMETR
 						+ calendar.get(Calendar.DATE) + DATE_DELIMETR + month
-						+ DATE_DELIMETR + calendar.get(Calendar.YEAR) + DEL);
+						+ DATE_DELIMETR + calendar.get(Calendar.YEAR) + AND
+						+ "coodrinates" + DELIMETR);
+				for (Include a : checkList) {
+					if (idUser != a.getIdUser())
+							sendBuilder.append(a.getWidth() + "-" + a.getHeight()  + " ");
+				}
 			} else {
 				sendBuilder.append(EVENT_NAME + DELIMETR + event.getNameEvent()
 						+ AND + FNAME + DELIMETR + user.getFName() + AND
@@ -113,14 +116,6 @@ public class EventHandler implements HttpHandler {
 						+ DATE_DELIMETR + calendar.get(Calendar.YEAR) + DEL);
 			}
 
-			for (Include a : checkList) {
-				User u = work.getUser(a.getIdUser());
-				if (u != null)
-					if (!u.getLogin().equals(params.get(LOGIN)))
-						sendBuilder.append(PHOTO + DELIMETR + u.getPhotoId()
-								+ AND + FNAME + DELIMETR + u.getFName() + AND
-								+ LNAME + DELIMETR + u.getLName() + DEL);
-			}
 			String send = new String(sendBuilder);
 
 			System.out.println("\n" + send + "\n");

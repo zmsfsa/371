@@ -74,6 +74,13 @@
             android:id="@+id/tvDate" />
     </LinearLayout>
 
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="320dp" >
+    </fragment>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
@@ -100,7 +107,7 @@
                 android:text="Участники"
                 android:background="@drawable/gradient"
                 android:id="@+id/button2"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="5dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -116,7 +123,7 @@
                 android:text="Альбом"
                 android:background="@drawable/gradient"
                 android:id="@+id/button5"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="5dp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -126,17 +133,6 @@
         android:layout_height="fill_parent"
         android:gravity="center">
 
-        <Button
-            android:id="@+id/checkOrJoin"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:onClick="onCheckOrJoin"
-            android:text="@string/check_in"
-            android:textSize="25dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:background="@drawable/roundedbutton"
-            android:textColor="#fff"
-            android:clickable="false" />
     </LinearLayout>
 
 </LinearLayout>

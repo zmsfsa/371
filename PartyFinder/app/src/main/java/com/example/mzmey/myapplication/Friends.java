@@ -53,8 +53,8 @@ public class Friends extends Fragment implements View.OnClickListener{
         btUpd.setOnClickListener(this);
         queue = MyQueue.getInstance(rootview.getContext()).getQueue();
         Intent intent = getActivity().getIntent();
-        login = getActivity().getIntent().getStringExtra(LOGIN);
-        stPath = getActivity().getIntent().getStringExtra(URI);
+        login = intent.getStringExtra(LOGIN);
+        stPath = intent.getStringExtra(URI);
 
         String uri = stPath + URI_ADD + login;
         Log.d(LOG, "uri = " + uri);
@@ -101,6 +101,8 @@ public class Friends extends Fragment implements View.OnClickListener{
         LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(
                 param, 400);
         tvName.setText(lName + " " + fName);
+        LinearLayout oneL;
+
         leftL.addView(ivFace, lParams);
         rightL.addView(tvName, lParams);
     }

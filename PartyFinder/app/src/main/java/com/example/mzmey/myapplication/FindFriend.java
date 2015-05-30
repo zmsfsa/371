@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.LayoutDirection;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -67,11 +71,11 @@ public class FindFriend extends Activity implements View.OnClickListener {
     private void cookView(String uName, int id, String login) {
         ImageView ivFace = new ImageView(this);
         TextView tvUName = new TextView(this);
-        LinearLayout.LayoutParams lParamsI = new LinearLayout.LayoutParams(param, 400);
-        LinearLayout.LayoutParams lParamsT = new LinearLayout.LayoutParams(param, 400);
+        LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(param, 300);
         if (id != 0)
             continueLoading(id, ivFace);
         tvUName.setText(uName);
+
         ivFace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,9 +83,12 @@ public class FindFriend extends Activity implements View.OnClickListener {
             }
         });
 
-        leftL.addView(ivFace, lParamsI);
-        rightL.addView(tvUName, lParamsT);
+        tvUName.setGravity(Gravity.CENTER_VERTICAL);
+        tvUName.setTextSize(20);
+        tvUName.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
 
+        leftL.addView(ivFace, lParams);
+        rightL.addView(tvUName, lParams);
     }
 
     @Override

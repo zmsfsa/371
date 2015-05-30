@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.view.MarginLayoutParamsCompat;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,12 +68,12 @@ public class FindParty extends Activity {
             StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    String users[] = response.split(DEL);
+                    String events[] = response.split(DEL);
                     if (response.length() == 0)
                         cookView("Ничего не найдено", 0);
                     else
-                        for (String user : users) {
-                            Map<String, String> params = Mapper.queryToMap(user);
+                        for (String event : events) {
+                            Map<String, String> params = Mapper.queryToMap(event);
                             cookView(params.get(EVENT_NAME), Integer.parseInt(params.get(PHOTO)));
                         }
                 }
@@ -104,6 +107,8 @@ public class FindParty extends Activity {
         ImageView ivEvent = new ImageView(this);
         TextView tvEName = new TextView(this);
         LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(param, 400);
+        lParams.gravity = Gravity.CENTER_VERTICAL;
+        lParams.gravity = Gravity.CENTER_HORIZONTAL;
         if (id != 0)
             continueLoading(id, ivEvent);
         tvEName.setText(noPros(eName));
@@ -113,9 +118,13 @@ public class FindParty extends Activity {
                 Intent otherIntent = new Intent(v.getContext(), OtherPage.class);
             }
         });
+        tvEName.setGravity(Gravity.CENTER_VERTICAL);
+        tvEName.setTextSize(20);
+        tvEName.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
 
         leftL.addView(ivEvent, lParams);
         rightL.addView(tvEName, lParams);
+
 
     }
 

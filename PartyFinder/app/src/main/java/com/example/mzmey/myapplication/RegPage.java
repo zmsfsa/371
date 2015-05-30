@@ -39,7 +39,7 @@ public class RegPage extends ActionBarActivity {
     private EditText edLName;
     private EditText edPhone;
     private EditText edDate;
-    private String uri = "http://10.55.121.96:8080/reg";
+    private String uri = "http://10.55.86.234:8080/reg";
     private RequestQueue queue;
 
     @Override

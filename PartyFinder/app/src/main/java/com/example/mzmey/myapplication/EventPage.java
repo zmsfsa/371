@@ -49,15 +49,15 @@ public class EventPage extends FragmentActivity {
     private TextView tvName;
     private Button checkOrJoin;
     private String uri;
-    private LinearLayout leftL;
     private String LOG = "my con";
-    private LinearLayout rightL;
     private TextView tvOut;
     private TextView tvAddr;
     private TextView tvDate;
     private String stPath;
     private boolean left = true;
     private String login;
+    private LinearLayout leftL;
+    private LinearLayout rightL;
     private String name;
     private ScrollView scUsers;
 
@@ -203,7 +203,7 @@ public class EventPage extends FragmentActivity {
             });
         }
         else{
-            //TODO: cod for Fedot
+            //TODO: code for Fedot
         }
     }
 

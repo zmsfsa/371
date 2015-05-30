@@ -17,7 +17,7 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageButton2"
+                android:id="@+id/ibFndUs"
                 android:layout_gravity="right"
                 android:background="@mipmap/add_user"
                 android:onClick="onGoOn" />
@@ -41,7 +41,7 @@
         <ImageButton
             android:layout_width="115dp"
             android:layout_height="115dp"
-            android:id="@+id/imageButton"
+            android:id="@+id/ibFndEvnt"
             android:background="@mipmap/group58"
             android:layout_marginTop="10dp" />
 

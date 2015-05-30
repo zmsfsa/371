@@ -27,6 +27,7 @@ public class LogHandler implements HttpHandler {
 	private static final String MY_FRIENDS = "/friends";
 	private static final String MY_PAGE = "/myPage";
 	private static final String PHOTO = "/photo";
+	private static final String SEARCH_CONTEXT = "/search";
 
 	private static final int HTTP_OK_STATUS = 200;
 	private static final String LOG_IS_OK = "continue";
@@ -61,7 +62,6 @@ public class LogHandler implements HttpHandler {
 			myServ.httpServer.createContext(PHOTO, new ImageSender());
 			myServ.httpServer.createContext(EVENT_CREATE + login,
 					new CreateEventHandler());
-			System.out.println("created context " + EVENT_CREATE + login);
 			myServ.httpServer.createContext(MY_FRIENDS + login,
 					new MyFriendsHandler());
 			myServ.httpServer.createContext(MY_PAGE + login,
@@ -70,6 +70,8 @@ public class LogHandler implements HttpHandler {
 					new EventHandler());
 			myServ.httpServer.createContext(EVENT_LIST + login,
 					new EventListHandler());
+			myServ.httpServer.createContext(SEARCH_CONTEXT + login,
+					new SearchPageHandler());
 		} else {
 
 			t.sendResponseHeaders(HTTP_OK_STATUS, WRONG_PWD.getBytes().length);

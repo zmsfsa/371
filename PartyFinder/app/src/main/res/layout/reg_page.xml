@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/reg_page"
-    android:background="#1faee9">
+    android:layout_height="wrap_content"
+    android:id="@+id/id1"
+    android:background="#ffffffff">
+
+    <ImageView
+        android:layout_width="225dp"
+        android:layout_height="225dp"
+        android:id="@+id/imageView3"
+        android:layout_gravity="center_horizontal"
+        android:background="@mipmap/bent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Введите необходимую информацию для входа"
+        android:id="@+id/textView"
+        android:layout_marginLeft="40dp" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/edLog"
-        android:hint="login"
+        android:hint="Login"
         android:layout_gravity="center_horizontal"
         android:inputType="text" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="password"
+        android:hint="Password"
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/edPwd"
@@ -27,7 +41,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="first name"
+        android:hint="First name"
         android:ems="10"
         android:id="@+id/edFName"
         android:layout_gravity="center_horizontal"
@@ -37,7 +51,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edLName"
-        android:hint="llast name"
+        android:hint="Last name"
         android:layout_gravity="center_horizontal"
         android:inputType="textPersonName" />
 
@@ -50,36 +64,20 @@
         android:layout_gravity="center_horizontal"
         android:hint="Phone" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/edDate" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Введите необходимую информацию для входа"
-        android:id="@+id/textView"
-        android:layout_gravity="right"
-        android:layout_marginRight="30dp" />
-
     <Button
         android:layout_width=" 125dp"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:text="Регистрация"
         android:id="@+id/btReg"
         android:layout_gravity="center_horizontal"
         android:onClick="ClickReg"
-        android:background="#2b75d6" />
+        android:background="#2b75d6"
+        android:textColor="#ffffffff" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="New Text"
         android:id="@+id/tvOut"
-        android:background="#d7d7d7"
         android:layout_marginTop="10dp" />
 
 </LinearLayout>

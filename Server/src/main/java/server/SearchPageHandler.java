@@ -41,14 +41,24 @@ public class SearchPageHandler implements HttpHandler {
 		if (params.get(FNAME) != null) {
 			StringBuilder sendBuild = new StringBuilder("");
 			List<User> usL = work.findUser();
-			ArrayList<User> result = new ArrayList<User>();
 			String fname = params.get(FNAME);
 			String lname = params.get(LNAME);
+			System.out.println("fname = " + fname + ", lname = " + lname);
 			for (User u : usL) {
-				if ((u.getFName().equals(fname))
-						|| (u.getLName().equals(fname))
-						|| (u.getFName().equals(lname))
-						|| (u.getLName().equals(lname)))
+				if (!fname.equals("") && !lname.equals("")) {
+					if ((u.getFName().contains(fname))
+							|| (u.getLName().contains(lname)))
+						sendBuild.append(LOGIN + DELIMETR + u.getLogin() + AND
+								+ FNAME + DELIMETR + u.getFName() + AND + LNAME
+								+ DELIMETR + u.getLName() + AND + PHOTO
+								+ DELIMETR + u.getPhotoId() + DEL);
+				} else if (!fname.equals("")) {
+					if (u.getFName().contains(fname))
+						sendBuild.append(LOGIN + DELIMETR + u.getLogin() + AND
+								+ FNAME + DELIMETR + u.getFName() + AND + LNAME
+								+ DELIMETR + u.getLName() + AND + PHOTO
+								+ DELIMETR + u.getPhotoId() + DEL);
+				} else if (u.getLName().contains(lname))
 					sendBuild.append(LOGIN + DELIMETR + u.getLogin() + AND
 							+ FNAME + DELIMETR + u.getFName() + AND + LNAME
 							+ DELIMETR + u.getLName() + AND + PHOTO + DELIMETR
@@ -59,11 +69,11 @@ public class SearchPageHandler implements HttpHandler {
 			OutputStream os = t.getResponseBody();
 			os.write(send.getBytes());
 			os.close();
+			System.out.println("sent " + send);
 			return;
 		} else {
 			StringBuilder sendBuild = new StringBuilder("");
 			List<Event> evL = work.findEvent();
-			ArrayList<Event> result = new ArrayList<Event>();
 			String eName = params.get(EVENT_NAME);
 			for (Event e : evL) {
 				if (e.getNameEvent().contains(eName))
@@ -79,5 +89,4 @@ public class SearchPageHandler implements HttpHandler {
 		}
 
 	}
-
 }

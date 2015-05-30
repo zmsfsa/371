@@ -33,7 +33,6 @@ public class EventCreate extends FragmentActivity {
     private static final String URI_ADD = "/event/create";
     private static final String ADDRES = "addres";
     private static final String EVENT_NAME = "eventName";
-    private static final char PLUS = '+';
     private static final String DATE_DELIMETR = "-";
     private RequestQueue queue;
     private StringRequest sr;
@@ -136,13 +135,5 @@ public class EventCreate extends FragmentActivity {
         intent.putExtra(EVENT_NAME, edEvent.getText().toString());
         intent.putExtra(URI, stPath);
         startActivity(intent);
-    }
-
-    private String noPros(String in) {
-        char[] c = in.toCharArray();
-        for (int i = 0; i < c.length; i++)
-            if (c[i] == PLUS)
-                c[i] = ' ';
-        return new String(c);
     }
 }

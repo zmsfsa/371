@@ -63,15 +63,17 @@ public class MyPage extends Fragment implements View.OnClickListener {
     private static final String LNAME = "lName";
     private static final String BIRTH = "birth";
     private static final String PHONE = "phone";
-    private static final String ALBUM = "album";
     private static final String URI_ADD = "/myPage";
+    private static final String EVENT_NAME = "eventName";
     private static final String ADD_PHOTO = "addPhoto";
     private int param = LinearLayout.LayoutParams.MATCH_PARENT;
     private static final String URI = "uri";
     private String uri;
     private LinearLayout leftL;
     private LinearLayout rightL;
+    private TextView tvBirth;
     private RequestQueue queue;
+    StringRequest myPageSr;
     private View rootview;
     private String login;
     private String LOG = "my con";
@@ -97,18 +99,20 @@ public class MyPage extends Fragment implements View.OnClickListener {
         ivFace = (ImageView) rootview.findViewById(R.id.ivFace);
         btAdd = (Button) rootview.findViewById(R.id.btAdd);
         btAdd.setOnClickListener(this);
+        tvBirth = (TextView) rootview.findViewById(R.id.tvBirth);
         login = intent.getStringExtra(LOGIN);
         stPath = intent.getStringExtra(URI);
         uri = stPath + URI_ADD + login;
         queue = MyQueue.getInstance(rootview.getContext().getApplicationContext()).getQueue();
 
 
-        StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
+        myPageSr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Map<String, String> params = Mapper.queryToMap(response);
                 tvName.setText(params.get(LNAME) + " " + params.get(FNAME));
                 tvPhone.setText(params.get(PHONE));
+                tvBirth.setText(params.get(BIRTH));
                 Log.d("my con", "events = " + params.get(EVENTS));
                 if (params.get(EVENTS) != null)
                     if (!params.get(EVENTS).equals("")) {
@@ -147,27 +151,29 @@ public class MyPage extends Fragment implements View.OnClickListener {
                 return new HashMap<String, String>();
             }
         };
-        String f = null;
 
-        try {
-            f = new String(sr.getBody());
-        } catch (AuthFailureError authFailureError) {
-            authFailureError.printStackTrace();
-        }
-        Log.d(LOG, f);
-        queue.add(sr);
+        queue.add(myPageSr);
 
 
         return rootview;
     }
 
-    private void cookView(String AName, int id) {
+    private void cookView(final String aName, int id) {
         ImageView ivEvent = new ImageView(this.getActivity());
         TextView tvAName = new TextView(this.getActivity());
         LinearLayout.LayoutParams lParamsI = new LinearLayout.LayoutParams(param, 400);
         LinearLayout.LayoutParams lParamsT = new LinearLayout.LayoutParams(param, 70);
         continueLoading(id, ivEvent);
-        tvAName.setText(AName);
+        tvAName.setText(aName);
+        ivEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent albumInt = new Intent(getActivity(), Album.class);
+                albumInt.putExtra(LOGIN, login);
+                albumInt.putExtra(EVENT_NAME, aName);
+                albumInt.putExtra(URI, stPath);
+            }
+        });
         if (left) {
             leftL.addView(tvAName, lParamsT);
             leftL.addView(ivEvent, lParamsI);
@@ -190,10 +196,6 @@ public class MyPage extends Fragment implements View.OnClickListener {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
         return bos.toByteArray();
-    }
-
-    public Bitmap getBitmapfromByteArray(byte[] bitmap) {
-        return BitmapFactory.decodeByteArray(bitmap, 0, bitmap.length);
     }
 
     @Override
@@ -335,6 +337,11 @@ public class MyPage extends Fragment implements View.OnClickListener {
             return null;
         }
 
+        @Override
+        protected void onPostExecute(Void param) {
+            super.onPostExecute(param);
+
+        }
 
     }
 

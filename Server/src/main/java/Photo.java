@@ -40,6 +40,10 @@ public class Photo {
 		return this.idEvent;
 	}
 	
+	public int getPhotoId(){
+		return this.idPhoto;
+	}
+	
 	public void setPhotoFile(byte[] photo){
 		this.photoFile = photo;
 	}

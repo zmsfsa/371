@@ -40,16 +40,11 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
     private static final String URI = "uri";
     private final String LOGIN = "login";
     private static final String MAKE_JOIN = "makeJoin";
-    private static final String DEL = "/";
-    private static final String PHOTO = "photo";
     private static final String ADDR = "addr";
     private static final String EVENT_NAME = "eventName";
-    private static final String FNAME = "fName";
     private static final char PLUS = '+';
-    private static final String LNAME = "lName";
     private static final String DATE = "date";
     private static final String IN = "in";
-    private int param = LinearLayout.LayoutParams.MATCH_PARENT;
     private static String URI_ADD = "/event";
     private RequestQueue queue;
     private TextView tvName;
@@ -58,7 +53,6 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
     private String LOG = "my con";
     private TextView tvOut;
     private TextView tvAddr;
-    private Marker marker;
     private TextView tvDate;
     private boolean invited = true;
     private String stPath;

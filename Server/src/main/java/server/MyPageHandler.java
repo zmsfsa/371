@@ -27,11 +27,9 @@ public class MyPageHandler implements HttpHandler {
 	private static final String AND = "&";
 	private static final String ADD_PHOTO = "addPhoto";
 	private static final String BIRTH = "birth";
-	private static final String DEL = "/";
 	private static final String LOGIN = "login";
 	private static final String EVENTS = "events";
 	private static final int HTTP_OK_STATUS = 200;
-	private static final String PHOTO_ID = "photo_id";
 
 	@Override
 	public void handle(HttpExchange t) throws IOException {

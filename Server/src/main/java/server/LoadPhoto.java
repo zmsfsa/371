@@ -42,6 +42,9 @@ public class LoadPhoto implements Runnable {
 			dis.close();
 			in.close();
 
+			Photo addPhoto = new Photo(data, 0);
+			work.addPhoto(addPhoto, login);
+
 			System.out.println("data length = " + data.length);
 		} catch (IOException e) {
 
@@ -53,9 +56,6 @@ public class LoadPhoto implements Runnable {
 			} catch (IOException e) {
 			}
 		}
-
-		Photo addPhoto = new Photo(data, 0);
-		work.addPhoto(addPhoto, login);
 
 	}
 }

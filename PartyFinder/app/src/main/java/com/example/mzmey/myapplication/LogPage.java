@@ -46,7 +46,7 @@ public class LogPage extends ActionBarActivity {
     public void onClick(View v){
 
         if ((edLog.getText().toString().length() == 0) || (edPwd.getText().toString().length() == 0))
-            tvOut.setText("wrong parametrs");
+            tvOut.setText("Введите нормальные данные");
         else{
 
 

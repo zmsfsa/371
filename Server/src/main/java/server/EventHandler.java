@@ -42,6 +42,8 @@ public class EventHandler implements HttpHandler {
 
 	@Override
 	public void handle(HttpExchange t) throws IOException {
+		System.out
+		.println("===================================================================================================================================================================================================");
 
 		System.out.println("EventHandler");
 		InputStream is = t.getRequestBody();
@@ -82,6 +84,7 @@ public class EventHandler implements HttpHandler {
 				return;
 			}
 			// to show page
+			System.out.println("showing page");
 			Calendar calendar = event.getDateEvent();
 			int month = calendar.get(Calendar.MONTH) + 1;
 			StringBuilder sendBuilder = new StringBuilder("");

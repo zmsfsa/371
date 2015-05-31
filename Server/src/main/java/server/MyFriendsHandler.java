@@ -25,6 +25,8 @@ public class MyFriendsHandler implements HttpHandler {
 
 	@Override
 	public void handle(HttpExchange t) throws IOException {
+		System.out
+		.println("===================================================================================================================================================================================================");
 
 		System.out.println("MyFriendsHandler");
 		InputStream is = t.getRequestBody();
@@ -53,6 +55,7 @@ public class MyFriendsHandler implements HttpHandler {
 			OutputStream os = t.getResponseBody();
 			os.write(send.getBytes());
 			os.close();
+			System.out.println("sent friends");
 		}
 	}
 }

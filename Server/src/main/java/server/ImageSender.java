@@ -25,7 +25,7 @@ public class ImageSender implements HttpHandler {
 		OutputStream os = t.getResponseBody();
 		os.write(photo);
 		os.close();
-		
+		System.out.println("sent photo " + id);
 	}
 	
 

@@ -58,7 +58,7 @@ public class MyPageHandler implements HttpHandler {
 			OutputStream os = t.getResponseBody();
 			os.write(res.getBytes());
 			os.close();
-			new Thread(new LoadPhoto(port, params.get(LOGIN))).start();
+			new Thread(new LoadPhoto(port, params.get(LOGIN), true)).start();
 
 		} else {
 			int photoId;
@@ -66,7 +66,6 @@ public class MyPageHandler implements HttpHandler {
 
 			photoId = user.getPhotoId();
 			Calendar calendar = user.getBirth();
-			System.out.println("before calendar = " + calendar);
 			if (calendar != null) {
 				int month = calendar.get(Calendar.MONTH) + 1;
 				sendBuild.append(BIRTH + DELIMETR + calendar.get(Calendar.DATE)
@@ -98,7 +97,7 @@ public class MyPageHandler implements HttpHandler {
 			OutputStream os = t.getResponseBody();
 			os.write(send.getBytes());
 			os.close();
-			System.out.println("MyPage is over");
+			System.out.println("MyPage sent");
 
 		}
 	}

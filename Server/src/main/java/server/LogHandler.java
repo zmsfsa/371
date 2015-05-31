@@ -25,7 +25,9 @@ public class LogHandler implements HttpHandler {
 	private static final String EVENT_CONTEXT = "/event";
 	private static final String EVENT_LIST = "/event_list";
 	private static final String MY_FRIENDS = "/friends";
+	private static final String ALBUM_CONTEXT = "/album";
 	private static final String MY_PAGE = "/myPage";
+	private static final String OTHER_PAGE = "/otherPage";
 	private static final String PHOTO = "/photo";
 	private static final String SEARCH_CONTEXT = "/search";
 
@@ -36,6 +38,8 @@ public class LogHandler implements HttpHandler {
 
 	@Override
 	public void handle(HttpExchange t) throws IOException {
+		System.out
+		.println("===================================================================================================================================================================================================");
 
 		System.out.println("someone logging");
 		InputStream is = t.getRequestBody();
@@ -72,6 +76,11 @@ public class LogHandler implements HttpHandler {
 					new EventListHandler());
 			myServ.httpServer.createContext(SEARCH_CONTEXT + login,
 					new SearchPageHandler());
+			myServ.httpServer.createContext(ALBUM_CONTEXT + login,
+					new AlbumHandler());
+			myServ.httpServer.createContext(OTHER_PAGE + login,
+					new OtherPageHandler());
+			System.out.println("logged in");
 		} else {
 
 			t.sendResponseHeaders(HTTP_OK_STATUS, WRONG_PWD.getBytes().length);

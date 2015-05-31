@@ -513,7 +513,22 @@ public class WorkSql {
 		}
 		return result;
 	}
-
+	
+	public int addPhoto(Photo photo) {
+		int result;
+		Session session = InitHibernate.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			result = (int) session.save(photo);
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			System.out.println("HELLO I AM A PROBLEM FROM PHOTOS");
+			e.printStackTrace();
+			return -1;
+		}
+		session.getTransaction().commit();
+		return 0;
+	}
 	public Photo getPhoto(int id) {
 		Photo photo;
 		Session session = InitHibernate.getSessionFactory().getCurrentSession();

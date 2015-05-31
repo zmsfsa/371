@@ -57,6 +57,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
 
     private static final String PHOTO = "photo";
     private static final String EVENTS = "events";
+    private static final int ROTATE = 2;
     private static final String LOGIN = "login";
     private static final int GALLERY_REQUEST = 1;
     private static final String FNAME = "fName";
@@ -111,6 +112,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
             public void onResponse(String response) {
                 Map<String, String> params = Mapper.queryToMap(response);
                 tvName.setText(params.get(LNAME) + " " + params.get(FNAME));
+                tvName.setTextSize(33);
                 tvPhone.setText(params.get(PHONE));
                 tvBirth.setText(params.get(BIRTH));
                 Log.d("my con", "events = " + params.get(EVENTS));
@@ -172,8 +174,12 @@ public class MyPage extends Fragment implements View.OnClickListener {
                 albumInt.putExtra(LOGIN, login);
                 albumInt.putExtra(EVENT_NAME, aName);
                 albumInt.putExtra(URI, stPath);
+                startActivity(albumInt);
             }
         });
+
+        tvName.setTextSize(18);
+        ivEvent.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
         if (left) {
             leftL.addView(tvAName, lParamsT);
             leftL.addView(ivEvent, lParamsI);
@@ -196,6 +202,10 @@ public class MyPage extends Fragment implements View.OnClickListener {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
         return bos.toByteArray();
+    }
+
+    public Bitmap getBitmapfromByteArray(byte[] bitmap) {
+        return BitmapFactory.decodeByteArray(bitmap, 0, bitmap.length);
     }
 
     @Override
@@ -229,8 +239,19 @@ public class MyPage extends Fragment implements View.OnClickListener {
                     Log.d("my connection", String.format("bitmap size = %sx%s, byteCount = %s",
                             sendB.getWidth(), sendB.getHeight(),
                             (int) (sendB.getByteCount() / 1024)));
+                    Intent rotateIntent = new Intent(getActivity(), RotateImage.class);
+                    rotateIntent.putExtra("BitmapImage", sendB);
+                    startActivityForResult(rotateIntent, ROTATE);
+                }
+                break;
+            case ROTATE:
+                if (resultCode == getActivity().RESULT_OK) {
+                    Intent rotateIntent = imageReturnedIntent;
+                    Bitmap sendB = (Bitmap) rotateIntent.getParcelableExtra("BitmapImage");
+                    Log.d(LOG, "sendB is " + sendB);
                     continueSending(sendB);
                 }
+                break;
         }
     }
 

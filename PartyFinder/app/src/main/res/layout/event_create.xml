@@ -37,13 +37,6 @@
             android:id="@+id/edEvent"
             android:hint="Введите название события" />
 
-        <fragment
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:id="@+id/eventMap"
-            android:layout_gravity="center" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,6 +44,13 @@
             android:gravity="center"
             android:text="Выберите на карте примерное место события"
             android:id="@+id/textView5" />
+
+        <fragment
+            android:layout_width="fill_parent"
+            android:layout_height="260dp"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:id="@+id/eventMap"
+            android:layout_gravity="center" />
 
 
         <Button

@@ -32,6 +32,8 @@ public class EventListHandler implements HttpHandler {
 
 	@Override
 	public void handle(HttpExchange t) throws IOException {
+		System.out
+		.println("===================================================================================================================================================================================================");
 
 		System.out.println("EventListHandler");
 		InputStream is = t.getRequestBody();

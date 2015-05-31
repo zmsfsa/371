@@ -70,6 +70,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
         login = getIntent().getStringExtra(LOGIN);
         stPath = getIntent().getStringExtra(URI);
         checkOrJoin = (Button) findViewById(R.id.checkOrJoin);
+        checkOrJoin.setOnClickListener(this);
         tvDate = (TextView) findViewById(R.id.tvDate);
         queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
 

@@ -23,8 +23,10 @@ public class CreateEventHandler implements HttpHandler {
 	private static final String EVENT_NAME = "eventName";
 
 	public void handle(HttpExchange t) throws IOException {
+		System.out
+		.println("===================================================================================================================================================================================================");
 
-		System.out.println("\n\n\nCreateEventHandler\n\n");
+		System.out.println("CreateEventHandler");
 		InputStream is = t.getRequestBody();
 		byte[] b = new byte[is.available()];
 		is.read(b);

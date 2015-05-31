@@ -6,21 +6,28 @@ import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import main.java.Event;
 import main.java.Photo;
 import main.java.WorkSql;
 
 public class LoadPhoto implements Runnable {
 
 	private int port;
-	private String login;
+	private String thingName;
+	private boolean ava;
 
-	public LoadPhoto(int port, String login) {
+	public LoadPhoto(int port, String name, boolean ava) {
 		this.port = port;
-		this.login = login;
+		this.thingName = name;
+		this.ava = ava;
 	}
 
 	@Override
 	public void run() {
+		System.out
+		.println("===================================================================================================================================================================================================");
+
+		System.out.println("Load photo");
 		WorkSql work = new WorkSql();
 		ServerSocket server = null;
 		Socket socket = null;
@@ -42,17 +49,27 @@ public class LoadPhoto implements Runnable {
 			dis.close();
 			in.close();
 
-			Photo addPhoto = new Photo(data, 0);
-			work.addPhoto(addPhoto, login);
+			if (ava == false) {
+				Event event = work.getEventByName(thingName);
+				Photo addPhoto = null;
+				if (event != null)
+					addPhoto = new Photo(data, event.getIdEvent());
+				if(addPhoto != null)
+					work.addPhoto(addPhoto);
+			} else {
+				Photo addPhoto = new Photo(data, 0);
+				work.addPhoto(addPhoto, thingName);
+			}
 
 			System.out.println("data length = " + data.length);
 		} catch (IOException e) {
+			System.out.println("exception in loading image " + e.getMessage());
 
 		} finally {
 			try {
 				socket.close();
 				server.close();
-				System.out.println("closed recieve sockets");
+				System.out.println("closed load sockets");
 			} catch (IOException e) {
 			}
 		}

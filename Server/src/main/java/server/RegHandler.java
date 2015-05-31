@@ -17,14 +17,16 @@ public class RegHandler implements HttpHandler {
 
 	private static final int HTTP_OK_STATUS = 200;
 	private static final String REG_IS_OK = "OK";
-	private static final String REG_IS_BAD = "User with such login is already exists";
+	private static final String REG_IS_BAD = "Такой пользователь уже существует";
 	private static final String DATE = "date";
 	private static final String DATE_DELIMETR = "-";
 	private static final String DELIMETR = "=";
 
 	@Override
 	public void handle(HttpExchange t) throws IOException {
-		
+		System.out
+		.println("===================================================================================================================================================================================================");
+
 		System.out.println("someone registrating");
 		
 		InputStream is = t.getRequestBody();
@@ -51,12 +53,14 @@ public class RegHandler implements HttpHandler {
 			OutputStream os = t.getResponseBody();
 			os.write(REG_IS_BAD.getBytes());
 			os.close();
+			System.out.println(REG_IS_BAD);
 		} else{
 			t.sendResponseHeaders(HTTP_OK_STATUS,
 					REG_IS_OK.getBytes().length);
 			OutputStream os = t.getResponseBody();
 			os.write(REG_IS_OK.getBytes());
 			os.close();
+			System.out.println("registrated");
 		}
 
 	}

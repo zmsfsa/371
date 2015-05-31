@@ -3,9 +3,7 @@ package com.example.mzmey.myapplication;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -22,15 +20,8 @@ import java.util.Map;
  */
 public class OtherPage extends Activity {
     private static final String LOGIN = "login";
-    private static final String DEL = "/";
-    private int param = LinearLayout.LayoutParams.MATCH_PARENT;
-    private static final String FNAME = "fName";
-    private static final String LNAME = "lName";
     private static final String OTHER_LOGIN = "otherLogin";
     private static final String URI = "uri";
-    private String uri;
-    private RequestQueue queue;
-    private StringRequest sr;
     private String login;
     private String otherLogin;
 
@@ -41,11 +32,12 @@ public class OtherPage extends Activity {
         Intent intent = getIntent();
         login = intent.getStringExtra(LOGIN);
         otherLogin = intent.getStringExtra(OTHER_LOGIN);
-        uri = intent.getStringExtra(URI);
+        String uri = intent.getStringExtra(URI);
 
-        queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
 
-        sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
+        RequestQueue queue = MyQueue.getInstance(this.getApplicationContext()).getQueue();
+
+        StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 

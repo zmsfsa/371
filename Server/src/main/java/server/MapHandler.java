@@ -15,11 +15,10 @@ public class MapHandler implements HttpHandler {
 	
 	@Override
 	public void handle(HttpExchange t) throws IOException {
+		System.out
+		.println("===================================================================================================================================================================================================");
 		
-		System.out.println("someone posted");
-		
-		System.out.println("method = " + t.getRequestMethod());
-		System.out.println("length - " + t.getRequestBody().available());
+		System.out.println("MapHandler");
 		Map<String,String> params = new HashMap<String, String>();
 		InputStream is = t.getRequestBody();
 		
@@ -33,6 +32,7 @@ public class MapHandler implements HttpHandler {
 		OutputStream os = t.getResponseBody();
 		os.write(a.getBytes());
 		os.close();
+		
 		
 	}
 }

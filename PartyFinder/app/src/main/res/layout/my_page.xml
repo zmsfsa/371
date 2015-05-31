@@ -11,10 +11,11 @@ android:gravity="center_horizontal">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="150dp"
+        android:background="#fe424243">
 
         <ImageView
-            android:layout_width="150dp"
+            android:layout_width="130dp"
             android:layout_height="150dp"
             android:id="@+id/ivFace"
             android:focusableInTouchMode="false" />
@@ -27,15 +28,16 @@ android:gravity="center_horizontal">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ваше имя"
-                android:textSize="20dp"
-                android:height="40dp"
-                android:id="@+id/tvName" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/tvName"
+                android:textSize="30sp"
+                android:text="Имя"
+                android:textColor="#feffffff" />
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/llllllllllllll"
                 android:baselineAligned="false">
 
@@ -43,14 +45,15 @@ android:gravity="center_horizontal">
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="2">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Телефон:"
-                        android:textSize="15dp"
-                        android:id="@+id/tvPhoned" />
+                        android:textSize="16dp"
+                        android:id="@+id/tvPhoned"
+                        android:textColor="#fefdfdfd" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -60,10 +63,11 @@ android:gravity="center_horizontal">
                     android:layout_weight="1">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/tvPhone"
-                        android:layout_gravity="right" />
+                        android:textSize="16dp"
+                        android:textColor="#feffffff" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -77,22 +81,28 @@ android:gravity="center_horizontal">
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="День рождения:"
-                    android:textSize="15dp"
+                    android:textSize="17dp"
                     android:id="@+id/tvBirth1"
-                    android:autoText="false" />
+                    android:autoText="false"
+                    android:textColor="#fef9f9f9" />
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvBirth" />
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvBirth"
+                    android:textSize="17dp"
+                    android:textColor="#feffffff" />
 
             </LinearLayout>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="140dp"
+                android:layout_height="50dp"
                 android:text="Изменить аватар"
-                android:id="@+id/btAdd" />
+                android:id="@+id/btAdd"
+                android:textStyle="normal"
+                android:textSize="15dp"
+                android:textColor="#fefdfdfd" />
 
         </LinearLayout>
 
@@ -125,4 +135,5 @@ android:gravity="center_horizontal">
     </ScrollView>
 
 </LinearLayout>
+
 </RelativeLayout>

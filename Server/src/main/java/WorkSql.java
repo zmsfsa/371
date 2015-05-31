@@ -238,7 +238,7 @@ public class WorkSql {
 		else {
 
 			Include check = getInclude(login, eventName);
-			if(check != null)
+			if (check != null)
 				return -1;
 			Session session = InitHibernate.getSessionFactory()
 					.getCurrentSession();
@@ -263,20 +263,19 @@ public class WorkSql {
 			return -1;
 		else {
 
-			if(deleteInclude(login, eventName) < 0)
+			if (deleteInclude(login, eventName) < 0)
 				return -1;/*
-			Session session = InitHibernate.getSessionFactory()
-					.getCurrentSession();
-			session.beginTransaction();
-			try {
-				session.update(new Include(login, eventName, height, width));
-			} catch (Exception e) {
-				session.getTransaction().rollback();
-				System.out.println("HELLO I AM PROBLEM FROM CHECK IN");
-				return -1;
-			}
-			session.getTransaction().commit();*/
-			Include in = new Include(event.getIdEvent(), user.getIdUser(), height, width);
+						 * Session session = InitHibernate.getSessionFactory()
+						 * .getCurrentSession(); session.beginTransaction(); try
+						 * { session.update(new Include(login, eventName,
+						 * height, width)); } catch (Exception e) {
+						 * session.getTransaction().rollback();
+						 * System.out.println
+						 * ("HELLO I AM PROBLEM FROM CHECK IN"); return -1; }
+						 * session.getTransaction().commit();
+						 */
+			Include in = new Include(event.getIdEvent(), user.getIdUser(),
+					height, width);
 			Session session = InitHibernate.getSessionFactory()
 					.getCurrentSession();
 			session.beginTransaction();
@@ -294,9 +293,9 @@ public class WorkSql {
 
 	public int deleteInclude(String login, String eventName) {
 		Include del = getInclude(login, eventName);
-		if(del == null)
+		if (del == null)
 			return -1;
-		
+
 		Session session = InitHibernate.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		try {
@@ -308,13 +307,13 @@ public class WorkSql {
 		session.getTransaction().commit();
 		return 0;
 	}
-	
-	public Include getInclude(String login, String eventName){
+
+	public Include getInclude(String login, String eventName) {
 		User user = getUserByLogin(login);
 		Event event = getEventByName(eventName);
 		if ((user == null) || (event == null))
 			return null;
-		
+
 		List<Include> inL = getIncludeByLogin(login);
 		List<Include> inE = getIncludeByEvent(eventName);
 		Include del = null;
@@ -408,6 +407,19 @@ public class WorkSql {
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			System.out.println("HELLO I AM A PROBLEM FROM FRIENDS");
+			return -1;
+		}
+		session.getTransaction().commit();
+		return 0;
+	}
+
+	public int deleteFriend(Friend friends) {
+		Session session = InitHibernate.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			session.delete(friends);
+		} catch (Exception e) {
+			session.getTransaction().rollback();
 			return -1;
 		}
 		session.getTransaction().commit();
@@ -513,7 +525,7 @@ public class WorkSql {
 		}
 		return result;
 	}
-	
+
 	public int addPhoto(Photo photo) {
 		int result;
 		Session session = InitHibernate.getSessionFactory().getCurrentSession();
@@ -529,6 +541,7 @@ public class WorkSql {
 		session.getTransaction().commit();
 		return 0;
 	}
+
 	public Photo getPhoto(int id) {
 		Photo photo;
 		Session session = InitHibernate.getSessionFactory().getCurrentSession();

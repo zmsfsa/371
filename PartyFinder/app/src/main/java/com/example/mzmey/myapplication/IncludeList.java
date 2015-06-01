@@ -29,12 +29,12 @@ public class IncludeList extends Activity {
 
     private static final String URI = "uri";
     private static final String URI_ADD = "/includeList";
+    private static final String OTHER_LOGIN = "otherLogin";
     private static final String EVENT_NAME = "eventName";
     private static final String PHOTO = "photo";
     private static final String LNAME = "lName";
     private static final String FNAME = "fName";
     private static final String LOGIN = "login";
-    private static final String IN = "in";
     private static final int param = LinearLayout.LayoutParams.MATCH_PARENT;
     private static final String DEL = "/";
 
@@ -47,14 +47,13 @@ public class IncludeList extends Activity {
     private String stPath;
     private String eventName;
     private String LOG = "my con";
-    private boolean left = true;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.album);
 
-        leftL = (LinearLayout)findViewById(R.id.leftL);
-        rightL = (LinearLayout)findViewById(R.id.rightL);
+        leftL = (LinearLayout) findViewById(R.id.leftL);
+        rightL = (LinearLayout) findViewById(R.id.rightL);
         Intent intent = getIntent();
         login = intent.getStringExtra(LOGIN);
         stPath = intent.getStringExtra(URI);
@@ -65,14 +64,25 @@ public class IncludeList extends Activity {
         sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 String[] users = response.split(DEL);
+
                 for (String user : users) {
-                    Map<String, String> params = Mapper.queryToMap(user);
-                    if (params.get(PHOTO) != null)
-                        cookView(Integer.parseInt(params.get(PHOTO)), params.get(LNAME) + " " + params.get(FNAME));
-                    else
-                        cookView(0, params.get(LNAME) + " " + params.get(FNAME));
+                    if (!user.equals("")) {
+                        Map<String, String> params = Mapper.queryToMap(user);
+                        if (params.get(OTHER_LOGIN).equals(login))
+                            cookView(Integer.parseInt(params.get(PHOTO)), params.get(LNAME) + " " + params.get(LNAME), login);
+                    }
+                }
+
+                for (String user : users) {
+                    if (!user.equals("")) {
+                        Map<String, String> params = Mapper.queryToMap(user);
+                        if (!params.get(OTHER_LOGIN).equals(login))
+                            if (params.get(PHOTO) != null)
+                                cookView(Integer.parseInt(params.get(PHOTO)), params.get(LNAME) + " " + params.get(FNAME), params.get(OTHER_LOGIN));
+                            else
+                                cookView(0, params.get(LNAME) + " " + params.get(FNAME), params.get(OTHER_LOGIN));
+                    }
                 }
 
             }
@@ -100,19 +110,38 @@ public class IncludeList extends Activity {
         queue.add(sr);
     }
 
-    private void cookView(int id, String name) {
+    private void cookView(int id, String name, final String otherLogin) {
         ImageView ivPhoto = new ImageView(this);
         TextView tvName = new TextView(this);
         LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(param, 400);
-        if(id != 0)
-        continueLoading(id, ivPhoto);
+        if (id != 0)
+            continueLoading(id, ivPhoto);
 
         tvName.setGravity(Gravity.CENTER_VERTICAL);
         tvName.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
         tvName.setText(name);
 
-            leftL.addView(ivPhoto, lParams);
-            rightL.addView(tvName, lParams);
+        tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (login.equals(otherLogin)) {
+                    Intent myIntent = new Intent(v.getContext(), LeftPanel.class);
+                    myIntent.putExtra(LOGIN, login);
+                    myIntent.putExtra(URI, stPath);
+                    startActivity(myIntent);
+                } else {
+                    Intent otherIntent = new Intent(v.getContext(), OtherPage.class);
+                    otherIntent.putExtra(LOGIN, login);
+                    otherIntent.putExtra(OTHER_LOGIN, otherLogin);
+                    otherIntent.putExtra(URI, stPath);
+                    startActivity(otherIntent);
+                }
+            }
+        });
+
+        leftL.addView(ivPhoto, lParams);
+        rightL.addView(tvName, lParams);
 
 
     }

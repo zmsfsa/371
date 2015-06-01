@@ -11,12 +11,14 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="150dp"
+            android:background="#fe424243">
 
             <ImageView
-                android:layout_width="150dp"
+                android:layout_width="130dp"
                 android:layout_height="150dp"
-                android:id="@+id/imageView2" />
+                android:id="@+id/ivFace"
+                android:focusableInTouchMode="false" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -26,26 +28,96 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/tvName"
-                    android:hint="name" />
+                    android:textSize="30sp"
+                    android:text="Имя"
+                    android:textColor="#feffffff" />
 
-                <TextView
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="phone"
-                    android:id="@+id/tvPhone" />
+                    android:id="@+id/llllllllllllll"
+                    android:baselineAligned="false">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Добавить"
-                    android:id="@+id/btAdd" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="События"
-                    android:id="@+id/btEvents" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Телефон:"
+                            android:textSize="16dp"
+                            android:id="@+id/tvPhoned"
+                            android:textColor="#fefdfdfd" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tvPhone"
+                            android:textSize="16dp"
+                            android:textColor="#feffffff" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="День рождения:"
+                        android:textSize="17dp"
+                        android:id="@+id/tvBirth1"
+                        android:autoText="false"
+                        android:textColor="#fef9f9f9" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/tvBirth"
+                        android:textSize="17dp"
+                        android:textColor="#feffffff" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <Button
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:text="Добавить в друзья"
+                        android:id="@+id/btAdd"
+                        android:textStyle="normal"
+                        android:textSize="15dp"
+                        android:textColor="#fefdfdfd" />
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Посмотреть встречи"
+                        android:id="@+id/btEvents"
+                        android:textColor="#fefdfdfd"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
@@ -64,15 +136,18 @@
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1"></LinearLayout>
+                    android:layout_weight="1"
+                    android:id="@+id/leftL"></LinearLayout>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1"></LinearLayout>
+                    android:layout_weight="1"
+                    android:id="@+id/rightL"></LinearLayout>
             </LinearLayout>
         </ScrollView>
 
     </LinearLayout>
+
 </RelativeLayout>

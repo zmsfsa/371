@@ -25,18 +25,14 @@ public class OtherPageHandler implements HttpHandler {
 	private static final String LNAME = "lName";
 	private static final String BIRTH = "birth";
 	private static final String DATE_DELIMETR = "-";
-	private static final String DEL = "/";
 	private static final String ADD_FRIEND = "addFriend";
 	private static final String OK = "OK";
-	private static final String ADD_PHOTO = "addPhoto";
 	private static final String OTHER_LOGIN = "otherLogin";
 	private static final String PHONE = "phone";
 	private static final String LOGIN = "login";
-	private static final String DELETE_PHOTO = "deletePhoto";
 	private static final String EVENTS = "events";
 	private static final int HTTP_OK_STATUS = 200;
 	private static final String MISTAKE = "mistake";
-	private static final String EVENT_NAME = "eventName";
 	private static final String IS_FRIEND = "isFriend";
 	private static final String DELETE_FRIEND = "deleteFriend";
 
@@ -92,7 +88,10 @@ public class OtherPageHandler implements HttpHandler {
 			return;
 		}
 		//show page
+		System.out.println("showing page");
 		User otherUser = work.getUserByLogin(params.get(OTHER_LOGIN));
+		if(otherUser == null)
+			System.out.println("oh my god");
 		
 		int photoId;
 		StringBuilder sendBuild = new StringBuilder("");
@@ -103,6 +102,7 @@ public class OtherPageHandler implements HttpHandler {
 			if(u.getLogin().equals(params.get(LOGIN)))
 				friend = true;
 		}
+		System.out.println("friendship is " + friend);
 
 		if(friend)
 			sendBuild.append(IS_FRIEND + DELIMETR + 1 + AND);
@@ -110,12 +110,14 @@ public class OtherPageHandler implements HttpHandler {
 			sendBuild.append(IS_FRIEND + DELIMETR + 0 + AND);
 
 		photoId = otherUser.getPhotoId();
+		System.out.println("photoId = " + photoId);
 		Calendar calendar = otherUser.getBirth();
 		if (calendar != null) {
 			int month = calendar.get(Calendar.MONTH) + 1;
 			sendBuild.append(BIRTH + DELIMETR + calendar.get(Calendar.DATE)
 					+ DATE_DELIMETR + month + DATE_DELIMETR
 					+ calendar.get(Calendar.YEAR) + AND);
+			System.out.println("sendBuilder = " + sendBuild);
 		}
 		if (photoId != 0)
 			sendBuild.append(PHOTO + DELIMETR + otherUser.getPhotoId() + AND
@@ -128,12 +130,15 @@ public class OtherPageHandler implements HttpHandler {
 					+ otherUser.getLName() + AND + PHONE + DELIMETR
 					+ otherUser.getPhone() + AND + EVENTS + DELIMETR);
 
+		System.out.println("then send is " + sendBuild);
+		
 		List<Include> inList = work.getIncludeByLogin(params.get(OTHER_LOGIN));
 		for (Include i : inList) {
 			if (!i.getHeight().equals("0") || !i.getWidth().equals("0")) {
 				Event event = work.getEvent(i.getIdEvent());
 				sendBuild.append(event.getNameEvent() + "-"
 						+ event.getPhotoId() + ",");
+				System.out.println();
 			}
 		}
 		String send = new String(sendBuild);

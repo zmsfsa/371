@@ -38,6 +38,7 @@ public class FindFriend extends Activity implements View.OnClickListener {
     private static final String LOGIN = "login";
     private static final String PHOTO = "photo";
     private static final String DEL = "/";
+    private static final String OTHER_LOGIN = "otherLogin";
     private static final String FNAME = "fName";
     private static final String LNAME = "lName";
     private static final String URI_ADD = "/search";
@@ -68,7 +69,7 @@ public class FindFriend extends Activity implements View.OnClickListener {
         btFnd.setOnClickListener(this);
     }
 
-    private void cookView(String uName, int id, String login) {
+    private void cookView(final String uName, int id, final String uLogin) {
         ImageView ivFace = new ImageView(this);
         TextView tvUName = new TextView(this);
         LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(param, 300);
@@ -80,8 +81,14 @@ public class FindFriend extends Activity implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 Intent otherIntent = new Intent(v.getContext(), OtherPage.class);
+                otherIntent.putExtra(LOGIN, login);
+                otherIntent.putExtra(OTHER_LOGIN, uLogin);
+                otherIntent.putExtra(URI, stPath);
+                startActivity(otherIntent);
             }
         });
+
+
 
         tvUName.setGravity(Gravity.CENTER_VERTICAL);
         tvUName.setTextSize(20);

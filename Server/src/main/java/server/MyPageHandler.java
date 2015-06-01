@@ -83,6 +83,7 @@ public class MyPageHandler implements HttpHandler {
 						+ user.getLName() + AND + PHONE + DELIMETR
 						+ user.getPhone() + AND + EVENTS + DELIMETR);
 
+			System.out.println("send is " + sendBuild);
 			List<Include> inList = work.getIncludeByLogin(params.get(LOGIN));
 			for (Include i : inList) {
 				if (!i.getHeight().equals("0") || !i.getWidth().equals("0")) {

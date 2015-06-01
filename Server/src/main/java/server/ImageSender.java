@@ -15,6 +15,8 @@ public class ImageSender implements HttpHandler {
 	
 	@Override
 	public void handle(HttpExchange t) throws IOException {
+		System.out.println("=============================================================================================================================================================================");
+		System.out.println("ImageSender");
 		URI uri = t.getRequestURI();
 		int id = Integer.parseInt(uri.getQuery());
 		WorkSql work = new WorkSql();

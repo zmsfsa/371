@@ -121,9 +121,12 @@ public class MyPage extends Fragment implements View.OnClickListener {
                         Log.d(LOG, "params(EVENTS) is '" + params.get(EVENTS) + "'");
                         String[] events = params.get(EVENTS).split(",");
                         for (String event : events) {
-                            String[] pair = event.split("-");
-                            cookView(pair[0], Integer.parseInt(pair[1]));
-                            Log.d("my con", "name = " + pair[0] + ", int = " + Integer.parseInt(pair[1]));
+                            if (!event.equals("")) {
+                                String[] pair = event.split("-");
+                                cookView(pair[0], Integer.parseInt(pair[1]));
+                                Log.d("my con", "name = " + pair[0] + ", int = "
+                                        + Integer.parseInt(pair[1]));
+                            }
                         }
                     }
 
@@ -165,8 +168,10 @@ public class MyPage extends Fragment implements View.OnClickListener {
         TextView tvAName = new TextView(this.getActivity());
         LinearLayout.LayoutParams lParamsI = new LinearLayout.LayoutParams(param, 400);
         LinearLayout.LayoutParams lParamsT = new LinearLayout.LayoutParams(param, 70);
-        continueLoading(id, ivEvent);
+        if(id != 0)
+            continueLoading(id, ivEvent);
         tvAName.setText(aName);
+        ivEvent.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
         ivEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

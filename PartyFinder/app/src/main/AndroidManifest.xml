@@ -25,6 +25,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".OtherPage"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".EventOld"
             android:label="@string/app_name"
             android:screenOrientation="portrait">

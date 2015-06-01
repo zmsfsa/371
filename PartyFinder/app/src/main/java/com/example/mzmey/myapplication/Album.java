@@ -51,8 +51,9 @@ public class Album extends FragmentActivity{
     }
 
     private static final String PHOTO = "photo";
-    private static final int PHOTO_LENGTH = 150;
+    private static final int PHOTO_LENGTH = 250;
     private static final String LOGIN = "login";
+    private static final int ROTATE = 2;
     private static final int GALLERY_REQUEST = 1;
     private static final String IN = "in";
     private static final String URI = "uri";
@@ -322,8 +323,20 @@ public class Album extends FragmentActivity{
                     Log.d("my connection", String.format("bitmap size = %sx%s, byteCount = %s",
                             sendB.getWidth(), sendB.getHeight(),
                             (int) (sendB.getByteCount() / 1024)));
+                    Intent rotateIntent = new Intent(this, RotateImage.class);
+                    rotateIntent.putExtra("BitmapImage", sendB);
+                    startActivityForResult(rotateIntent, ROTATE);
+                }
+                break;
+            case ROTATE:
+                if (resultCode == RESULT_OK) {
+                    Intent rotateIntent = imageReturnedIntent;
+                    Bitmap sendB = (Bitmap) rotateIntent.getParcelableExtra("BitmapImage");
+                    Log.d(LOG, "sendB is " + sendB);
                     continueSending(sendB);
                 }
+                break;
+
         }
     }
 

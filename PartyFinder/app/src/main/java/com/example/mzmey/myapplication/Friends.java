@@ -113,4 +113,6 @@ public class Friends extends Fragment implements View.OnClickListener{
         rightL.removeAllViews();
         queue.add(sr);
     }
+
+
 }

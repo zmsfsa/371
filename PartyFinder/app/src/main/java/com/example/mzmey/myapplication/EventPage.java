@@ -56,7 +56,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
     private boolean invited = true;
     private String stPath;
     private String login;
-    private String name;
+    private String eventName;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
         setContentView(R.layout.activity_event);
         tvName = (TextView) findViewById(R.id.tvName);
         tvAddr = (TextView) findViewById(R.id.tvAddr);
-        name = getIntent().getStringExtra(EVENT_NAME);
+        eventName = getIntent().getStringExtra(EVENT_NAME);
         login = getIntent().getStringExtra(LOGIN);
         stPath = getIntent().getStringExtra(URI);
         checkOrJoin = (Button) findViewById(R.id.checkOrJoin);
@@ -77,28 +77,29 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
             @Override
             public void onResponse(String response) {
                 Map<String, String> params = Mapper.queryToMap(response);
-                if (params.get(IN).equals("1")) {
-                    if (!params.get("myWidth").equals("0") && !params.get("myHeight").equals("0")) {
-                        Intent checkInt = new Intent(getApplicationContext(), EventOld.class);
-                        checkInt.putExtra(LOGIN, login);
-                        checkInt.putExtra(URI, stPath);
-                        checkInt.putExtra(EVENT_NAME, name);
-                        startActivity(checkInt);
-                        Log.d(LOG, "myWidth, myHeight = " + params.get("myWidth") + ", " + params.get("myHeight"));
+                if (params.get(IN) != null)
+                    if (params.get(IN).equals("1")) {
+                        if (!params.get("myWidth").equals("0") && !params.get("myHeight").equals("0")) {
+                            Intent checkInt = new Intent(getApplicationContext(), EventOld.class);
+                            checkInt.putExtra(LOGIN, login);
+                            checkInt.putExtra(URI, stPath);
+                            checkInt.putExtra(EVENT_NAME, eventName);
+                            startActivity(checkInt);
+                            Log.d(LOG, "myWidth, myHeight = " + params.get("myWidth") + ", " + params.get("myHeight"));
+                        }
+                    } else {
+                        checkOrJoin.setText("Вступить");
+                        invited = false;
                     }
-                } else {
-                    checkOrJoin.setText("Вступить");
-                    invited = false;
-                }
                 String date = params.get(DATE);
                 String eventName = params.get(EVENT_NAME);
                 String addr = params.get(ADDR);
                 if (date != null)
                     tvDate.setText(params.get(DATE));
                 if (eventName != null)
-                    tvName.setText(params.get(noPros(EVENT_NAME)));
+                    tvName.setText(noPros(params.get(EVENT_NAME)));
                 if (addr != null)
-                    tvAddr.setText(params.get(ADDR));
+                    tvAddr.setText(noPros(params.get(ADDR)));
                 Log.d(LOG, "name, date, addr = " + eventName + ", " + date + ", " + addr);
 
             }
@@ -112,7 +113,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<String, String>();
-                params.put(EVENT_NAME, name);
+                params.put(EVENT_NAME, eventName);
                 params.put(LOGIN, login);
 
                 return params;
@@ -160,7 +161,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
                 protected Map<String, String> getParams() {
 
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put(EVENT_NAME, name);
+                    params.put(EVENT_NAME, eventName);
                     params.put(LOGIN, login);
                     params.put(MAKE_JOIN, "YES");
 
@@ -179,16 +180,16 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
             Intent checkIntMake = new Intent(getApplicationContext(), MapsActivity.class);
             checkIntMake.putExtra(LOGIN, login);
             checkIntMake.putExtra(URI, stPath);
-            checkIntMake.putExtra(EVENT_NAME, name);
+            checkIntMake.putExtra(EVENT_NAME, eventName);
             startActivity(checkIntMake);
         }
     }
 
-    public void onAlbum(View v){
+    public void onAlbum(View v) {
         Intent eventInt = new Intent(getApplicationContext(), EventPage.class);
         eventInt.putExtra(LOGIN, login);
         eventInt.putExtra(URI, stPath);
-        eventInt.putExtra(EVENT_NAME, name);
+        eventInt.putExtra(EVENT_NAME, eventName);
         startActivity(eventInt);
     }
 
@@ -198,5 +199,13 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
             if (c[i] == PLUS)
                 c[i] = ' ';
         return new String(c);
+    }
+
+    public void onIncludeList(View v) {
+        Intent incList = new Intent(this, IncludeList.class);
+        incList.putExtra(LOGIN, login);
+        incList.putExtra(URI, stPath);
+        incList.putExtra(EVENT_NAME, eventName);
+        startActivity(incList);
     }
 }

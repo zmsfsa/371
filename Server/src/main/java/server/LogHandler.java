@@ -23,6 +23,7 @@ public class LogHandler implements HttpHandler {
 	private static final String LOG_CONTEXT = "/log";
 	private static final String EVENT_CREATE = "/event/create";
 	private static final String EVENT_CONTEXT = "/event";
+	private static final String INCLUDE_LIST = "/includeList";
 	private static final String EVENT_LIST = "/event_list";
 	private static final String MY_FRIENDS = "/friends";
 	private static final String ALBUM_CONTEXT = "/album";
@@ -80,6 +81,8 @@ public class LogHandler implements HttpHandler {
 					new AlbumHandler());
 			myServ.httpServer.createContext(OTHER_PAGE + login,
 					new OtherPageHandler());
+			myServ.httpServer.createContext(INCLUDE_LIST + login,
+					new IncludeListHandler());
 			System.out.println("logged in");
 		} else {
 

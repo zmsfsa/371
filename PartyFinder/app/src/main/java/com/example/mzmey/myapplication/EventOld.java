@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -48,14 +49,14 @@ public class EventOld extends FragmentActivity {
     private TextView tvDate;
     private String stPath;
     private String login;
-    private String name;
+    private String eventName;
     private GoogleMap map;
     private SupportMapFragment mapFragment;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_checked_in);
-        name = getIntent().getStringExtra(EVENT_NAME);
+        eventName = getIntent().getStringExtra(EVENT_NAME);
         login = getIntent().getStringExtra(LOGIN);
         stPath = getIntent().getStringExtra(URI);
         tvOut = (TextView) findViewById(R.id.tvOut);
@@ -76,13 +77,12 @@ public class EventOld extends FragmentActivity {
             public void onResponse(String response) {
                 Map<String, String> params = Mapper.queryToMap(response);
                 tvDate.setText(params.get(DATE));
-                tvName.setText(params.get(noPros(EVENT_NAME)));
-                tvAddr.setText(params.get(ADDR));
+                tvName.setText(noPros(params.get(EVENT_NAME)));
+                tvAddr.setText(noPros(params.get(ADDR)));
 
                 double longitude = Double.parseDouble(params.get("myWidth"));
                 double latitude = Double.parseDouble(params.get("myHeight"));
                 makeMyPoint(latitude, longitude);
-
 
                 Log.d(LOG, params.get(CHECKS) + "is param CHECKS");
                 if (params.get(CHECKS) != null) {
@@ -109,7 +109,7 @@ public class EventOld extends FragmentActivity {
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<String, String>();
-                params.put(EVENT_NAME, name);
+                params.put(EVENT_NAME, eventName);
                 params.put(LOGIN, login);
 
                 return params;
@@ -148,5 +148,13 @@ public class EventOld extends FragmentActivity {
             if (c[i] == PLUS)
                 c[i] = ' ';
         return new String(c);
+    }
+
+    public void onIncludeList(View v){
+        Intent incList = new Intent(this, IncludeList.class);
+        incList.putExtra(LOGIN, login);
+        incList.putExtra(URI, stPath);
+        incList.putExtra(EVENT_NAME, eventName);
+        startActivity(incList);
     }
 }

@@ -23,7 +23,7 @@ public class IncludeListHandler implements HttpHandler {
 	private static final String IN = "in";
 	private static final String OK = "OK";
 	private static final String ADD_PHOTO = "addPhoto";
-	private static final String OTHER_LOGIN = "login";
+	private static final String OTHER_LOGIN = "otherLogin";
 	private static final String FNAME = "fName";
 	private static final String LNAME = "lName";
 	private static final String LOGIN = "login";

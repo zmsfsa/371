@@ -50,7 +50,7 @@ public class IncludeList extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.album);
+        setContentView(R.layout.include_list);
 
         leftL = (LinearLayout) findViewById(R.id.leftL);
         rightL = (LinearLayout) findViewById(R.id.rightL);
@@ -70,7 +70,7 @@ public class IncludeList extends Activity {
                     if (!user.equals("")) {
                         Map<String, String> params = Mapper.queryToMap(user);
                         if (params.get(OTHER_LOGIN).equals(login))
-                            cookView(Integer.parseInt(params.get(PHOTO)), params.get(LNAME) + " " + params.get(LNAME), login);
+                            cookView(Integer.parseInt(params.get(PHOTO)), params.get(LNAME) + " " + params.get(FNAME), login);
                     }
                 }
 

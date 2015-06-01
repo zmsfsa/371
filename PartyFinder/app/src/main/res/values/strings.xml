@@ -13,6 +13,7 @@
     <string name="title_section1">Мои альбомы</string>
     <string name="title_section2">Мои встречи</string>
     <string name="title_section3">Мои друзья</string>
+    <string name="title_section5">Выход</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>

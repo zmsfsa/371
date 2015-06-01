@@ -84,6 +84,7 @@ public class AlbumHandler implements HttpHandler {
 				if(inside.getIdEvent() == event.getIdEvent())
 					in = true;
 			}
+			System.out.println();
 			if(in == true)
 				sendBuilder.append(IN + DELIMETR + 1 + AND);
 			else

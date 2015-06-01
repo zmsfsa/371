@@ -24,6 +24,7 @@ public class StartPage extends ActionBarActivity implements OnClickListener  {
         button_enter = (Button) findViewById(R.id.button_enter);
         button_reg.setOnClickListener(this);
         button_enter.setOnClickListener(this);
+        button_enter.setPressed(true);
 
     }
     public void onClick(View view) {

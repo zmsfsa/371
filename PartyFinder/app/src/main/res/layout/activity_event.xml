@@ -100,7 +100,8 @@
                 android:text="Участники"
                 android:background="@drawable/gradient"
                 android:id="@+id/btList"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:onClick="onIncludeList" />
         </LinearLayout>
 
         <LinearLayout

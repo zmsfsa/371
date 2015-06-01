@@ -32,6 +32,7 @@ public class EventList extends Fragment implements View.OnClickListener {
     private static final String LOGIN = "login";
     private static final String PHOTO = "photo";
     private static final String DEL = "/";
+    private static final char PLUS = '+';
     private static final String EVENT_NAME = "eventName";
     private static final String DATE = "date";
     private static final String URI = "uri";
@@ -137,7 +138,7 @@ public class EventList extends Fragment implements View.OnClickListener {
                 getActivity().startActivity(intEvent);
             }
         });
-        tvDate.setText(DATE + ": " + date);
+        tvDate.setText("Дата" + ": " + date);
         leftL.addView(ivEvent, lParams);
         middleL.addView(tvName, lParams);
         rightL.addView(tvDate, lParams);
@@ -163,6 +164,14 @@ public class EventList extends Fragment implements View.OnClickListener {
 
         }
 
+    }
+
+    private String noPros(String in) {
+        char[] c = in.toCharArray();
+        for (int i = 0; i < c.length; i++)
+            if (c[i] == PLUS)
+                c[i] = ' ';
+        return new String(c);
     }
 
 }

@@ -17,7 +17,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="90dp"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:clickable="true" />
 
     <Button
         android:layout_width="200dp"
@@ -31,6 +32,7 @@
         android:layout_marginBottom="31dp"
         android:background="#2b75d6"
         android:onClick="clickreg"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:clickable="true" />
 
 </RelativeLayout>

@@ -59,6 +59,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
     private static final String EVENTS = "events";
     private static final int ROTATE = 2;
     private static final String LOGIN = "login";
+    private static final char PLUS = '+';
     private static final int GALLERY_REQUEST = 1;
     private static final String FNAME = "fName";
     private static final String LNAME = "lName";
@@ -123,7 +124,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
                         for (String event : events) {
                             if (!event.equals("")) {
                                 String[] pair = event.split("-");
-                                cookView(pair[0], Integer.parseInt(pair[1]));
+                                cookView(noPros(pair[0]), Integer.parseInt(pair[1]));
                                 Log.d("my con", "name = " + pair[0] + ", int = "
                                         + Integer.parseInt(pair[1]));
                             }
@@ -370,5 +371,14 @@ public class MyPage extends Fragment implements View.OnClickListener {
         }
 
     }
+
+    private String noPros(String in) {
+        char[] c = in.toCharArray();
+        for (int i = 0; i < c.length; i++)
+            if (c[i] == PLUS)
+                c[i] = ' ';
+        return new String(c);
+    }
+
 
 }

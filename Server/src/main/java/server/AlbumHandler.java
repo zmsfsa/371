@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import main.java.Event;
+import main.java.Include;
 import main.java.Photo;
 import main.java.WorkSql;
 
@@ -21,6 +22,7 @@ public class AlbumHandler implements HttpHandler {
 	private static final String DELIMETR = "=";
 	private static final String AND = "&";
 	private static final String DEL = "/";
+	private static final String IN = "in";
 	private static final String OK = "OK";
 	private static final String ADD_PHOTO = "addPhoto";
 	private static final String LOGIN = "login";
@@ -76,13 +78,21 @@ public class AlbumHandler implements HttpHandler {
 		} else {
 			System.out.println("AlbumHandler");
 			StringBuilder sendBuilder = new StringBuilder("");
-			List<Photo> photoList = work.getPhotoByEvent(work.getEventByName(
-					params.get(EVENT_NAME)).getIdEvent());
+			List<Include> inList = work.getIncludeByLogin(params.get(LOGIN));
+			boolean in = false;
+			for(Include inside : inList){
+				if(inside.getIdEvent() == event.getIdEvent())
+					in = true;
+			}
+			if(in == true)
+				sendBuilder.append(IN + DELIMETR + 1 + AND);
+			else
+				sendBuilder.append(IN + DELIMETR + 0 + AND);
+			List<Photo> photoList = work.getPhotoByEvent(event.getIdEvent());
 			for (Photo onePhoto : photoList) {
 				if (onePhoto != null)
 					sendBuilder.append(PHOTO + DELIMETR + onePhoto.getPhotoId()
 							+ DEL);
-
 			}
 
 			String send = new String(sendBuilder);

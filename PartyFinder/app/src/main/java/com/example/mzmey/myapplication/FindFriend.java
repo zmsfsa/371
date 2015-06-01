@@ -80,11 +80,21 @@ public class FindFriend extends Activity implements View.OnClickListener {
         ivFace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent otherIntent = new Intent(v.getContext(), OtherPage.class);
-                otherIntent.putExtra(LOGIN, login);
-                otherIntent.putExtra(OTHER_LOGIN, uLogin);
-                otherIntent.putExtra(URI, stPath);
-                startActivity(otherIntent);
+
+
+                if(login.equals(uLogin)) {
+                    Intent myIntent = new Intent(v.getContext(), LeftPanel.class);
+                    myIntent.putExtra(LOGIN, login);
+                    myIntent.putExtra(URI, stPath);
+                    startActivity(myIntent);
+                }
+                else {
+                    Intent otherIntent = new Intent(v.getContext(), OtherPage.class);
+                    otherIntent.putExtra(LOGIN, login);
+                    otherIntent.putExtra(OTHER_LOGIN, uLogin);
+                    otherIntent.putExtra(URI, stPath);
+                    startActivity(otherIntent);
+                }
             }
         });
 

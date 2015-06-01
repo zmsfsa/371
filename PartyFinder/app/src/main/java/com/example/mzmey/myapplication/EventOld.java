@@ -125,6 +125,13 @@ public class EventOld extends FragmentActivity {
 
     }
 
+    public void onBackPressed() {
+        Intent myIntent = new Intent(this, LeftPanel.class);
+        myIntent.putExtra(LOGIN, login);
+        myIntent.putExtra(URI, stPath);
+        startActivity(myIntent);
+    }
+
     public void makeOtherPoint(double latitude, double longitude) {
         map.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));

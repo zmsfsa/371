@@ -45,7 +45,7 @@ public class LeftPanel extends ActionBarActivity
 
             switch(position){
                 case 0:
-                    objFragment = new Friends();
+                    objFragment = new MyPage();
                     break;
 
                 case 1:
@@ -53,7 +53,7 @@ public class LeftPanel extends ActionBarActivity
                     break;
 
                 case 2:
-                    objFragment = new MyPage();
+                    objFragment = new Friends();
                     break;
 
                 case 3:

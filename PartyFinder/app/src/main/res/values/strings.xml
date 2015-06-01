@@ -10,9 +10,9 @@
     <string name="provider_network">Network</string>
     <string name="check_in">Check-in</string>
     <string name="saveLocation">Save location</string>
-    <string name="title_section1">Мои друзья</string>
+    <string name="title_section1">Мои альбомы</string>
     <string name="title_section2">Мои встречи</string>
-    <string name="title_section3">Мои альбомы</string>
+    <string name="title_section3">Мои друзья</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>

@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -53,6 +54,7 @@ public class Album extends FragmentActivity{
     private static final int PHOTO_LENGTH = 150;
     private static final String LOGIN = "login";
     private static final int GALLERY_REQUEST = 1;
+    private static final String IN = "in";
     private static final String URI = "uri";
     private static final String URI_ADD = "/album";
     private static final String DELIMETR = "=";
@@ -71,6 +73,7 @@ public class Album extends FragmentActivity{
     private String stPath;
     private String eventName;
     private String LOG = "my con";
+    private Button btAdd;
     private boolean left = true;
     private ArrayList<CheckBox> toDelete = new ArrayList<CheckBox>();
     private Button btDel;
@@ -88,12 +91,20 @@ public class Album extends FragmentActivity{
         rightL = (LinearLayout)findViewById(R.id.rightL);
         queue = MyQueue.getInstance(getApplicationContext()).getQueue();
         btDel = (Button)findViewById(R.id.btDel);
+        btAdd = (Button)findViewById(R.id.btAdd);
         btDel.setOnClickListener(new FirstDel());
+
 
         sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(LOG, "in responnse of sr");
+                Map<String, String> forIn = Mapper.queryToMap(response);
+                if(forIn.get(IN).equals("0")){
+                    btDel.setVisibility(View.INVISIBLE);
+                    btAdd.setVisibility(View.INVISIBLE);
+                }
+
                 String[] photos = response.split(DEL);
                 for (String photo : photos) {
                     Map<String, String> params = Mapper.queryToMap(photo);

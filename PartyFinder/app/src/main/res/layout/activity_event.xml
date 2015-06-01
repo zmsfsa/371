@@ -116,7 +116,8 @@
                 android:text="Альбом"
                 android:background="@drawable/gradient"
                 android:id="@+id/button5"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:onClick="onAlbum" />
         </LinearLayout>
     </LinearLayout>
 

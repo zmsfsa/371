@@ -51,7 +51,6 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
     private Button checkOrJoin;
     private String uri;
     private String LOG = "my con";
-    private TextView tvOut;
     private TextView tvAddr;
     private TextView tvDate;
     private boolean invited = true;
@@ -63,7 +62,6 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
-        tvOut = (TextView) findViewById(R.id.tvOut);
         tvName = (TextView) findViewById(R.id.tvName);
         tvAddr = (TextView) findViewById(R.id.tvAddr);
         name = getIntent().getStringExtra(EVENT_NAME);
@@ -129,6 +127,13 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
         queue.add(sr);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent myIntent = new Intent(this, LeftPanel.class);
+        myIntent.putExtra(LOGIN, login);
+        myIntent.putExtra(URI, stPath);
+        startActivity(myIntent);
+    }
 
     @Override
     public void onClick(View v) {
@@ -179,6 +184,13 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
         }
     }
 
+    public void onAlbum(View v){
+        Intent eventInt = new Intent(getApplicationContext(), EventPage.class);
+        eventInt.putExtra(LOGIN, login);
+        eventInt.putExtra(URI, stPath);
+        eventInt.putExtra(EVENT_NAME, name);
+        startActivity(eventInt);
+    }
 
     private String noPros(String in) {
         char[] c = in.toCharArray();

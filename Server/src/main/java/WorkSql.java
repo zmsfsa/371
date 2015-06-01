@@ -413,11 +413,16 @@ public class WorkSql {
 		return 0;
 	}
 
-	public int deleteFriend(Friend friends) {
+	public int deleteFriend(int id1, int id2) {
 		Session session = InitHibernate.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		try {
-			session.delete(friends);
+			List<Friend> frList = session.createQuery("from Friend").list();
+			for(Friend friends : frList)
+			{
+				if(((friends.getIdFirst() == id1) && (friends.getIdSecond() == id2)) || ((friends.getIdFirst() == id2) && (friends.getIdSecond() == id1)))
+					session.delete(friends);
+			}
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			return -1;
@@ -454,14 +459,12 @@ public class WorkSql {
 				in = session.createQuery("from Friend").list();
 				for (Friend fr : in) {
 					Hibernate.initialize(fr.getIdFirst());
-
 					if (fr.getIdFirst() == user.getIdUser()) {
 						User u = (User) session.load(User.class,
 								fr.getIdSecond());
 						Hibernate.initialize(u.getLogin());
 						result.add(u);
 					}
-
 					if (fr.getIdSecond() == user.getIdUser()) {
 						User u = (User) session.load(User.class,
 								fr.getIdFirst());
@@ -475,7 +478,6 @@ public class WorkSql {
 			}
 			session.getTransaction().commit();
 			return result;
-
 		}
 	}
 
@@ -487,7 +489,6 @@ public class WorkSql {
 			List<Friend> in = session.createQuery("from Friend").list();
 			for (Friend fr : in) {
 				Hibernate.initialize(fr.getIdFirst());
-
 				if ((fr.getIdFirst() == id) || (fr.getIdSecond() == id)) {
 					session.delete(fr);
 				}

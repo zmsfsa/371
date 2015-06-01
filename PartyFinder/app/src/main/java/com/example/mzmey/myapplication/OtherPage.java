@@ -192,7 +192,6 @@ public class OtherPage extends Activity {
         queue.add(request);
     }
 
-
     public class AddClick implements View.OnClickListener {
 
         @Override

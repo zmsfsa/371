@@ -72,8 +72,7 @@ public class OtherPageHandler implements HttpHandler {
 			System.out.println("deleting friends ");
 			int id1 = work.getUserByLogin(params.get(LOGIN)).getIdUser();
 			int id2 = work.getUserByLogin(params.get(OTHER_LOGIN)).getIdUser();
-			Friend fr = new Friend(id1, id2);
-			if(work.deleteFriend(fr) == 0){
+			if(work.deleteFriend(id1, id2) == 0){
 				t.sendResponseHeaders(HTTP_OK_STATUS, OK.getBytes().length);
 				OutputStream os = t.getResponseBody();
 				os.write(OK.getBytes());

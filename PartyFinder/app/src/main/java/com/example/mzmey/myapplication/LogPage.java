@@ -25,7 +25,7 @@ public class LogPage extends ActionBarActivity {
 
     private static final String LOGIN = "login";
     private static final String URI = "uri";
-    private static final String uri = "http://192.168.0.105:8080";
+    private static final String uri = "http://192.168.0.105:8081";
     private static final String URI_ADD = "/log";
     private EditText edPwd;
     private TextView tvOut;

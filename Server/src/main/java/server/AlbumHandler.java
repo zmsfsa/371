@@ -80,12 +80,13 @@ public class AlbumHandler implements HttpHandler {
 			StringBuilder sendBuilder = new StringBuilder("");
 			List<Include> inList = work.getIncludeByLogin(params.get(LOGIN));
 			boolean in = false;
-			for(Include inside : inList){
-				if(inside.getIdEvent() == event.getIdEvent())
-					in = true;
+			for (Include inside : inList) {
+				if (inside.getIdEvent() == event.getIdEvent())
+					if (!inside.getHeight().equals("0"))
+						in = true;
 			}
 			System.out.println();
-			if(in == true)
+			if (in == true)
 				sendBuilder.append(IN + DELIMETR + 1 + AND);
 			else
 				sendBuilder.append(IN + DELIMETR + 0 + AND);

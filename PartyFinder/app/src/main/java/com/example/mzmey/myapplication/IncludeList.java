@@ -64,24 +64,32 @@ public class IncludeList extends Activity {
         sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                leftL.removeAllViews();
+                rightL.removeAllViews();
                 String[] users = response.split(DEL);
 
                 for (String user : users) {
+
                     if (!user.equals("")) {
                         Map<String, String> params = Mapper.queryToMap(user);
-                        if (params.get(OTHER_LOGIN).equals(login))
+                        if (params.get(OTHER_LOGIN).equals(login)) {
+
                             cookView(Integer.parseInt(params.get(PHOTO)), params.get(LNAME) + " " + params.get(FNAME), login);
+                            Log.d(LOG, "added my photo " + params.get(OTHER_LOGIN));
+                        }
                     }
                 }
 
                 for (String user : users) {
                     if (!user.equals("")) {
                         Map<String, String> params = Mapper.queryToMap(user);
-                        if (!params.get(OTHER_LOGIN).equals(login))
+                        if (!params.get(OTHER_LOGIN).equals(login)) {
+                            Log.d(LOG, "added another photo " + params.get(OTHER_LOGIN));
                             if (params.get(PHOTO) != null)
                                 cookView(Integer.parseInt(params.get(PHOTO)), params.get(LNAME) + " " + params.get(FNAME), params.get(OTHER_LOGIN));
                             else
                                 cookView(0, params.get(LNAME) + " " + params.get(FNAME), params.get(OTHER_LOGIN));
+                        }
                     }
                 }
 
@@ -107,6 +115,7 @@ public class IncludeList extends Activity {
             }
         };
 
+        Log.d(LOG, "before request in create");
         queue.add(sr);
     }
 

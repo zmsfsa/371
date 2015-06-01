@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
+import java.util.Random;
 
 import main.java.Event;
 import main.java.Photo;
@@ -31,6 +33,7 @@ public class LoadPhoto implements Runnable {
 		WorkSql work = new WorkSql();
 		ServerSocket server = null;
 		Socket socket = null;
+		Event event = null;
 		byte[] data = new byte[1];
 		try {
 			server = new ServerSocket(port);
@@ -50,7 +53,7 @@ public class LoadPhoto implements Runnable {
 			in.close();
 
 			if (ava == false) {
-				Event event = work.getEventByName(thingName);
+				event = work.getEventByName(thingName);
 				Photo addPhoto = null;
 				if (event != null)
 					addPhoto = new Photo(data, event.getIdEvent());
@@ -72,6 +75,16 @@ public class LoadPhoto implements Runnable {
 				System.out.println("closed load sockets");
 			} catch (IOException e) {
 			}
+		}
+		
+		if(event != null){
+			List<Photo> phList = work.getPhotoByEvent(event.getIdEvent());
+			int size = phList.size();
+			Random r = new Random();
+			int number = r.nextInt(size);
+			Photo p = phList.get(number);
+			event.setPhotoId(p.getPhotoId());
+			work.updateEvent(event);
 		}
 
 	}

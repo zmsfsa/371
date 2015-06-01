@@ -55,6 +55,7 @@ public class Album extends FragmentActivity{
     private static final String LOGIN = "login";
     private static final int ROTATE = 2;
     private static final int GALLERY_REQUEST = 1;
+    private static final String CHOSE_MAIN = "choseMain";
     private static final String IN = "in";
     private static final String URI = "uri";
     private static final String URI_ADD = "/album";

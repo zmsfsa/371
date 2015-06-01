@@ -237,7 +237,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
                             (int) (galleryPic.getByteCount() / 1024)));
                     int height = galleryPic.getHeight();
                     int width = galleryPic.getWidth();
-                    int c = height / 150;
+                    int c = height / 250;
                     height /= c;
                     width /= c;
                     Bitmap sendB = Bitmap.createScaledBitmap(galleryPic, width,
@@ -361,13 +361,20 @@ public class MyPage extends Fragment implements View.OnClickListener {
                     e.printStackTrace();
                 }
             }
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void param) {
             super.onPostExecute(param);
-
+            leftL.removeAllViews();
+            rightL.removeAllViews();
+            queue.add(myPageSr);
         }
 
     }

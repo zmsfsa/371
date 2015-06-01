@@ -80,6 +80,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
                 if (params.get(IN) != null)
                     if (params.get(IN).equals("1")) {
                         if (!params.get("myWidth").equals("0") && !params.get("myHeight").equals("0")) {
+                            checkOrJoin.setText("Чек ин");
                             Intent checkInt = new Intent(getApplicationContext(), EventOld.class);
                             checkInt.putExtra(LOGIN, login);
                             checkInt.putExtra(URI, stPath);
@@ -186,7 +187,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
     }
 
     public void onAlbum(View v) {
-        Intent eventInt = new Intent(getApplicationContext(), EventPage.class);
+        Intent eventInt = new Intent(getApplicationContext(), Album.class);
         eventInt.putExtra(LOGIN, login);
         eventInt.putExtra(URI, stPath);
         eventInt.putExtra(EVENT_NAME, eventName);

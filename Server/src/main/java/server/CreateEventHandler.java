@@ -31,7 +31,8 @@ public class CreateEventHandler implements HttpHandler {
 		byte[] b = new byte[is.available()];
 		is.read(b);
 		Map<String, String> params = new HashMap<String, String>();
-		params = Mapper.queryToMap(new String(b));
+
+		params = Mapper.queryToMap(new String(b, "UTF-8"));
 
 		WorkSql work = new WorkSql();
 		Calendar date = Calendar.getInstance();
@@ -41,6 +42,7 @@ public class CreateEventHandler implements HttpHandler {
 		date.set(Integer.parseInt(dates[2]), Integer.parseInt(dates[1]) - 1,
 				Integer.parseInt(dates[0]));
 		Event event;
+		System.out.println("event name = " + params.get(EVENT_NAME));
 		if ((width == null) || (height == null))
 			event = new Event(params.get(EVENT_NAME), date, params.get(ADDRES),
 					"0", "0");

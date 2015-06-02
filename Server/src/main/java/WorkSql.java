@@ -503,10 +503,11 @@ public class WorkSql {
 
 	public int addPhoto(Photo photo, String login) {
 		int result;
+		
 		Session session = InitHibernate.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		try {
-			result = (int) session.save(photo);
+			result = (Integer) session.save(photo);
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			System.out.println("HELLO I AM A PROBLEM FROM PHOTOS");
@@ -532,7 +533,7 @@ public class WorkSql {
 		Session session = InitHibernate.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		try {
-			result = (int) session.save(photo);
+			result = (Integer)session.save(photo);
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			System.out.println("HELLO I AM A PROBLEM FROM PHOTOS");

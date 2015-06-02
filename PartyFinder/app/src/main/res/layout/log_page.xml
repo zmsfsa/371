@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PartyFinder"
+            android:text="@string/party_finder"
             android:textSize="30sp"
             android:textStyle="bold|italic"
             android:id="@+id/textView6"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:hint="Логин"
+            android:hint="@string/login"
             android:id="@+id/edLog"
             android:layout_gravity="center_horizontal" />
 
@@ -49,13 +49,13 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:hint="Пароль"
+            android:hint="@string/password"
             android:id="@+id/edPwd" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:text="Войти"
+            android:text="@string/log_in"
             android:id="@+id/enter_enter"
             android:layout_gravity="center_horizontal"
             android:onClick="onClick"

@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import main.java.User;
 import main.java.WorkSql;
@@ -17,7 +19,7 @@ public class RegHandler implements HttpHandler {
 
 	private static final int HTTP_OK_STATUS = 200;
 	private static final String REG_IS_OK = "OK";
-	private static final String REG_IS_BAD = "Такой пользователь уже существует";
+	private static final String REG_IS_BAD = "User with such name already exists";
 	private static final String DATE = "date";
 	private static final String DATE_DELIMETR = "-";
 	private static final String DELIMETR = "=";
@@ -47,6 +49,15 @@ public class RegHandler implements HttpHandler {
 				+ month + DATE_DELIMETR
 				+ calendar.get(Calendar.YEAR));
 		User newUser = new User(params.get("login"), params.get("pwd"), params.get("fName"), params.get("lName"), params.get("phone"), 0, date);
+		if(hasE(params.get("login")) || hasE(params.get("pwd")) || hasE(params.get("fName")) || hasE(params.get("lName"))){
+				t.sendResponseHeaders(HTTP_OK_STATUS,
+						"wrong input type".getBytes().length);
+				OutputStream os = t.getResponseBody();
+				os.write("wrong input type".getBytes());
+				os.close();
+				System.out.println("wrong input type");
+				return;
+		}
 		if (work.addUser(newUser) != 0) {
 			t.sendResponseHeaders(HTTP_OK_STATUS,
 					REG_IS_BAD.getBytes().length);
@@ -64,5 +75,22 @@ public class RegHandler implements HttpHandler {
 		}
 
 	}
+	
+	private static Pattern pattern0_9__a_z__A_Z = Pattern.compile(
+            "[\\w\\u005F\\u002E]+", Pattern.UNICODE_CASE);
+
+    public static boolean hasE(String str) {
+        String[] a = str.split(" ");
+        boolean res = false;
+        for (String b : a) {
+            Matcher m = pattern0_9__a_z__A_Z.matcher(b);
+            if (m.matches()) {
+                ;
+            } else {
+                return true;
+            }
+        }
+        return res;
+    }
 
 }

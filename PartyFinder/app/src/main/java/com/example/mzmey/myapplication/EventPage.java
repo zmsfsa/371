@@ -80,7 +80,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
                 if (params.get(IN) != null)
                     if (params.get(IN).equals("1")) {
                         if (!params.get("myWidth").equals("0") && !params.get("myHeight").equals("0")) {
-                            checkOrJoin.setText("Чек ин");
+                            checkOrJoin.setText(getString(R.string.check_in));
                             Intent checkInt = new Intent(getApplicationContext(), EventOld.class);
                             checkInt.putExtra(LOGIN, login);
                             checkInt.putExtra(URI, stPath);
@@ -89,7 +89,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
                             Log.d(LOG, "myWidth, myHeight = " + params.get("myWidth") + ", " + params.get("myHeight"));
                         }
                     } else {
-                        checkOrJoin.setText("Вступить");
+                        checkOrJoin.setText(getString(R.string.join));
                         invited = false;
                     }
                 String date = params.get(DATE);
@@ -107,7 +107,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                tvName.setText("Connecction problem, check your network");
+                Toast.makeText(getApplicationContext(), getString(R.string.connection), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -155,7 +155,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    tvName.setText("Connecction problem, check your network");
+                    Toast.makeText(getApplicationContext(), getString(R.string.connection), Toast.LENGTH_SHORT).show();
                 }
             }) {
                 @Override

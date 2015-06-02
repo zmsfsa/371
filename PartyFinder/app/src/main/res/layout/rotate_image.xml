@@ -63,12 +63,13 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Сохранить изменения"
+                android:text="@string/save_changes"
                 android:id="@+id/saveChanges"
                 android:onClick="onClickSaveChanges"
                 android:layout_gravity="center_horizontal"
                 android:textColor="@drawable/light_blue_background"
-                android:background="#ffffff" />
+                android:background="#ffffff"
+                android:textSize="21dp" />
         </LinearLayout>
 
     </LinearLayout>

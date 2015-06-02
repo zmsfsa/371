@@ -3,7 +3,6 @@ package com.example.mzmey.myapplication;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -28,17 +28,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -76,7 +71,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
     private LinearLayout rightL;
     private TextView tvBirth;
     private RequestQueue queue;
-    StringRequest myPageSr;
+    private StringRequest myPageSr;
     private View rootview;
     private String login;
     private String LOG = "my con";
@@ -141,7 +136,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                tvName.setText("connection problem, check your network");
+                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.connection), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -278,7 +273,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
                 }, 0, 0, null,
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
-                        //tvName.setText("photo problem");
+                        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.connection), Toast.LENGTH_SHORT).show();
                     }
                 });
         Log.d(LOG, "MyPage continueLoading");
@@ -305,7 +300,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                tvName.setText("connection problem, check your network");
+                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.connection), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override

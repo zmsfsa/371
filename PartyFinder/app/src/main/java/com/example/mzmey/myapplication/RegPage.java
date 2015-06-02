@@ -7,6 +7,7 @@ package com.example.mzmey.myapplication;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -22,6 +23,8 @@ import com.android.volley.toolbox.StringRequest;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class RegPage extends ActionBarActivity {
@@ -79,52 +82,61 @@ public class RegPage extends ActionBarActivity {
                 Toast.makeText(this, getString(R.string.space_in_pwd), Toast.LENGTH_SHORT).show();
             else {
 
-                if ((dates.length != 3) || (Integer.parseInt(dates[0]) < 1) ||
-                        (Integer.parseInt(dates[0]) > 31) || (Integer.parseInt(dates[1]) < 0)
-                        || ((Integer.parseInt(dates[1]) > 12))) {
-
-                    tvOut.setText("wrong format of date");
-                } else if ((edLog.getText().toString().length() == 0) || (edPwd.getText().toString().length() == 0) ||
-                        (edFName.getText().toString().length() == 0) || (edLName.getText().toString().length() == 0))
-                    tvOut.setText("wrong parametrs");
+                if (hasE(edFName.getText().toString()) || hasE(edLog.getText().toString())
+                        || hasE(edLName.getText().toString()) ) {
+Log.d("mycon", "in ifhasE to  " + edLog.getText().toString() + " is " + hasE(edLog.getText().toString()));
+                    Toast.makeText(this, getString(R.string.enter_no_rus), Toast.LENGTH_SHORT).show();
+                }
                 else {
-                    StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            if (response.equals("OK")) {
-                                tvOut.setText("You are registrated, " + edLog.getText().toString());
-                                goNext();
-                            } else {
-                                tvOut.setText(response);
+                    Log.d("mycon", "in else hasE to  " + edLog.getText().toString() + " is " + hasE(edLog.getText().toString()));
+                    Log.d("mycon", "in else hasE to  " + edLog.getText().toString() + " is " + hasE("ÿ"));
+                    if ((dates.length != 3) || (Integer.parseInt(dates[0]) < 1) ||
+                            (Integer.parseInt(dates[0]) > 31) || (Integer.parseInt(dates[1]) < 0)
+                            || ((Integer.parseInt(dates[1]) > 12))) {
+
+                        Toast.makeText(this, getString(R.string.date_format), Toast.LENGTH_SHORT).show();
+                    } else if ((edLog.getText().toString().length() == 0) || (edPwd.getText().toString().length() == 0) ||
+                            (edFName.getText().toString().length() == 0) || (edLName.getText().toString().length() == 0))
+                        Toast.makeText(this, getString(R.string.params_wrong), Toast.LENGTH_SHORT).show();
+                    else {
+                        StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                if (response.equals("OK")) {
+                                    Toast.makeText(getApplicationContext(), getString(R.string.registrated), Toast.LENGTH_SHORT).show();
+                                    goNext();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            tvOut.setText("Connecction problem, check your network");
-                        }
-                    }) {
-                        @Override
-                        protected Map<String, String> getParams() {
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getApplicationContext(), getString(R.string.connection), Toast.LENGTH_SHORT).show();
 
-                            Map<String, String> params = new HashMap<String, String>();
-                            params.put(LOGIN, edLog.getText().toString());
-                            params.put(PWD, edPwd.getText().toString());
-                            params.put(FNAME, edFName.getText().toString());
-                            params.put(LNAME, edLName.getText().toString());
-                            params.put(PHONE, edPhone.getText().toString());
-                            params.put(BIRTH, edDate.getText().toString());
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() {
 
-                            return params;
-                        }
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put(LOGIN, edLog.getText().toString());
+                                params.put(PWD, edPwd.getText().toString());
+                                params.put(FNAME, edFName.getText().toString());
+                                params.put(LNAME, edLName.getText().toString());
+                                params.put(PHONE, edPhone.getText().toString());
+                                params.put(BIRTH, edDate.getText().toString());
 
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-                            Map<String, String> params = new HashMap<String, String>();
-                            return params;
-                        }
-                    };
-                    queue.add(sr);
+                                return params;
+                            }
+
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                return new HashMap<String, String>();
+                            }
+                        };
+                        queue.add(sr);
+                    }
                 }
             }
         }
@@ -148,5 +160,22 @@ public class RegPage extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private static Pattern pattern0_9__a_z__A_Z = Pattern.compile(
+            "[\\w\\u005F\\u002E]+", Pattern.UNICODE_CASE);
+
+    public static boolean hasE(String str) {
+        String[] a = str.split(" ");
+        boolean res = false;
+        for (String b : a) {
+            Matcher m = pattern0_9__a_z__A_Z.matcher(b);
+            if (m.matches()) {
+                ;
+            } else {
+                return true;
+            }
+        }
+        return res;
     }
 }

@@ -28,7 +28,7 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Добавить фото"
+                        android:text="@string/add_photo"
                         android:id="@+id/btAdd"
                         android:layout_alignParentTop="false"
                         android:layout_alignParentStart="true"
@@ -41,7 +41,7 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Удалить фото"
+                        android:text="@string/delete_photo"
                         android:id="@+id/btDel"
                         android:background="@drawable/event_list_button_pressed"
                         android:layout_weight="1" />
@@ -75,7 +75,7 @@
                     <Button
                         android:layout_width="120dp"
                         android:layout_height="match_parent"
-                        android:text="Страница встречи"
+                        android:text="@string/event_page"
                         android:id="@+id/btList"
                         android:layout_alignParentTop="true"
                         android:layout_toEndOf="@+id/linearLayout"

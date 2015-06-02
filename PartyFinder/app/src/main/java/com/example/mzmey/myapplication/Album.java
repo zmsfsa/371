@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -382,18 +383,17 @@ public class Album extends FragmentActivity{
                 @Override
                 public void onResponse(String response) {
                     Log.d(LOG, "second response");
-                    btDel.setText("Удалить фото");
                     left = true;
                     leftL.removeAllViews();
                     rightL.removeAllViews();
                     btDel.setOnClickListener(new FirstDel());
-                    btDel.setText("Удалить фото");
+                    btDel.setText(getString(R.string.delete_photo));
                     queue.add(sr);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d(LOG, "error in second");
+                    Toast.makeText(getApplicationContext(), getString(R.string.connection), Toast.LENGTH_SHORT).show();
                 }
             }) {
                 @Override
@@ -441,7 +441,7 @@ public class Album extends FragmentActivity{
                             Log.d(LOG, "id of photo " + Integer.parseInt(params.get(PHOTO)));
                         }
                     }
-                    btDel.setText("Удалить выбранное");
+                    btDel.setText(getString(R.string.delete_choosen));
                     btDel.setOnClickListener(new SecondDel());
                 }
             }, new Response.ErrorListener() {

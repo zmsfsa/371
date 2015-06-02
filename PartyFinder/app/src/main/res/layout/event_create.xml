@@ -16,34 +16,35 @@
             android:id="@+id/tvOut"
             android:gravity="center"
             android:textSize="20dp"
-            android:text="Создайте новое событие" />
+            android:text="@string/create_new" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edEvent"
-            android:hint="Введите название события" />
+            android:hint="@string/enter_event" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edDate"
             android:inputType="date"
-            android:hint="Дата: ДД-ММ-ГГГГ" />
+            android:hint="@string/date_dd_mm" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edAddress"
-            android:hint="Введите адрес события" />
+            android:hint="@string/enter_address" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
             android:gravity="center"
-            android:text="Выберите на карте примерное место события"
-            android:id="@+id/textView5" />
+            android:text="@string/chose_place"
+            android:id="@+id/textView5"
+            android:singleLine="true" />
 
         <fragment
             android:layout_width="fill_parent"
@@ -56,7 +57,7 @@
         <Button
             android:layout_width="97dp"
             android:layout_height="wrap_content"
-            android:text="Создать"
+            android:text="@string/create"
             android:id="@+id/btCreate"
             android:background="@drawable/grey_btn_background"
             android:layout_gravity="center_horizontal"

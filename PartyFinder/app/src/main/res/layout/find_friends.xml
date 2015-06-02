@@ -21,7 +21,7 @@
                 android:ems="10"
                 android:id="@+id/edFName"
                 android:layout_gravity="center_horizontal"
-                android:hint="Введите имя"
+                android:hint="@string/enter_name"
                 android:singleLine="false" />
 
             <EditText
@@ -30,12 +30,12 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/edLName"
-                android:hint="Введите фамилию" />
+                android:hint="@string/enter_last_name" />
 
             <Button
                 android:layout_width="89dp"
                 android:layout_height="wrap_content"
-                android:text="Найти"
+                android:text="@string/search"
                 android:background="@drawable/grey_btn_background"
                 android:id="@+id/btFnd"
                 android:layout_marginLeft="140dp"

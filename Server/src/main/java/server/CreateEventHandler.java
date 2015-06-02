@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import main.java.Event;
 import main.java.WorkSql;
@@ -24,7 +26,7 @@ public class CreateEventHandler implements HttpHandler {
 
 	public void handle(HttpExchange t) throws IOException {
 		System.out
-		.println("===================================================================================================================================================================================================");
+				.println("===================================================================================================================================================================================================");
 
 		System.out.println("CreateEventHandler");
 		InputStream is = t.getRequestBody();
@@ -42,6 +44,16 @@ public class CreateEventHandler implements HttpHandler {
 		date.set(Integer.parseInt(dates[2]), Integer.parseInt(dates[1]) - 1,
 				Integer.parseInt(dates[0]));
 		Event event;
+		if (hasE(noPros(params.get(EVENT_NAME))) || hasE(noPros(params.get(ADDRES)))) {
+			t.sendResponseHeaders(HTTP_OK_STATUS,
+					"wrong input type".getBytes().length);
+			OutputStream os = t.getResponseBody();
+			os.write("wrong input type".getBytes());
+			os.close();
+			System.out.println("wrong input type");
+			return;
+		}
+
 		System.out.println("event name = " + params.get(EVENT_NAME));
 		if ((width == null) || (height == null))
 			event = new Event(params.get(EVENT_NAME), date, params.get(ADDRES),
@@ -68,4 +80,29 @@ public class CreateEventHandler implements HttpHandler {
 		}
 
 	}
+
+	private static Pattern pattern0_9__a_z__A_Z = Pattern.compile(
+			"[\\w\\u005F\\u002E]+", Pattern.UNICODE_CASE);
+
+	public static boolean hasE(String str) {
+		String[] a = str.split(" ");
+		boolean res = false;
+		for (String b : a) {
+			Matcher m = pattern0_9__a_z__A_Z.matcher(b);
+			if (m.matches()) {
+				;
+			} else {
+				return true;
+			}
+		}
+		return res;
+	}
+	
+	private String noPros(String in) {
+        char[] c = in.toCharArray();
+        for (int i = 0; i < c.length; i++)
+            if (c[i] == '+')
+                c[i] = ' ';
+        return new String(c);
+    }
 }

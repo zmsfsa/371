@@ -30,7 +30,6 @@ android:gravity="center_horizontal">
                 android:layout_height="35dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/tvName"
-                android:text="Имя"
                 android:textColor="#feffffff"
                 android:textSize="24dp" />
 
@@ -50,7 +49,7 @@ android:gravity="center_horizontal">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Телефон:"
+                        android:text="Phone:"
                         android:textSize="16dp"
                         android:id="@+id/tvPhoned"
                         android:textColor="#fefdfdfd" />
@@ -80,7 +79,7 @@ android:gravity="center_horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="День рождения:"
+                    android:text="Birth date:"
                     android:textSize="17dp"
                     android:id="@+id/tvBirth1"
                     android:autoText="false"
@@ -98,7 +97,7 @@ android:gravity="center_horizontal">
             <Button
                 android:layout_width="140dp"
                 android:layout_height="35dp"
-                android:text="Изменить аватар"
+                android:text="Change photo"
                 android:id="@+id/btAdd"
                 android:textStyle="normal"
                 android:textSize="15dp"

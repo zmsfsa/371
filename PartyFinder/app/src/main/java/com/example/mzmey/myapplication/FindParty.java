@@ -25,6 +25,8 @@ import com.android.volley.toolbox.StringRequest;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by MZmey on 30.05.2015.
@@ -64,43 +66,47 @@ public class FindParty extends Activity {
         leftL.removeAllViews();
         rightL.removeAllViews();
         if (edEvent.getText().toString().equals(""))
-            cookView("Введите название события", 0);
+            Toast.makeText(getApplicationContext(), getString(R.string.enter_data), Toast.LENGTH_SHORT).show();
         else {
-            StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    String events[] = response.split(DEL);
-                    if (response.length() == 0)
-                        Toast.makeText(getApplicationContext(), getString(R.string.nothing), Toast.LENGTH_SHORT).show();
-                    else
-                        for (String event : events) {
-                            Map<String, String> params = Mapper.queryToMap(event);
-                            cookView(params.get(EVENT_NAME), Integer.parseInt(params.get(PHOTO)));
-                        }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    cookView("Connecction problem, check your network", 0);
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
+            if (hasE(edEvent.getText().toString()))
+                Toast.makeText(this, getString(R.string.enter_no_rus), Toast.LENGTH_SHORT).show();
+            else {
+                StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        String events[] = response.split(DEL);
+                        if (response.length() == 0)
+                            Toast.makeText(getApplicationContext(), getString(R.string.nothing), Toast.LENGTH_SHORT).show();
+                        else
+                            for (String event : events) {
+                                Map<String, String> params = Mapper.queryToMap(event);
+                                cookView(params.get(EVENT_NAME), Integer.parseInt(params.get(PHOTO)));
+                            }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), getString(R.string.connection), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
 
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put(EVENT_NAME, edEvent.getText().toString());
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put(EVENT_NAME, edEvent.getText().toString());
 
-                    return params;
-                }
+                        return params;
+                    }
 
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    return params;
-                }
-            };
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+                        return params;
+                    }
+                };
 
-            queue.add(sr);
+                queue.add(sr);
+            }
         }
     }
 
@@ -113,28 +119,26 @@ public class FindParty extends Activity {
         if (id != 0)
             continueLoading(id, ivEvent);
         tvEName.setText(noPros(eName));
-        if (!eName.equals("Ничего не найдено")) {
-            tvEName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intEvent = new Intent(getApplicationContext(), EventPage.class);
-                    intEvent.putExtra(LOGIN, login);
-                    intEvent.putExtra(EVENT_NAME, eName);
-                    intEvent.putExtra(URI, stPath);
-                    startActivity(intEvent);
-                }
-            });
-            ivEvent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intEvent = new Intent(getApplicationContext(), EventPage.class);
-                    intEvent.putExtra(LOGIN, login);
-                    intEvent.putExtra(EVENT_NAME, eName);
-                    intEvent.putExtra(URI, stPath);
-                    startActivity(intEvent);
-                }
-            });
-        }
+        tvEName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intEvent = new Intent(getApplicationContext(), EventPage.class);
+                intEvent.putExtra(LOGIN, login);
+                intEvent.putExtra(EVENT_NAME, eName);
+                intEvent.putExtra(URI, stPath);
+                startActivity(intEvent);
+            }
+        });
+        ivEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intEvent = new Intent(getApplicationContext(), EventPage.class);
+                intEvent.putExtra(LOGIN, login);
+                intEvent.putExtra(EVENT_NAME, eName);
+                intEvent.putExtra(URI, stPath);
+                startActivity(intEvent);
+            }
+        });
         tvEName.setGravity(Gravity.CENTER_VERTICAL);
         tvEName.setTextSize(20);
         tvEName.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
@@ -168,5 +172,22 @@ public class FindParty extends Activity {
             if (c[i] == PLUS)
                 c[i] = ' ';
         return new String(c);
+    }
+
+    private static Pattern pattern0_9__a_z__A_Z = Pattern.compile(
+            "[\\w\\u005F\\u002E]+", Pattern.UNICODE_CASE);
+
+    public static boolean hasE(String str) {
+        String[] a = str.split(" ");
+        boolean res = false;
+        for (String b : a) {
+            Matcher m = pattern0_9__a_z__A_Z.matcher(b);
+            if (m.matches()) {
+                ;
+            } else {
+                return true;
+            }
+        }
+        return res;
     }
 }

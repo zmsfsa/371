@@ -15,23 +15,23 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Введите необходимую информацию для входа"
+        android:text="@string/enter_information"
         android:id="@+id/textView"
-        android:layout_marginLeft="40dp" />
+        android:layout_gravity="center" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/edLog"
-        android:hint="Логин"
+        android:hint="@string/login"
         android:layout_gravity="center_horizontal"
         android:inputType="text" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Пароль"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/edPwd"
@@ -41,7 +41,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Имя"
+        android:hint="@string/first_name"
         android:ems="10"
         android:id="@+id/edFName"
         android:layout_gravity="center_horizontal"
@@ -51,7 +51,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edLName"
-        android:hint="Фамилия"
+        android:hint="@string/last_name"
         android:layout_gravity="center_horizontal"
         android:inputType="textPersonName" />
 
@@ -62,19 +62,19 @@
         android:ems="10"
         android:id="@+id/edPhone"
         android:layout_gravity="center_horizontal"
-        android:hint="Телефон" />
+        android:hint="@string/phone" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edDate"
-        android:hint="ДД-ММ-ГГГГ"
+        android:hint="@string/dd_mm_yyyy"
         android:inputType="date" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:text="Регистрация"
+        android:text="@string/registration"
         android:id="@+id/btReg"
         android:layout_gravity="center_horizontal"
         android:onClick="ClickReg"

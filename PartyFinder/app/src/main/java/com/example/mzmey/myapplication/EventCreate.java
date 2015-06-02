@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,6 +24,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by MZmey on 22.05.2015.
@@ -95,54 +98,56 @@ public class EventCreate extends FragmentActivity {
         if ((dates.length != 3) || (Integer.parseInt(dates[0]) < 1) ||
                 (Integer.parseInt(dates[0]) > 31) || (Integer.parseInt(dates[1]) < 0)
                 || ((Integer.parseInt(dates[1]) > 12))) {
-
-            tvOut.setText("wrong format of date");
-
+            Toast.makeText(this, getString(R.string.date_format), Toast.LENGTH_SHORT).show();
         } else {
+            if ((hasE(edAddress.getText().toString())) || (hasE(edEvent.getText().toString())))
+                Toast.makeText(this, getString(R.string.enter_no_rus), Toast.LENGTH_SHORT).show();
+            else {
 
-            sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    if (response.equals("OK")) {
-                        onGoOn();
-                    } else {
-                        tvOut.setText(response);
+                sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.equals("OK")) {
+                            onGoOn();
+                        } else {
+                            Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    tvOut.setText("Connecction problem, check your network");
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), getString(R.string.connection), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
 
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put(LOGIN, login);
-                    params.put(EVENT_NAME, edEvent.getText().toString());
-                    params.put(EVENT_DATE, edDate.getText().toString());
-                    params.put(ADDRES, edAddress.getText().toString());
-                    if ((height != null) && (width != null)) {
-                        params.put("height", height);
-                        params.put("width", width);
-                    } else {
-                        params.put("height", "0");
-                        params.put("width", "0");
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put(LOGIN, login);
+                        params.put(EVENT_NAME, edEvent.getText().toString());
+                        params.put(EVENT_DATE, edDate.getText().toString());
+                        params.put(ADDRES, edAddress.getText().toString());
+                        if ((height != null) && (width != null)) {
+                            params.put("height", height);
+                            params.put("width", width);
+                        } else {
+                            params.put("height", "0");
+                            params.put("width", "0");
+                        }
+
+                        return params;
                     }
 
-                    return params;
-                }
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+                        return params;
+                    }
 
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    return params;
-                }
+                };
 
-            };
-
-            queue.add(sr);
+                queue.add(sr);
+            }
         }
     }
 
@@ -162,4 +167,23 @@ public class EventCreate extends FragmentActivity {
                 c[i] = ' ';
         return new String(c);
     }
+
+    private static Pattern pattern0_9__a_z__A_Z = Pattern.compile(
+            "[\\w\\u005F\\u002E]+", Pattern.UNICODE_CASE);
+
+    public static boolean hasE(String str) {
+        String[] a = str.split(" ");
+        boolean res = false;
+        for (String b : a) {
+            Matcher m = pattern0_9__a_z__A_Z.matcher(b);
+            if (m.matches()) {
+                ;
+            } else {
+                return true;
+            }
+        }
+        return res;
+    }
+
+
 }

@@ -28,6 +28,8 @@ import com.android.volley.toolbox.StringRequest;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by MZmey on 30.05.2015.
@@ -111,45 +113,49 @@ public class FindFriend extends Activity implements View.OnClickListener {
         leftL.removeAllViews();
         rightL.removeAllViews();
         if (edFName.getText().toString().equals("") && edLName.getText().toString().equals(""))
-            cookView("Введите имя или фамилию", 0, "0");
+            Toast.makeText(getApplicationContext(), getString(R.string.enter_data), Toast.LENGTH_SHORT).show();
         else {
-            Log.d("mylog", " fname " + edFName.getText().toString() + ", lname " + edLName.getText().toString());
-            StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    String users[] = response.split(DEL);
-                    if (response.length() == 0)
-                        Toast.makeText(getApplicationContext(), getString(R.string.nothing), Toast.LENGTH_SHORT).show();
-                    else
-                        for (String user : users) {
-                            Map<String, String> params = Mapper.queryToMap(user);
-                            cookView(params.get(LNAME) + " " + params.get(FNAME), Integer.parseInt(params.get(PHOTO)), params.get(LOGIN));
-                        }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    cookView("Connecction problem, check your network", 0, "");
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
+            if ((hasE(edFName.getText().toString())) || (hasE(edLName.getText().toString())))
+                Toast.makeText(this, getString(R.string.enter_no_rus), Toast.LENGTH_SHORT).show();
+            else {
+                Log.d("mylog", " fname " + edFName.getText().toString() + ", lname " + edLName.getText().toString());
+                StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        String users[] = response.split(DEL);
+                        if (response.length() == 0)
+                            Toast.makeText(getApplicationContext(), getString(R.string.nothing), Toast.LENGTH_SHORT).show();
+                        else
+                            for (String user : users) {
+                                Map<String, String> params = Mapper.queryToMap(user);
+                                cookView(params.get(LNAME) + " " + params.get(FNAME), Integer.parseInt(params.get(PHOTO)), params.get(LOGIN));
+                            }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), getString(R.string.connection), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
 
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put(FNAME, edFName.getText().toString());
-                    params.put(LNAME, edLName.getText().toString());
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put(FNAME, edFName.getText().toString());
+                        params.put(LNAME, edLName.getText().toString());
 
-                    return params;
-                }
+                        return params;
+                    }
 
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    return params;
-                }
-            };
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+                        return params;
+                    }
+                };
 
-            queue.add(sr);
+                queue.add(sr);
+            }
         }
     }
 
@@ -164,10 +170,27 @@ public class FindFriend extends Activity implements View.OnClickListener {
                 }, 0, 0, null,
                 new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
-                        //tvName.setText("photo problem");
+                        Toast.makeText(getApplicationContext(), getString(R.string.connection), Toast.LENGTH_SHORT).show();
                     }
                 });
         queue.add(request);
 
+    }
+
+    private static Pattern pattern0_9__a_z__A_Z = Pattern.compile(
+            "[\\w\\u005F\\u002E]+", Pattern.UNICODE_CASE);
+
+    public static boolean hasE(String str) {
+        String[] a = str.split(" ");
+        boolean res = false;
+        for (String b : a) {
+            Matcher m = pattern0_9__a_z__A_Z.matcher(b);
+            if (m.matches()) {
+                ;
+            } else {
+                return true;
+            }
+        }
+        return res;
     }
 }

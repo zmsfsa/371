@@ -23,7 +23,7 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Добавить событие"
+                    android:text="Add event"
                     android:id="@+id/btAdd"
                     android:background="@drawable/event_list_button_pressed"/>
             </LinearLayout>

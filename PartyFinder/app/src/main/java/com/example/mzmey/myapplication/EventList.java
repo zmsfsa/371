@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -83,14 +84,14 @@ public class EventList extends Fragment implements View.OnClickListener {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(LOG, "bad");
-                cookView("Connection problem, check your network.", "", 0);
+                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.connection), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("login", login);
+                params.put(LOGIN, login);
 
                 return params;
             }
@@ -118,7 +119,9 @@ public class EventList extends Fragment implements View.OnClickListener {
                     new Response.Listener<Bitmap>() {
                         @Override
                         public void onResponse(Bitmap bitmap) {
-                            ivEvent.setImageBitmap(bitmap);
+                            Bitmap b = Bitmap.createScaledBitmap(bitmap, 250,
+                                    250, false);
+                            ivEvent.setImageBitmap(b);
                         }
                     }, 0, 0, null,
                     new Response.ErrorListener() {
@@ -139,19 +142,19 @@ public class EventList extends Fragment implements View.OnClickListener {
                 getActivity().startActivity(intEvent);
             }
         });
+
         tvName.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
         tvDate.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
         tvName.setGravity(Gravity.CENTER);
         tvDate.setGravity(Gravity.CENTER);
         tvName.setTextSize(20);
-        tvDate.setText("Дата" + ": " + date);
+        tvDate.setText(getString(R.string.date) + date);
         leftL.addView(ivEvent, lParams);
         middleL.addView(tvName, lParams);
         rightL.addView(tvDate, lParams);
     }
 
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.btAdd:
                 Intent intent1 = new Intent(getActivity(), EventCreate.class);

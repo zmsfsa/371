@@ -64,7 +64,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
         setContentView(R.layout.activity_event);
         tvName = (TextView) findViewById(R.id.tvName);
         tvAddr = (TextView) findViewById(R.id.tvAddr);
-        eventName = getIntent().getStringExtra(EVENT_NAME);
+        eventName = noPros(getIntent().getStringExtra(EVENT_NAME));
         login = getIntent().getStringExtra(LOGIN);
         stPath = getIntent().getStringExtra(URI);
         checkOrJoin = (Button) findViewById(R.id.checkOrJoin);
@@ -114,7 +114,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<String, String>();
-                params.put(EVENT_NAME, eventName);
+                params.put(EVENT_NAME, noPros(eventName));
                 params.put(LOGIN, login);
 
                 return params;
@@ -162,7 +162,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
                 protected Map<String, String> getParams() {
 
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put(EVENT_NAME, eventName);
+                    params.put(EVENT_NAME, noPros(eventName));
                     params.put(LOGIN, login);
                     params.put(MAKE_JOIN, "YES");
 
@@ -181,7 +181,7 @@ public class EventPage extends FragmentActivity implements View.OnClickListener 
             Intent checkIntMake = new Intent(getApplicationContext(), MapsActivity.class);
             checkIntMake.putExtra(LOGIN, login);
             checkIntMake.putExtra(URI, stPath);
-            checkIntMake.putExtra(EVENT_NAME, eventName);
+            checkIntMake.putExtra(EVENT_NAME, noPros(eventName));
             startActivity(checkIntMake);
         }
     }

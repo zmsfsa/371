@@ -98,7 +98,7 @@
                 android:layout_width="114dp"
                 android:layout_height="wrap_content"
                 android:text="Участники"
-                android:background="@drawable/gradient"
+                android:background="@drawable/grey_btn_background"
                 android:id="@+id/btList"
                 android:layout_marginTop="10dp"
                 android:onClick="onIncludeList" />
@@ -115,7 +115,7 @@
                 android:layout_width="114dp"
                 android:layout_height="wrap_content"
                 android:text="Альбом"
-                android:background="@drawable/gradient"
+                android:background="@drawable/grey_btn_background"
                 android:id="@+id/button5"
                 android:layout_marginTop="10dp"
                 android:onClick="onAlbum" />
@@ -135,7 +135,7 @@
             android:text="Чек ин"
             android:textSize="25dp"
             android:gravity="center_vertical|center_horizontal"
-            android:background="@drawable/roundedbutton"
+            android:background="@drawable/round_blue_button_background"
             android:textColor="#fff"
             android:clickable="false" />
 

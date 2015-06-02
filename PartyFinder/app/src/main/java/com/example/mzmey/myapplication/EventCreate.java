@@ -150,8 +150,16 @@ public class EventCreate extends FragmentActivity {
 
         Intent intent = new Intent(this, EventPage.class);
         intent.putExtra(LOGIN, login);
-        intent.putExtra(EVENT_NAME, edEvent.getText().toString());
+        intent.putExtra(EVENT_NAME, noPros(edEvent.getText().toString()));
         intent.putExtra(URI, stPath);
         startActivity(intent);
+    }
+
+    private String noPros(String in) {
+        char[] c = in.toCharArray();
+        for (int i = 0; i < c.length; i++)
+            if (c[i] == '+')
+                c[i] = ' ';
+        return new String(c);
     }
 }

@@ -77,7 +77,6 @@ public class MapsActivity extends FragmentActivity {
             finish();
             return;
         }
-        tv = (TextView) findViewById(R.id.textView1);
         latitude = 0;
         longitude = 0;
         init();
@@ -138,8 +137,6 @@ public class MapsActivity extends FragmentActivity {
                         latLng.latitude, latLng.longitude)));
                 latitude = latLng.latitude;
                 longitude = latLng.longitude;
-                tv.setText("latitude: " + latitude + ", longitude: "
-                        + longitude);
             }
         });
 

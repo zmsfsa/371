@@ -1,14 +1,10 @@
 package com.example.mzmey.myapplication;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -17,12 +13,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.HashMap;
@@ -56,7 +53,7 @@ public class EventOld extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_checked_in);
-        eventName = getIntent().getStringExtra(EVENT_NAME);
+        eventName = noPros(getIntent().getStringExtra(EVENT_NAME));
         login = getIntent().getStringExtra(LOGIN);
         stPath = getIntent().getStringExtra(URI);
         tvOut = (TextView) findViewById(R.id.tvOut);
@@ -140,6 +137,12 @@ public class EventOld extends FragmentActivity {
     public void makeMyPoint(double latitude, double longitude) {
         map.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(latitude, longitude))
+                .zoom(4)
+                .build();
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+        map.animateCamera(cameraUpdate);
     }
 
     private String noPros(String in) {
@@ -154,7 +157,15 @@ public class EventOld extends FragmentActivity {
         Intent incList = new Intent(this, IncludeList.class);
         incList.putExtra(LOGIN, login);
         incList.putExtra(URI, stPath);
-        incList.putExtra(EVENT_NAME, eventName);
+        incList.putExtra(EVENT_NAME, noPros(eventName));
         startActivity(incList);
+    }
+
+    public void onAlbum(View v){
+        Intent eventInt = new Intent(getApplicationContext(), Album.class);
+        eventInt.putExtra(LOGIN, login);
+        eventInt.putExtra(URI, stPath);
+        eventInt.putExtra(EVENT_NAME, noPros(eventName));
+        startActivity(eventInt);
     }
 }

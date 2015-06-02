@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,17 +128,22 @@ public class EventList extends Fragment implements View.OnClickListener {
                     });
             queue.add(request);
         }
-        tvName.setText(name);
-        ivEvent.setOnClickListener(new View.OnClickListener() {
+        tvName.setText(noPros(name));
+        tvName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intEvent = new Intent(getActivity(), EventPage.class);
                 intEvent.putExtra(LOGIN, login);
-                intEvent.putExtra(EVENT_NAME, name);
+                intEvent.putExtra(EVENT_NAME, noPros(name));
                 intEvent.putExtra(URI, stPath);
                 getActivity().startActivity(intEvent);
             }
         });
+        tvName.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
+        tvDate.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
+        tvName.setGravity(Gravity.CENTER);
+        tvDate.setGravity(Gravity.CENTER);
+        tvName.setTextSize(20);
         tvDate.setText("Дата" + ": " + date);
         leftL.addView(ivEvent, lParams);
         middleL.addView(tvName, lParams);

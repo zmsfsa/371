@@ -35,7 +35,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_toStartOf="@+id/btList"
                         android:onClick="onAdd"
-                        android:background="@drawable/abc_cab_background_top_holo_light"
+                        android:background="@drawable/event_list_button_pressed"
                         android:layout_weight="1" />
 
                     <Button
@@ -43,7 +43,7 @@
                         android:layout_height="match_parent"
                         android:text="Удалить фото"
                         android:id="@+id/btDel"
-                        android:background="@drawable/abc_cab_background_top_holo_light"
+                        android:background="@drawable/event_list_button_pressed"
                         android:layout_weight="1" />
 
                 </LinearLayout>
@@ -80,7 +80,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_toEndOf="@+id/linearLayout"
                         android:layout_alignParentRight="true"
-                        android:background="@drawable/abc_cab_background_top_holo_light"
+                        android:background="@drawable/event_list_button_pressed"
                         android:onClick="onEvent" />
 
                     <Button

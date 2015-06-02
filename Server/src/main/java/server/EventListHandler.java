@@ -29,7 +29,14 @@ public class EventListHandler implements HttpHandler {
 	private static final String AND = "&";
 	private static final int HTTP_OK_STATUS = 200;
 	private static final String SERVER_PROBLEM = "problem with server database";
-
+	
+	private String noPros(String in) {
+        char[] c = in.toCharArray();
+        for (int i = 0; i < c.length; i++)
+            if (c[i] == '+')
+                c[i] = ' ';
+        return new String(c);
+    }
 	@Override
 	public void handle(HttpExchange t) throws IOException {
 		System.out
@@ -61,7 +68,7 @@ public class EventListHandler implements HttpHandler {
 							&& inc.getWidth().equals("0")) {
 						Calendar calendar = event.getDateEvent();
 						int month = calendar.get(Calendar.MONTH) + 1;
-						sendBuild.append(EVENT_NAME + DELIMETR + event.getNameEvent()
+						sendBuild.append(EVENT_NAME + DELIMETR + noPros(event.getNameEvent())
 								+ AND + DATE + DELIMETR
 								+ calendar.get(Calendar.DATE) + DATE_DELIMETR
 								+ month + DATE_DELIMETR

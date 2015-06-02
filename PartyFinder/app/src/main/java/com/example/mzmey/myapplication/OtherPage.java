@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -150,7 +151,7 @@ public class OtherPage extends Activity {
         LinearLayout.LayoutParams lParamsT = new LinearLayout.LayoutParams(param, 70);
         if(id != 0)
             continueLoading(id, ivEvent);
-        tvAName.setText(aName);
+        tvAName.setText(noPros(aName));
         ivEvent.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
         ivEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,6 +163,7 @@ public class OtherPage extends Activity {
                 startActivity(albumInt);
             }
         });
+        tvName.setGravity(Gravity.CENTER);
 
         tvName.setTextSize(18);
         ivEvent.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
@@ -181,8 +183,9 @@ public class OtherPage extends Activity {
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
-                        if (bitmap != null)
-                            iv.setImageBitmap(bitmap);
+                        Bitmap b = Bitmap.createScaledBitmap(bitmap, 190,
+                                190, false);
+                            iv.setImageBitmap(b);
                     }
                 }, 0, 0, null, new Response.ErrorListener() {
                     public void onErrorResponse(VolleyError error) {
@@ -266,5 +269,21 @@ public class OtherPage extends Activity {
             };
             queue.add(delSr);
         }
+    }
+
+    private String noPros(String in) {
+        char[] c = in.toCharArray();
+        for (int i = 0; i < c.length; i++)
+            if (c[i] == '+')
+                c[i] = ' ';
+        return new String(c);
+    }
+
+    public void onEventList(View v){
+        Intent albumInt = new Intent(getApplicationContext(), OtherEventList.class);
+        albumInt.putExtra(LOGIN, login);
+        albumInt.putExtra(OTHER_LOGIN, otherLogin);
+        albumInt.putExtra(URI, stPath);
+        startActivity(albumInt);
     }
 }

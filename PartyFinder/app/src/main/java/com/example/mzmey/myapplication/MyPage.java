@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,7 +114,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
             public void onResponse(String response) {
                 Map<String, String> params = Mapper.queryToMap(response);
                 tvName.setText(params.get(LNAME) + " " + params.get(FNAME));
-                tvName.setTextSize(33);
+
                 tvPhone.setText(params.get(PHONE));
                 tvBirth.setText(params.get(BIRTH));
                 Log.d("my con", "events = " + params.get(EVENTS));
@@ -124,7 +125,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
                         for (String event : events) {
                             if (!event.equals("")) {
                                 String[] pair = event.split("-");
-                                cookView(noPros(pair[0]), Integer.parseInt(pair[1]));
+                                cookView(pair[0], Integer.parseInt(pair[1]));
                                 Log.d("my con", "name = " + pair[0] + ", int = "
                                         + Integer.parseInt(pair[1]));
                             }
@@ -157,7 +158,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
                 return new HashMap<String, String>();
             }
         };
-
+        Log.d(LOG, "MyPage onCreate");
         queue.add(myPageSr);
 
 
@@ -171,8 +172,8 @@ public class MyPage extends Fragment implements View.OnClickListener {
         LinearLayout.LayoutParams lParamsT = new LinearLayout.LayoutParams(param, 70);
         if(id != 0)
             continueLoading(id, ivEvent);
-        tvAName.setText(aName);
-        ivEvent.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
+        tvAName.setText(noPros(aName));
+
         ivEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,9 +184,10 @@ public class MyPage extends Fragment implements View.OnClickListener {
                 startActivity(albumInt);
             }
         });
-
-        tvName.setTextSize(18);
-        ivEvent.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
+        ivEvent.setBackgroundResource(R.drawable.abc_ab_bottom_solid_light_holo);
+        tvAName.setTextSize(18);
+        tvAName.setGravity(Gravity.CENTER_HORIZONTAL);
+        tvAName.setBackgroundResource(R.drawable.abc_ab_bottom_solid_light_holo);
         if (left) {
             leftL.addView(tvAName, lParamsT);
             leftL.addView(ivEvent, lParamsI);
@@ -237,9 +239,12 @@ public class MyPage extends Fragment implements View.OnClickListener {
                             (int) (galleryPic.getByteCount() / 1024)));
                     int height = galleryPic.getHeight();
                     int width = galleryPic.getWidth();
-                    int c = height / 250;
-                    height /= c;
-                    width /= c;
+                    Log.d(LOG, "height = " + height);
+                    if(height > 150) {
+                        int c = height / 150;
+                        height /= c;
+                        width /= c;
+                    }
                     Bitmap sendB = Bitmap.createScaledBitmap(galleryPic, width,
                             height, false);
                     Log.d("my connection", String.format("bitmap size = %sx%s, byteCount = %s",
@@ -266,7 +271,9 @@ public class MyPage extends Fragment implements View.OnClickListener {
                 new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
-                        iv.setImageBitmap(bitmap);
+                        Bitmap b = Bitmap.createScaledBitmap(bitmap, 190,
+                                190, false);
+                        iv.setImageBitmap(b);
                     }
                 }, 0, 0, null,
                 new Response.ErrorListener() {
@@ -274,6 +281,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
                         //tvName.setText("photo problem");
                     }
                 });
+        Log.d(LOG, "MyPage continueLoading");
         queue.add(request);
 
     }
@@ -317,7 +325,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
             }
         };
 
-
+        Log.d(LOG, "MyPage continueSending");
         queue.add(sr);
     }
 
@@ -374,6 +382,7 @@ public class MyPage extends Fragment implements View.OnClickListener {
             super.onPostExecute(param);
             leftL.removeAllViews();
             rightL.removeAllViews();
+            Log.d(LOG, "MyPage onPosetExecute");
             queue.add(myPageSr);
         }
 

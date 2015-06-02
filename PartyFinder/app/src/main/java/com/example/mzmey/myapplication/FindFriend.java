@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -77,28 +78,25 @@ public class FindFriend extends Activity implements View.OnClickListener {
             continueLoading(id, ivFace);
         tvUName.setText(uName);
 
-        ivFace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (!uLogin.equals(""))
+            ivFace.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-
-                if(login.equals(uLogin)) {
-                    Intent myIntent = new Intent(v.getContext(), LeftPanel.class);
-                    myIntent.putExtra(LOGIN, login);
-                    myIntent.putExtra(URI, stPath);
-                    startActivity(myIntent);
+                    if (login.equals(uLogin)) {
+                        Intent myIntent = new Intent(v.getContext(), LeftPanel.class);
+                        myIntent.putExtra(LOGIN, login);
+                        myIntent.putExtra(URI, stPath);
+                        startActivity(myIntent);
+                    } else {
+                        Intent otherIntent = new Intent(v.getContext(), OtherPage.class);
+                        otherIntent.putExtra(LOGIN, login);
+                        otherIntent.putExtra(OTHER_LOGIN, uLogin);
+                        otherIntent.putExtra(URI, stPath);
+                        startActivity(otherIntent);
+                    }
                 }
-                else {
-                    Intent otherIntent = new Intent(v.getContext(), OtherPage.class);
-                    otherIntent.putExtra(LOGIN, login);
-                    otherIntent.putExtra(OTHER_LOGIN, uLogin);
-                    otherIntent.putExtra(URI, stPath);
-                    startActivity(otherIntent);
-                }
-            }
-        });
-
-
+            });
 
         tvUName.setGravity(Gravity.CENTER_VERTICAL);
         tvUName.setTextSize(20);
@@ -121,7 +119,7 @@ public class FindFriend extends Activity implements View.OnClickListener {
                 public void onResponse(String response) {
                     String users[] = response.split(DEL);
                     if (response.length() == 0)
-                        cookView("Ничего не найдено", 0, "");
+                        Toast.makeText(getApplicationContext(), getString(R.string.nothing), Toast.LENGTH_SHORT).show();
                     else
                         for (String user : users) {
                             Map<String, String> params = Mapper.queryToMap(user);

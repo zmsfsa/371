@@ -115,7 +115,8 @@
                         android:text="Посмотреть встречи"
                         android:id="@+id/btEvents"
                         android:textColor="#fefdfdfd"
-                        android:textSize="15dp" />
+                        android:textSize="15dp"
+                        android:onClick="onEventList" />
                 </LinearLayout>
 
             </LinearLayout>

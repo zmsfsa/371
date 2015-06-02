@@ -20,4 +20,8 @@
     <string name="title_activity_main_activity2_party1">MainActivity2Party1Activity</string>
     <string name="title_activity_main_activity2">MainActivity2Activity</string>
     <string name="title_section4">Поиск</string>
+    <string name="space_in_pwd">Введите пароль без пробелов</string>
+    <string name="space_in_login">Введите логин без пробелов</string>
+    <string name="date">Дата: </string>
+    <string name="nothing">Ничего не найдено</string>
 </resources>

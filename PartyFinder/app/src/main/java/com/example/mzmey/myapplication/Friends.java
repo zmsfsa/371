@@ -2,11 +2,13 @@ package com.example.mzmey.myapplication;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import java.util.HashMap;
@@ -29,7 +32,9 @@ public class Friends extends Fragment implements View.OnClickListener{
     private View rootview;
     private static final String DEL = "/";
     private static final String LOGIN = "login";
+    private static final String OTHER_LOGIN = "otherLogin";
     private static final String FNAME = "fName";
+    private static final String PHOTO = "photo";
     private static final String LNAME = "lName";
     private static final String LOG = "my logs";
     private static final String URI_ADD = "/friends";
@@ -64,13 +69,13 @@ public class Friends extends Fragment implements View.OnClickListener{
                 String[] three = response.split(DEL);
                 for(String a : three) {
                     Map<String, String> params = Mapper.queryToMap(a);
-                    cookView(params.get(FNAME), params.get(LNAME));
+                    if(params.get(FNAME) != null)
+                        cookView(params.get(FNAME) + " " + params.get(LNAME), Integer.parseInt(params.get(PHOTO)), params.get(LOGIN));
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                cookView("Connection problem, check your network.", "");
             }
         }) {
             @Override
@@ -78,7 +83,6 @@ public class Friends extends Fragment implements View.OnClickListener{
 
                 Map<String, String> params = new HashMap<String, String>();
                 params.put(LOGIN, login);
-
                 return params;
             }
 
@@ -88,23 +92,38 @@ public class Friends extends Fragment implements View.OnClickListener{
                 return params;
             }
         };
-
         queue.add(sr);
 
 
         return rootview;
     }
 
-    private void cookView(String fName, String lName){
+    private void cookView(String uName, int id, final String log){
         ImageView ivFace = new ImageView(this.getActivity());
-        TextView tvName = new TextView(this.getActivity());
-        LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(
-                param, 400);
-        tvName.setText(lName + " " + fName);
-        LinearLayout oneL;
+        TextView tvuName = new TextView(this.getActivity());
+        LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(param, 200);
+        tvuName.setText(uName);
+        if (id != 0) {
+           continueLoading(id, ivFace);
+        }
+
+        tvuName.setGravity(Gravity.CENTER);
+        tvuName.setTextSize(20);
+        tvuName.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
+
+        tvuName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intEvent = new Intent(getActivity(), OtherPage.class);
+                intEvent.putExtra(LOGIN, login);
+                intEvent.putExtra(OTHER_LOGIN, log);
+                intEvent.putExtra(URI, stPath);
+                getActivity().startActivity(intEvent);
+            }
+        });
 
         leftL.addView(ivFace, lParams);
-        rightL.addView(tvName, lParams);
+        rightL.addView(tvuName, lParams);
     }
 
     @Override
@@ -112,6 +131,32 @@ public class Friends extends Fragment implements View.OnClickListener{
         leftL.removeAllViews();
         rightL.removeAllViews();
         queue.add(sr);
+    }
+
+    private String noPros(String in) {
+        char[] c = in.toCharArray();
+        for (int i = 0; i < c.length; i++)
+            if (c[i] == '+')
+                c[i] = ' ';
+        return new String(c);
+    }
+
+    private void continueLoading(int id, final ImageView iv) {
+        ImageRequest request = new ImageRequest(getActivity().getIntent().getStringExtra(URI) + "/photo?" + id,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        iv.setImageBitmap(bitmap);
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        //tvName.setText("photo problem");
+                    }
+                });
+        Log.d(LOG, "MyPage continueLoading");
+        queue.add(request);
+
     }
 
 

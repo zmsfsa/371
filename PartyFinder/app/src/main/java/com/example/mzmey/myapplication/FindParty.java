@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -70,7 +71,7 @@ public class FindParty extends Activity {
                 public void onResponse(String response) {
                     String events[] = response.split(DEL);
                     if (response.length() == 0)
-                        cookView("Ничего не найдено", 0);
+                        Toast.makeText(getApplicationContext(), getString(R.string.nothing), Toast.LENGTH_SHORT).show();
                     else
                         for (String event : events) {
                             Map<String, String> params = Mapper.queryToMap(event);
@@ -112,26 +113,28 @@ public class FindParty extends Activity {
         if (id != 0)
             continueLoading(id, ivEvent);
         tvEName.setText(noPros(eName));
-        tvEName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intEvent = new Intent(getApplicationContext(), EventPage.class);
-                intEvent.putExtra(LOGIN, login);
-                intEvent.putExtra(EVENT_NAME, eName);
-                intEvent.putExtra(URI, stPath);
-                startActivity(intEvent);
-            }
-        });
-        ivEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intEvent = new Intent(getApplicationContext(), EventPage.class);
-                intEvent.putExtra(LOGIN, login);
-                intEvent.putExtra(EVENT_NAME, eName);
-                intEvent.putExtra(URI, stPath);
-                startActivity(intEvent);
-            }
-        });
+        if (!eName.equals("Ничего не найдено")) {
+            tvEName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intEvent = new Intent(getApplicationContext(), EventPage.class);
+                    intEvent.putExtra(LOGIN, login);
+                    intEvent.putExtra(EVENT_NAME, eName);
+                    intEvent.putExtra(URI, stPath);
+                    startActivity(intEvent);
+                }
+            });
+            ivEvent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intEvent = new Intent(getApplicationContext(), EventPage.class);
+                    intEvent.putExtra(LOGIN, login);
+                    intEvent.putExtra(EVENT_NAME, eName);
+                    intEvent.putExtra(URI, stPath);
+                    startActivity(intEvent);
+                }
+            });
+        }
         tvEName.setGravity(Gravity.CENTER_VERTICAL);
         tvEName.setTextSize(20);
         tvEName.setBackgroundResource(R.drawable.abc_cab_background_top_holo_light);
@@ -158,6 +161,7 @@ public class FindParty extends Activity {
         queue.add(request);
 
     }
+
     private String noPros(String in) {
         char[] c = in.toCharArray();
         for (int i = 0; i < c.length; i++)

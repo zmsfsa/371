@@ -53,14 +53,17 @@
             android:id="@+id/edPwd" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
             android:text="Войти"
             android:id="@+id/enter_enter"
             android:layout_gravity="center_horizontal"
             android:onClick="onClick"
-            android:background="#2b75d6"
-            android:textColor="#ffffffff" />
+            android:background="@drawable/blue_button_background"
+            android:textColor="#ffffffff"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp" />
 
         <TextView
             android:layout_width="match_parent"

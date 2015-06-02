@@ -11,25 +11,42 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="62dp"
+            android:background="#ffffff">
 
-            <Button
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Button"
-                android:id="@+id/btAdd" />
+                android:layout_height="fill_parent"
+                android:layout_weight="1.06">
 
-            <Button
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Добавить событие"
+                    android:id="@+id/btAdd"
+                    android:background="@drawable/event_list_button_pressed"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:id="@+id/btUpd"
-                android:layout_gravity="right"
-                android:text="Update" />
+                android:layout_height="fill_parent"
+                android:background="#1faee9">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/btUpd"
+                    android:background="@android:drawable/stat_notify_sync"/>
+            </LinearLayout>
+
         </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="false">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -41,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/leftL"
-                    android:layout_weight="1">
+                    android:layout_weight="2">
 
                 </LinearLayout>
 
@@ -57,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/rightL"
-                    android:layout_weight="1">
+                    android:layout_weight="2">
 
                 </LinearLayout>
 

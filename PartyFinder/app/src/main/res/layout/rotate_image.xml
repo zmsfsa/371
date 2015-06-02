@@ -31,10 +31,12 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Поворот на 90 по часовой стрелке"
+                android:text=""
                 android:id="@+id/clockwise"
                 android:onClick="onClickClockwise"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/clockwise_background"
+                android:focusableInTouchMode="false" />
         </LinearLayout>
 
         <LinearLayout
@@ -46,10 +48,10 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Поворот на 90 против часовой стрелки"
                 android:id="@+id/counterClockwise"
                 android:onClick="onClickCounterClockwise"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/counterclockwise_background" />
         </LinearLayout>
 
         <LinearLayout
@@ -60,11 +62,13 @@
 
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Сохранить изменения"
                 android:id="@+id/saveChanges"
                 android:onClick="onClickSaveChanges"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:textColor="@drawable/light_blue_background"
+                android:background="#ffffff" />
         </LinearLayout>
 
     </LinearLayout>

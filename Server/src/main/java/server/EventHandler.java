@@ -53,6 +53,7 @@ public class EventHandler implements HttpHandler {
 		params = Mapper.queryToMap(new String(b));
 		WorkSql work = new WorkSql();
 		Event event = work.getEventByName(params.get(EVENT_NAME));
+		System.out.println("eventName = " + params.get(EVENT_NAME));
 		if (event == null) {
 			t.sendResponseHeaders(HTTP_OK_STATUS,
 					EVENT_IS_BAD.getBytes().length);

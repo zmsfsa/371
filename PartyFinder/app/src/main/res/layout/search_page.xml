@@ -15,20 +15,21 @@
             android:layout_height="120dp">
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:id="@+id/ibFndUs"
                 android:layout_gravity="right"
                 android:background="@mipmap/add_user"
-                android:onClick="onGoOn" />
+                android:onClick="onGoOn"
+                android:layout_marginLeft="10dp" />
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Добавляя, друзей вы можете найти для себя прятное окружение, которое не заставит вас скучать!"
-                android:id="@+id/textView6"
-                android:textColor="#ff000000"
-                android:layout_marginTop="30dp" />
+                android:layout_height="80dp"
+                android:id="@+id/imageView5"
+                android:background="@drawable/image1"
+                android:layout_gravity="center_vertical" />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -39,19 +40,19 @@
         android:layout_height="fill_parent">
 
         <ImageButton
-            android:layout_width="115dp"
-            android:layout_height="115dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:id="@+id/ibFndEvnt"
             android:background="@mipmap/group58"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp" />
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Добавли друзей? Теперь самое время найти прекрасное место и эмоции.Have fun!"
-            android:id="@+id/textView7"
-            android:layout_marginTop="40dp"
-            android:textColor="#ff000000" />
+            android:layout_height="80dp"
+            android:id="@+id/imageView6"
+            android:background="@drawable/image2"
+            android:layout_marginTop="20dp" />
 
     </LinearLayout>
 </LinearLayout>

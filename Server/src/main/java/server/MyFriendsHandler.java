@@ -17,7 +17,8 @@ public class MyFriendsHandler implements HttpHandler {
 	private static final String DEL = "/";
 	private static final String LOGIN = "login";
 	private static final String FNAME = "fName";
-    private static final String LNAME = "lName";
+	private static final String PHOTO = "photo";
+	private static final String LNAME = "lName";
 	private static final String DELIMETR = "=";
 	private static final String AND = "&";
 	private static final int HTTP_OK_STATUS = 200;
@@ -26,7 +27,7 @@ public class MyFriendsHandler implements HttpHandler {
 	@Override
 	public void handle(HttpExchange t) throws IOException {
 		System.out
-		.println("===================================================================================================================================================================================================");
+				.println("===================================================================================================================================================================================================");
 
 		System.out.println("MyFriendsHandler");
 		InputStream is = t.getRequestBody();
@@ -37,7 +38,7 @@ public class MyFriendsHandler implements HttpHandler {
 
 		WorkSql work = new WorkSql();
 		User user = work.getUserByLogin(params.get("login"));
-		
+
 		if (user == null) {
 			t.sendResponseHeaders(HTTP_OK_STATUS,
 					SERVER_PROBLEM.getBytes().length);
@@ -47,8 +48,11 @@ public class MyFriendsHandler implements HttpHandler {
 		} else {
 			StringBuilder sendBuild = new StringBuilder("");
 			List<User> list = work.getFriendsOf(user.getIdUser());
-			for(User u : list){
-				sendBuild.append(FNAME + DELIMETR + u.getFName() + AND + LNAME + DELIMETR + u.getLName() + AND + LOGIN + u.getLogin() + DEL);
+			for (User u : list) {
+				sendBuild.append(FNAME + DELIMETR + u.getFName() + AND + LNAME
+						+ DELIMETR + u.getLName() + AND + LOGIN + DELIMETR
+						+ u.getLogin() + AND + PHOTO + DELIMETR
+						+ u.getPhotoId() + DEL);
 			}
 			String send = new String(sendBuild);
 			t.sendResponseHeaders(HTTP_OK_STATUS, send.getBytes().length);

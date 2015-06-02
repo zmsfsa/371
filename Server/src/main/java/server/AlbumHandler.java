@@ -65,6 +65,13 @@ public class AlbumHandler implements HttpHandler {
 		if (params.get(ADD_PHOTO) != null) {
 
 			System.out.println("add photo");
+			if(event == null){
+				t.sendResponseHeaders(HTTP_OK_STATUS, "mistake".getBytes().length);
+				OutputStream os = t.getResponseBody();
+				os.write("mistake".getBytes());
+				os.close();
+			}
+				
 			int port = 8080 - event.getIdEvent();
 			String res = "" + port;
 
@@ -79,17 +86,22 @@ public class AlbumHandler implements HttpHandler {
 			System.out.println("AlbumHandler");
 			StringBuilder sendBuilder = new StringBuilder("");
 			List<Include> inList = work.getIncludeByLogin(params.get(LOGIN));
+
 			boolean in = false;
-			for (Include inside : inList) {
-				if (inside.getIdEvent() == event.getIdEvent())
-					if (!inside.getHeight().equals("0"))
-						in = true;
-			}
-			System.out.println();
+			if (inList != null)
+				for (Include inside : inList) {
+					if (inside != null)
+						if (inside.getIdEvent() == event.getIdEvent())
+							if (!inside.getHeight().equals("0"))
+								in = true;
+				}
+
 			if (in == true)
 				sendBuilder.append(IN + DELIMETR + 1 + AND);
 			else
 				sendBuilder.append(IN + DELIMETR + 0 + AND);
+
+
 			List<Photo> photoList = work.getPhotoByEvent(event.getIdEvent());
 			for (Photo onePhoto : photoList) {
 				if (onePhoto != null)

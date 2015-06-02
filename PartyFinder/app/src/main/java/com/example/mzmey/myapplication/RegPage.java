@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -39,7 +40,7 @@ public class RegPage extends ActionBarActivity {
     private EditText edLName;
     private EditText edPhone;
     private EditText edDate;
-    private String uri = "http://192.168.0.105:8080/reg";
+    private String uri = "http://192.168.0.20:8080/reg";
     private RequestQueue queue;
 
     @Override
@@ -58,54 +59,74 @@ public class RegPage extends ActionBarActivity {
 
     public void ClickReg(View v) {
 
+        boolean spac = false;
         String[] dates = edDate.getText().toString().split(DATE_DELIMETR);
+        String in = edLog.getText().toString();
+        char[] c = in.toCharArray();
+        for (int i = 0; i < c.length; i++)
+            if (c[i] == ' ')
+                spac = true;
 
-        if ((dates.length != 3) || (Integer.parseInt(dates[0]) < 1) ||
-                (Integer.parseInt(dates[0]) > 31) || (Integer.parseInt(dates[1]) < 0)
-                || ((Integer.parseInt(dates[1]) > 12))) {
-
-            tvOut.setText("wrong format of date");
-        } else if ((edLog.getText().toString().length() == 0) || (edPwd.getText().toString().length() == 0) ||
-                (edFName.getText().toString().length() == 0) || (edLName.getText().toString().length() == 0))
-            tvOut.setText("wrong parametrs");
+        if (spac == true)
+            Toast.makeText(this, getString(R.string.space_in_login), Toast.LENGTH_SHORT).show();
         else {
-            StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    if (response.equals("OK")) {
-                        tvOut.setText("You are registrated, " + edLog.getText().toString());
-                        goNext();
-                    } else {
-                        tvOut.setText(response);
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    tvOut.setText("Connecction problem, check your network");
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
+            String in2 = edPwd.getText().toString();
+            char[] x = in2.toCharArray();
+            for (int i = 0; i < x.length; i++)
+                if (x[i] == ' ')
+                    spac = true;
+            if (spac == true)
+                Toast.makeText(this, getString(R.string.space_in_pwd), Toast.LENGTH_SHORT).show();
+            else {
 
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put(LOGIN, edLog.getText().toString());
-                    params.put(PWD, edPwd.getText().toString());
-                    params.put(FNAME, edFName.getText().toString());
-                    params.put(LNAME, edLName.getText().toString());
-                    params.put(PHONE, edPhone.getText().toString());
-                    params.put(BIRTH, edDate.getText().toString());
+                if ((dates.length != 3) || (Integer.parseInt(dates[0]) < 1) ||
+                        (Integer.parseInt(dates[0]) > 31) || (Integer.parseInt(dates[1]) < 0)
+                        || ((Integer.parseInt(dates[1]) > 12))) {
 
-                    return params;
-                }
+                    tvOut.setText("wrong format of date");
+                } else if ((edLog.getText().toString().length() == 0) || (edPwd.getText().toString().length() == 0) ||
+                        (edFName.getText().toString().length() == 0) || (edLName.getText().toString().length() == 0))
+                    tvOut.setText("wrong parametrs");
+                else {
+                    StringRequest sr = new StringRequest(Request.Method.POST, uri, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            if (response.equals("OK")) {
+                                tvOut.setText("You are registrated, " + edLog.getText().toString());
+                                goNext();
+                            } else {
+                                tvOut.setText(response);
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            tvOut.setText("Connecction problem, check your network");
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() {
 
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    return params;
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put(LOGIN, edLog.getText().toString());
+                            params.put(PWD, edPwd.getText().toString());
+                            params.put(FNAME, edFName.getText().toString());
+                            params.put(LNAME, edLName.getText().toString());
+                            params.put(PHONE, edPhone.getText().toString());
+                            params.put(BIRTH, edDate.getText().toString());
+
+                            return params;
+                        }
+
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> params = new HashMap<String, String>();
+                            return params;
+                        }
+                    };
+                    queue.add(sr);
                 }
-            };
-            queue.add(sr);
+            }
         }
     }
 

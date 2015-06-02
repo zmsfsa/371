@@ -21,8 +21,8 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/edAddress"
-            android:hint="Введите адрес события" />
+            android:id="@+id/edEvent"
+            android:hint="Введите название события" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -34,8 +34,8 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/edEvent"
-            android:hint="Введите название события" />
+            android:id="@+id/edAddress"
+            android:hint="Введите адрес события" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -54,10 +54,11 @@
 
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="97dp"
             android:layout_height="wrap_content"
             android:text="Создать"
             android:id="@+id/btCreate"
+            android:background="@drawable/grey_btn_background"
             android:layout_gravity="center_horizontal"
             android:onClick="onClick" />
 

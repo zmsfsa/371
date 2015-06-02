@@ -87,7 +87,7 @@ public class Album extends FragmentActivity{
         Intent intent = getIntent();
         login = intent.getStringExtra(LOGIN);
         stPath = intent.getStringExtra(URI);
-        eventName = intent.getStringExtra(EVENT_NAME);
+        eventName = noPros(intent.getStringExtra(EVENT_NAME));
         uri = stPath + URI_ADD + login;
         leftL = (LinearLayout)findViewById(R.id.leftL);
         rightL = (LinearLayout)findViewById(R.id.rightL);
@@ -138,6 +138,7 @@ public class Album extends FragmentActivity{
             }
         };
 
+        Log.d(LOG, "Album in onCreate");
         queue.add(sr);
 
     }
@@ -155,6 +156,7 @@ public class Album extends FragmentActivity{
                     public void onErrorResponse(VolleyError error) {
                     }
                 });
+        Log.d(LOG, "Album in continueLoading");
         queue.add(request);
 
     }
@@ -206,8 +208,12 @@ public class Album extends FragmentActivity{
                 String[] ur = numerals1.split(":");
                 Log.d(LOG, "ip is " + ur[0]);
 
-                PushParams par = new PushParams(Integer.parseInt(response), getByteArrayfromBitmap(myB), ur[0]);
-                myt.execute(par);
+                if(response != null) {
+                    PushParams par = new PushParams(Integer.parseInt(response), getByteArrayfromBitmap(myB), ur[0]);
+                    myt.execute(par);
+                }else{
+                    Log.d(LOG, "unbelivable mistake!");
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -221,7 +227,7 @@ public class Album extends FragmentActivity{
                 Map<String, String> params = new HashMap<String, String>();
                 params.put(LOGIN, login);
                 params.put(ADD_PHOTO, "YES");
-                params.put(EVENT_NAME, eventName);
+                params.put(EVENT_NAME, noPros(eventName));
 
                 return params;
             }
@@ -233,7 +239,7 @@ public class Album extends FragmentActivity{
             }
         };
 
-
+        Log.d(LOG, "Album in ContinueSending");
         queue.add(srSend);
     }
 
@@ -345,7 +351,7 @@ public class Album extends FragmentActivity{
         Intent checkInt = new Intent(getApplicationContext(), EventPage.class);
         checkInt.putExtra(LOGIN, login);
         checkInt.putExtra(URI, stPath);
-        checkInt.putExtra(EVENT_NAME, eventName);
+        checkInt.putExtra(EVENT_NAME, noPros(eventName));
         startActivity(checkInt);
     }
 
@@ -353,6 +359,7 @@ public class Album extends FragmentActivity{
         left = true;
         leftL.removeAllViews();
         rightL.removeAllViews();
+        Log.d(LOG, "Album in onUpdate");
         queue.add(sr);
 
     }
@@ -394,7 +401,7 @@ public class Album extends FragmentActivity{
 
                     Map<String, String> params = new HashMap<String, String>();
                     params.put(LOGIN, login);
-                    params.put(EVENT_NAME, eventName);
+                    params.put(EVENT_NAME, noPros(eventName));
                     params.put(DELETE_PHOTO, "YES");
                     StringBuilder sendBuilder = new StringBuilder("");
                     for (Integer i : sendList)
@@ -410,6 +417,7 @@ public class Album extends FragmentActivity{
                     return new HashMap<String, String>();
                 }
             };
+            Log.d(LOG, "Album in onSecondDel");
             queue.add(delR);
         }
     }
@@ -456,7 +464,23 @@ public class Album extends FragmentActivity{
                     return new HashMap<String, String>();
                 }
             };
+            Log.d(LOG, "Album in onFirstDel");
             queue.add(preDelSr);
         }
+    }
+
+    public void onBackPressed(){
+        Intent myIntent = new Intent(this, LeftPanel.class);
+        myIntent.putExtra(LOGIN, login);
+        myIntent.putExtra(URI, stPath);
+        startActivity(myIntent);
+    }
+
+    private String noPros(String in) {
+        char[] c = in.toCharArray();
+        for (int i = 0; i < c.length; i++)
+            if (c[i] == '+')
+                c[i] = ' ';
+        return new String(c);
     }
 }

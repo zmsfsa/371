@@ -105,7 +105,7 @@
                 android:layout_width="114dp"
                 android:layout_height="wrap_content"
                 android:text="Участники"
-                android:background="@drawable/gradient"
+                android:background="@drawable/grey_btn_background"
                 android:id="@+id/btList"
                 android:layout_marginTop="5dp"
                 android:onClick="onIncludeList" />
@@ -122,9 +122,10 @@
                 android:layout_width="114dp"
                 android:layout_height="wrap_content"
                 android:text="Альбом"
-                android:background="@drawable/gradient"
+                android:background="@drawable/grey_btn_background"
                 android:id="@+id/button5"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:onClick="onAlbum" />
         </LinearLayout>
     </LinearLayout>
 
